@@ -21,8 +21,8 @@ export class LoginComponent {
   ngOnInit() {
 
     setTimeout(() => {
-      this.showSplash = false;  // Splashscreen nach 5 Sekunden ausblenden
-    }, 3100);  // 5000 ms = 5 Sekunden
+      this.showSplash = false;  
+    }, 3100); 
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
