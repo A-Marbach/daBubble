@@ -30,7 +30,7 @@ interface Smiley {
 export class GroupAnswerComponent implements OnInit, AfterViewInit {
   groupId: string | null = null;
   answerId: string | null = null;
-  userProfilePicture: string = 'assets/img/default-avatar.png'; // Standardbild
+  userProfilePicture: string = ''; // Standardbild
   image: string = '';
   user: User | null = null;
   messageText: string = ''; // Nachrichtentext
