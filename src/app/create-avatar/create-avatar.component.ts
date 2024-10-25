@@ -61,7 +61,7 @@ export class CreateAvatarComponent implements OnInit {
     if (navigation?.extras.state) {
       this.user = navigation.extras.state['user'] as User;
       if (this.user) {
-        console.log('1');
+        console.log('123');
         console.log('Benutzerdaten geladen:', this.user);
         if (this.user.img) {
           this.selectedAvatar = this.user.img;
