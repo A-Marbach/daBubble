@@ -4,9 +4,11 @@ import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router
 import { MatCardModule } from '@angular/material/card';
 import { MainComponent } from './main/main.component';
 import { GroupChatComponent } from './group-chat/group-chat.component';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
+import { HttpClientModule } from '@angular/common/http';
+
 @Component({
   selector: 'app-root',
   standalone: true,

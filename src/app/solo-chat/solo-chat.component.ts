@@ -7,7 +7,7 @@ import { Observable, of, from, Subscription } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';  // tap hinzugefügt
 import { User } from '../../models/user.class';
 import { ChatComponent } from '../chat/chat.component';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { FirebaseService } from '../services/firebase.service';
 import { arrayUnion, collection, DocumentReference, getDocs, setDoc, Timestamp, updateDoc, writeBatch } from 'firebase/firestore';
 import { DatePipe } from '@angular/common';
@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogProfileUserCenterComponent } from '../dialogs/dialog-profile-user-center/dialog-profile-user-center.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { HttpClientModule } from '@angular/common/http';
 
 
 interface Chat {

@@ -13,8 +13,9 @@ import { FirebaseService } from '../services/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogChannelCreateComponent } from '../dialogs/dialogs-channel/dialog-channel-create/dialog-channel-create.component';
 import { Channel } from '../../models/channel.class';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { SearchBarComponent } from '../main/header/search-bar/search-bar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-devspace',
