@@ -34,6 +34,7 @@ export class UserService {
     private firebaseservice: FirebaseService
   ) {}
 
+ 
   setThreadStatus(status: boolean) {
     this._threadOpenStatus.next(status);
   }

@@ -47,11 +47,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  
+
   @Output() notify: EventEmitter<void> = new EventEmitter<void>();
   @Output() sendChatMessage: EventEmitter<void> = new EventEmitter<void>();
   imgTextarea = ['assets/add.svg', 'assets/img/smiley/sentiment_satisfied.svg', 'assets/img/smiley/alternate_email.svg', 'assets/img/smiley/send.svg'];
-  channelId: string ='';
+  channelId: string = '';
   messages: string[] = [];
   messageIds: string[] = [];
   messageContent = "";
@@ -80,7 +80,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     userService: UserService,
     private firestore: Firestore,
     private elementRef: ElementRef,
-  private router: Router) {
+    private router: Router) {
     this.userService = userService;
 
     this.fireService.getUsersData().subscribe((list) => {
@@ -127,12 +127,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addUserOrChannelToInput(inputName: string, type:string) {
+  addUserOrChannelToInput(inputName: string, type: string) {
     let name = ''
-    if(type == 'channel'){
+    if (type == 'channel') {
       name = inputName;
     }
-    if(type == 'user'){
+    if (type == 'user') {
       name = inputName;
     }
     const textarea = this.messageInput.nativeElement;
@@ -156,9 +156,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       // Open the menu programmatically
       this.menuTrigger.openMenu(); // This directly opens the menu
       // Optionally, position the menu if needed
-    } else if(value.endsWith('#')){
+    } else if (value.endsWith('#')) {
       this.menuTriggerChannel.openMenu();
-    } 
+    }
     else {
       this.menuTrigger.closeMenu(); // Close the menu if not
       this.menuTriggerChannel.closeMenu();
@@ -266,9 +266,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       console.warn('Benutzer nicht verfügbar.');
       return;
     }
-  
+
     const chatId = this.fireService.createChatId(this.user.id, receivingUserId);
-  
+
     // Das Message-Objekt wird hier erstellt
     const message = {
       text: messageText,
@@ -281,10 +281,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
       userImage: this.user.img,
       smileys: smileys // Hier werden die Smileys hinzugefügt
     };
-  
+
     if (chatId) {
       const chatDocRef = doc(this.firestore, 'chats', chatId);
-      
+
       // Sicherstellen, dass das Chat-Dokument existiert
       setDoc(chatDocRef, { messages: [] }, { merge: true })
         .then(() => {
@@ -298,7 +298,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       console.warn('Ungültige Chat-ID.');
     }
   }
-  
+
 
 
 
@@ -350,7 +350,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.saveMessageToAnswers(this.answerId, message);
     }
     this.sendMessageToUser(message.text, receivingUserId, this.smileys);
-    this.checkIfUserAndSendMessage(message, this.messageInputRef.nativeElement);
+
+    if (this.channelId) { // Dies bedeutet, dass channelId nicht leer ist
+      this.checkIfUserAndSendMessage(message, this.messageInputRef.nativeElement);
+    } 
     this.notify.emit();
     this.messageContent = "";
 

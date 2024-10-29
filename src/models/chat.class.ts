@@ -5,7 +5,6 @@ export class Chat {
     receiver: string;
     messages: Message[];
     id?: string;
-  
     constructor(
       sender: string = '',
       receiver: string = '',

@@ -7,7 +7,7 @@ import { Observable, of, from, Subscription } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';  // tap hinzugefügt
 import { User } from '../../models/user.class';
 import { ChatComponent } from '../chat/chat.component';
-import {} from '@angular/common/http';
+import { } from '@angular/common/http';
 import { FirebaseService } from '../services/firebase.service';
 import { arrayUnion, collection, DocumentReference, getDocs, setDoc, Timestamp, updateDoc, writeBatch } from 'firebase/firestore';
 import { DatePipe } from '@angular/common';
@@ -25,6 +25,7 @@ interface Chat {
   formattedTimestamp?: string;
   time: string;
   userName: string;
+  userImage: string;
   userId: string;
   receivingUserId: string;
   isRead: boolean;
@@ -69,6 +70,8 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
 
   }
+
+
 
   async ngOnInit(): Promise<void> {
     this.initializeUserObservable();
@@ -166,10 +169,14 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const chatId = this.createChatId(this.loggedInUserId, userId);
     const messagesCollectionRef = collection(this.firestore, `chats/${chatId}/messages`);
-
+   
     this.chatListenerUnsubscribe = onSnapshot(messagesCollectionRef, (snapshot) => {
       if (!snapshot.empty) {
         const retrievedMessages = snapshot.docs.map(doc => doc.data());
+
+        console.log("Retrieved messages:", retrievedMessages);
+
+
         this.chats = this.formatMessages(retrievedMessages);
         const hasUnread = retrievedMessages.some(message => !message['isRead'] && message['receivingUserId'] === this.loggedInUserId);
         this.isChatBlinking = hasUnread;
@@ -180,6 +187,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }, (error) => {
     });
+  
   }
 
   createChatId(userId1: string, userId2: string): string {
@@ -204,20 +212,25 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  formatMessages(messages: any[]): any[] {
+  formatMessages(messages: any[]): Chat[] {
     const sortedMessages = messages.sort((a, b) => {
-      return a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime();
+        return a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime();
     });
 
     return sortedMessages.map(message => {
-      return {
-        ...message,
-        timestamp: this.formatTimestamp(message.timestamp), // Datum formatieren
-        time: this.formatMessageTime(message.timestamp),   // Zeit formatieren
-        isRead: message.isRead // Status der Nachricht (gelesen/ungelesen)
-      };
+        return {
+            ...message,
+            timestamp: this.formatTimestamp(message.timestamp), // Datum formatieren
+            time: this.formatMessageTime(message.timestamp),   // Zeit formatieren
+            isRead: message.isRead, // Status der Nachricht (gelesen/ungelesen)
+            userImage: message.userImage || '', // Überprüfen, ob userImage vorhanden ist
+            userId: message.userId, // Stelle sicher, dass userId auch übernommen wird
+            userName: message.userName // Übernehme auch den userName
+        } as Chat;
     });
-  }
+}
+
+
   formatTimestamp(timestamp: any): string {
     const date = timestamp.toDate(); // Konvertiere Firestore Timestamp zu JavaScript Date
     const today = new Date();
