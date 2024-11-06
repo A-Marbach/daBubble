@@ -1,4 +1,5 @@
-<section [ngClass]="{'collapsed': !isDavspaceVisible}" [ngStyle]="isDavspaceVisible ? {'background-color': 'white'} : {}">
+<section [ngClass]="{'collapsed': !isDavspaceVisible}"
+    [ngStyle]="isDavspaceVisible ? {'background-color': 'white'} : {}">
     <div *ngIf="isDavspaceVisible" class="davspace">
         <div *ngIf="screenWidth >= 992" class="davspace-menu">
             <div class="davspace-picture">
@@ -6,131 +7,107 @@
                 <h1>Devspace</h1>
             </div>
             <div class="icon" (click)="navigateRouteToNewMessage()"
-                (mouseover)="imgEdit = 'assets/edit_square-blue.svg'"
-                (mouseleave)="imgEdit = 'assets/edit_square.svg'"
-                (mousedown)="imgEdit = 'assets/edit_square-click.svg' "
-                >
+                (mouseover)="imgEdit = 'assets/edit_square-blue.svg'" (mouseleave)="imgEdit = 'assets/edit_square.svg'"
+                (mousedown)="imgEdit = 'assets/edit_square-click.svg' ">
                 <img [src]="imgEdit" alt="">
             </div>
         </div>
         <app-search-bar *ngIf="screenWidth < 992"></app-search-bar>
         <div class="channels">
             <div class="channel-group" (click)="closeChannels()"
-            (mouseover)="imgDropDown ='assets/arrow_drop_down-blue.svg'"
-            (mouseover)="imgDropDownRight ='assets/arrow_drop_down-right-blue.svg'"
-            (mouseover)="imgAccountCircle ='assets/account_circle_blue.svg'"
-            (mouseleave)="imgDropDown ='assets/arrow_drop_down.svg'"
-            (mouseleave)="imgDropDownRight ='assets/arrow_drop_down-right.svg'"
-            (mouseleave)="imgAccountCircle ='assets/account_circle.svg'"
-            (mousedown)="imgDropDown ='assets/arrow_drop_down-click.svg'"
-            (mousedown)="imgDropDownRight ='assets/arrow_drop_down-right-click.svg'"
-            
-            >
+                (mouseover)="imgDropDown ='assets/arrow_drop_down-blue.svg'"
+                (mouseover)="imgDropDownRight ='assets/arrow_drop_down-right-blue.svg'"
+                (mouseover)="imgAccountCircle ='assets/account_circle_blue.svg'"
+                (mouseleave)="imgDropDown ='assets/arrow_drop_down.svg'"
+                (mouseleave)="imgDropDownRight ='assets/arrow_drop_down-right.svg'"
+                (mouseleave)="imgAccountCircle ='assets/account_circle.svg'"
+                (mousedown)="imgDropDown ='assets/arrow_drop_down-click.svg'"
+                (mousedown)="imgDropDownRight ='assets/arrow_drop_down-right-click.svg'">
                 <img [src]="openChannels ? imgDropDown : imgDropDownRight" alt="">
-
                 <div class="channels-block">
                     <img [src]="imgAccountCircle" alt="">
                     <h2>Channels</h2>
                 </div>
             </div>
-            <div (click)="createChannel()" class="add"
-            (mouseover)="imgAdd2='assets/add_blue.svg'"
-            (mouseleave)="imgAdd2='assets/img/add.svg'"
-            (mousedown)="imgAdd2='assets/img/add-click.svg'">
+            <div (click)="createChannel()" class="add" (mouseover)="imgAdd2='assets/add_blue.svg'"
+                (mouseleave)="imgAdd2='assets/img/add.svg'" (mousedown)="imgAdd2='assets/img/add-click.svg'">
                 <img [src]="imgAdd2" alt="">
             </div>
         </div>
-
         <div class="list" [ngClass]="{'fade': closedChannel}">
-            <!-- <ng-container >
-                <div [ngStyle]="!openChannels ? {'display': 'none'} : {}" *ngFor="let channel of channels$ | async" class="group-chat"
-                    [ngClass]="selectedChannelId === channel.id ? 'selected' : ''"
-                    (click)="selectChannel(channel); navigateRouteChannel(channel.id)">
-                    <span>#</span> 
-                    {{ channel.name }}
-                </div>
-            </ng-container> -->
             <ng-container>
-                <div [ngStyle]="!openChannels ? {'display': 'none'} : {}" *ngFor="let channel of currentUserChannels" class="group-chat"
-                    [ngClass]="{'selected': selectedChannelId === channel.id}"
+                <div [ngStyle]="!openChannels ? {'display': 'none'} : {}" *ngFor="let channel of currentUserChannels"
+                    class="group-chat" [ngClass]="{'selected': selectedChannelId === channel.id}"
                     (click)="selectChannel(channel); navigateRouteChannel(channel.id!)">
-                    <span>#</span> 
+                    <span>#</span>
                     {{ channel.name }}
                 </div>
             </ng-container>
             <div [ngStyle]="!openChannels ? {'display': 'none'} : {}" (click)="createChannel()" class="new-channel"
-            (mouseover)="imgAdd='assets/add_circle_blue.svg'"
-            (mouseleave)="imgAdd='assets/img/add_circle.svg'"
-            (mousedown)="imgAdd='assets/add_circle-click.svg'">
+                (mouseover)="imgAdd='assets/add_circle_blue.svg'" (mouseleave)="imgAdd='assets/img/add_circle.svg'"
+                (mousedown)="imgAdd='assets/add_circle-click.svg'">
                 <img [src]="imgAdd" alt="">
                 <span>Channel hinzufügen</span>
-            </div>  
+            </div>
         </div>
-
-        
-
-
         <div class="channels">
             <div class="channel-group" (click)="closeDirectMessages()"
-            (mouseover)="imgDropDown2 ='assets/arrow_drop_down-blue.svg'"
-            (mouseover)="imgDropDownRight2 ='assets/arrow_drop_down-right-blue.svg'"
-            (mouseover)="imgAccountCircle2 ='assets/account_circle_blue.svg'"
-            (mouseleave)="imgDropDown2 ='assets/arrow_drop_down.svg'"
-            (mouseleave)="imgDropDownRight2 ='assets/arrow_drop_down-right.svg'"
-            (mouseleave)="imgAccountCircle2 ='assets/account_circle.svg'"
-            (mousedown)="imgDropDown2 ='assets/arrow_drop_down-click.svg'"
-            (mousedown)="imgDropDownRight2 ='assets/arrow_drop_down-right-click.svg'"
-            
-            >
+                (mouseover)="imgDropDown2 ='assets/arrow_drop_down-blue.svg'"
+                (mouseover)="imgDropDownRight2 ='assets/arrow_drop_down-right-blue.svg'"
+                (mouseover)="imgAccountCircle2 ='assets/account_circle_blue.svg'"
+                (mouseleave)="imgDropDown2 ='assets/arrow_drop_down.svg'"
+                (mouseleave)="imgDropDownRight2 ='assets/arrow_drop_down-right.svg'"
+                (mouseleave)="imgAccountCircle2 ='assets/account_circle.svg'"
+                (mousedown)="imgDropDown2 ='assets/arrow_drop_down-click.svg'"
+                (mousedown)="imgDropDownRight2 ='assets/arrow_drop_down-right-click.svg'">
                 <img [src]="openEmployees ? imgDropDown2 : imgDropDownRight2" alt="">
-
                 <div class="channels-block">
                     <img [src]="imgAccountCircle2" alt="">
                     <h2>Direktnachrichten</h2>
                 </div>
             </div>
         </div>
-
         <div class="list" [ngClass]="{'fade': openChats}">
-            <div class="solo-chat" >
-                <div [ngStyle]="!openEmployees ? {'display': 'none'} : {}" class="solo-employees" *ngFor="let user of users$ | async" (click)="selectUser(user.id)"
+            <div class="solo-chat">
+                <div [ngStyle]="!openEmployees ? {'display': 'none'} : {}" class="solo-employees"
+                    *ngFor="let user of users$ | async" (click)="selectUser(user.id)"
                     [ngClass]="{'selected': user.id === selectedUserId, 'chat-blinking': user.isBlinking}">
                     @if(user.img){
-                        <img [src]="user.img" alt="User Image">
+                    <img [src]="user.img" alt="User Image">
                     }
                     @else {
-                        <img src="assets/img/profiles/man-user.png" alt="User Image">
+                    <img src="assets/img/profiles/man-user.png" alt="User Image">
                     }
                     <!-- <img class="online-offline" src="assets/img/Online.png" alt="Online Status"> -->
-                    <div class="online-status" [ngClass]="!userServes.getUserStatus(user.id) ? 'offline' : 'online'"></div>
+                    <div class="online-status" [ngClass]="!userServes.getUserStatus(user.id) ? 'offline' : 'online'">
+                    </div>
                     {{ user.name }}<span *ngIf="user.name === loggedInUserName">(Du)</span>
                 </div>
             </div>
         </div>
         <div *ngIf="screenWidth < 992" class="send-message" (click)="navigateRouteToNewMessage()"
-        (touchstart)="imgSendMsgBttn = 'assets/sendMessage_click.svg'" 
-        (touchend)="imgSendMsgBttn = 'assets/sendMessage_default.svg'" 
-        (mouseover)="imgSendMsgBttn = 'assets/sendMessage_click.svg'" 
-        (mousedown)="imgSendMsgBttn = 'assets/sendMessage_click.svg'" 
-        (mouseleave)="imgSendMsgBttn = 'assets/sendMessage_default.svg'" 
-        >
+            (touchstart)="imgSendMsgBttn = 'assets/sendMessage_click.svg'"
+            (touchend)="imgSendMsgBttn = 'assets/sendMessage_default.svg'"
+            (mouseover)="imgSendMsgBttn = 'assets/sendMessage_click.svg'"
+            (mousedown)="imgSendMsgBttn = 'assets/sendMessage_click.svg'"
+            (mouseleave)="imgSendMsgBttn = 'assets/sendMessage_default.svg'">
             <img [src]="imgSendMsgBttn" alt="">
         </div>
     </div>
     @if(screenWidth >992){
-        <button *ngIf="isDavspaceVisible" (click)="devspaceCloseOpen()" (mouseover)="changeImage(true)"
-            (mouseout)="changeImage(false)">
-            <div class="image-close">
-                <span>Workspace-Menü schließen</span>
-                <img [src]="imgSrc[0]" alt="Schließen">
-            </div>
-        </button>
-        <button *ngIf="!isDavspaceVisible;" (click)="devspaceCloseOpen()" (mouseover)="changeImageTwo(true)"
-            (mouseout)="changeImageTwo(false)">
-            <div class="image-open">
-                Workspace-Menü öffnen
-                <img [src]="imgSrc[0]" alt="Öffnen">
-            </div>
-        </button>
+    <button *ngIf="isDavspaceVisible" (click)="devspaceCloseOpen()" (mouseover)="changeImage(true)"
+        (mouseout)="changeImage(false)">
+        <div class="image-close">
+            <span>Workspace-Menü schließen</span>
+            <img [src]="imgSrc[0]" alt="Schließen">
+        </div>
+    </button>
+    <button *ngIf="!isDavspaceVisible;" (click)="devspaceCloseOpen()" (mouseover)="changeImageTwo(true)"
+        (mouseout)="changeImageTwo(false)">
+        <div class="image-open">
+            Workspace-Menü öffnen
+            <img [src]="imgSrc[0]" alt="Öffnen">
+        </div>
+    </button>
     }
 </section>

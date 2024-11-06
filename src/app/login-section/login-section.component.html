@@ -10,11 +10,9 @@
         <div class="input-container">
             <img class="icon" src="assets/img/mail.svg" alt="" [class.hidden]="isEmailFocused">
             <img class="icon-focus" src="assets/img/mail-dark.png" alt="" [class.hidden]="!isEmailFocused">
-
             <input [(ngModel)]="email" name="email" type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                [placeholder]="isEmailFocused ? '' : 'beispielname@email.com'" required  (focus)="setFocus('email')" 
-                (blur)="onBlur('email', email)"
-                #emailInput="ngModel" />
+                [placeholder]="isEmailFocused ? '' : 'beispielname@email.com'" required (focus)="setFocus('email')"
+                (blur)="onBlur('email', email)" #emailInput="ngModel" />
         </div>
         <div class="error-message" [ngStyle]="{'opacity': emailInput.invalid && emailInput.touched ? '1' : '0'}">
             *Diese E-Mail-Adresse ist leider ungültig.
@@ -22,17 +20,14 @@
         <div class="input-container">
             <img class="icon" src="assets/img/lock.svg" alt="" [class.hidden]="isPasswordFocused">
             <img class="icon-focus" src="assets/img/lock-dark.png" alt="" [class.hidden]="!isPasswordFocused">
-
             <input [(ngModel)]="password" name="password" type="password" minlength="8"
-                [placeholder]=" isPasswordFocused ? '' : 'Passwort'" required (focus)="setFocus('password')" 
-                (blur)="onBlur('password', password)"
-                #passwordInput="ngModel">
+                [placeholder]=" isPasswordFocused ? '' : 'Passwort'" required (focus)="setFocus('password')"
+                (blur)="onBlur('password', password)" #passwordInput="ngModel">
         </div>
 
         <div [ngStyle]="{'opacity': passwordInput.invalid && passwordInput.touched ? '1' : '0'}" class="error-message">
             Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.
         </div>
-
         <div class="passwort">
             <a [routerLink]="'/reset-password'">Passwort vergessen?</a>
         </div>

@@ -18,14 +18,14 @@ button {
     font-weight: 500;
     z-index: 999;
 
-    @media (any-hover: none) { 
+    @media (any-hover: none) {
         display: none;
-     }
+    }
 
-    .image-open, .image-close {
+    .image-open,
+    .image-close {
         display: flex;
         align-items: center;
-
     }
 
     &:hover {
@@ -37,51 +37,50 @@ button {
         margin-left: 10px;
     }
 }
-section{
+
+section {
     margin-left: 30px;
     margin-top: 20px;
-
     border-radius: 30px;
     padding: 30px 10px 20px 0;
     transition: width 0.3s ease-in-out;
     width: 380px;
     height: calc(100vh - 131px);
 
-
-
-    @media(width < 992px){
+    @media(width < 992px) {
         border-radius: 0;
         margin: 0;
         padding: 0;
         height: calc(100vh - 63px);
         width: 100%;
     }
+
     &.collapsed {
-        width: 0; 
+        width: 0;
         padding-left: 0;
         padding-right: 0;
-    
-      }
+    }
 }
 
 .davspace {
     height: calc(100vh - 180px);
 
-    @media(width < 992px){
+    @media(width < 992px) {
         width: 100%;
         height: calc(100vh - 63px);
         border-radius: 0;
         margin: 0;
     }
+
     background-color: white;
-    transition: left 1s ease-in-out, opacity 1s ease-in-out;
+    transition: left 1s ease-in-out,
+    opacity 1s ease-in-out;
     opacity: 1;
     display: flex;
     flex-direction: column;
-    
     transition: all 0.3s ease-in-out;
-
     overflow-y: auto;
+
     &::-webkit-scrollbar {
         width: 4px;
     }
@@ -101,7 +100,6 @@ section{
         display: flex;
         flex-direction: column;
         gap: 10px;
-         
     }
 
     .davspace-hidden {
@@ -122,15 +120,15 @@ section{
         justify-content: space-between;
         margin: 10px 30px;
 
-
         .icon {
             cursor: pointer;
             border-radius: 100%;
+
             &:hover {
                 background-color: rgba(236, 238, 254, 1);
             }
 
-            img{
+            img {
                 padding: 5px;
             }
         }
@@ -141,13 +139,11 @@ section{
             margin: 0;
             cursor: default;
         }
-
     }
 
     h2 {
         font-size: 20px;
         font-weight: 700;
-        
 
         &:hover {
             color: rgba(83, 90, 241, 1);
@@ -168,12 +164,12 @@ section{
             gap: 15px;
             padding: 5px 10px 5px 0px;
 
-            &:hover{
+            &:hover {
                 color: blue;
             }
 
-            &:active{
-                .channels-block{
+            &:active {
+                .channels-block {
                     color: black;
                 }
             }
@@ -183,8 +179,6 @@ section{
             display: flex;
             align-items: center;
             gap: 10px;
-
-    
         }
 
         .add {
@@ -193,7 +187,6 @@ section{
             height: 30px;
             width: 30px;
             display: flex;
-
         }
     }
 
@@ -205,12 +198,12 @@ section{
         margin: 20px 30px;
         gap: 7px;
 
-        &:hover{
+        &:hover {
             color: blue;
         }
 
-        &:active{
-            h2{
+        &:active {
+            h2 {
                 color: black;
             }
         }
@@ -223,8 +216,6 @@ section{
             img {
                 height: 30px;
             }
-
-            
         }
     }
 
@@ -240,37 +231,32 @@ section{
         margin-left: 30px;
         flex-direction: row;
         padding: 3px 20px;
-      
-        
-      
+
         &:hover {
-          background-color: rgba(236, 238, 254, 1);
-         
+            background-color: rgba(236, 238, 254, 1);
         }
-      
+
         .online-offline {
-          position: absolute;
-          bottom: 5px;
-          left: 65px;
-          height: 15px;
-          width: 15px;
+            position: absolute;
+            bottom: 5px;
+            left: 65px;
+            height: 15px;
+            width: 15px;
         }
-      
+
         &.selected {
-          background-color: rgba(236, 238, 254, 1); 
-          color: blue; 
-          font-weight: 600;
+            background-color: rgba(236, 238, 254, 1);
+            color: blue;
+            font-weight: 600;
         }
-      
+
         img {
-          height: 60px;
-          width: 60px;
-          object-fit: cover;
-          border-radius: 100%;
+            height: 60px;
+            width: 60px;
+            object-fit: cover;
+            border-radius: 100%;
         }
-      }
-
-
+    }
 
     .new-channel {
         margin-left: 75px;
@@ -282,18 +268,17 @@ section{
         height: 40px;
         width: fit-content;
 
-
-        &:active{
-            span{
+        &:active {
+            span {
                 color: black;
             }
         }
+
         img {
             width: 24px;
             height: 24px;
             margin-right: 6px;
         }
-
 
         &:hover {
             color: blue;
@@ -321,17 +306,16 @@ section{
         color: blue;
         font-weight: 600;
 
-        &:hover{
+        &:hover {
             color: blue;
         }
     }
-
 
     &:hover {
         background-color: rgba(236, 238, 254, 1);
         color: black;
 
-        span{
+        span {
             color: blue;
         }
     }
@@ -341,7 +325,7 @@ header {
     background-color: white;
 }
 
-.online-status{
+.online-status {
     border-radius: 100%;
     border: solid white 2px;
     height: 14px;
@@ -351,19 +335,19 @@ header {
     left: 65px;
 }
 
-.online{
+.online {
     background-color: #92C83E;
 }
 
-.offline{
+.offline {
     background-color: #686868;
 }
 
 
-h2, h1 {
+h2,
+h1 {
     margin: 0;
     font-family: nunito, Arial, Helvetica, sans-serif;
-
 }
 
 span {
@@ -376,31 +360,32 @@ span {
 
 .chat-blinking {
     animation: blink-animation 1s infinite;
-  }
-  
-  @keyframes blink-animation {
-    0% {
-      background-color: yellow;
-    }
-    50% {
-      background-color: transparent;
-    }
-    100% {
-      background-color: yellow;
-    }
-  }
+}
 
-  .send-message{
+@keyframes blink-animation {
+    0% {
+        background-color: yellow;
+    }
+
+    50% {
+        background-color: transparent;
+    }
+
+    100% {
+        background-color: yellow;
+    }
+}
+
+.send-message {
     position: absolute;
     right: 0;
     bottom: 0;
-  }
+}
 
-
-
-  .list{
+.list {
     transition: all 225ms ease-in-out;
     height: fit-content;
+
     &::-webkit-scrollbar {
         width: 4px;
     }
@@ -413,9 +398,8 @@ span {
     &::-webkit-scrollbar-thumb:hover {
         background-color: rgba(0, 0, 255, 0.5);
     }
-    
-      &.fade {
-        opacity: 0;
-      }
-  }
 
+    &.fade {
+        opacity: 0;
+    }
+}

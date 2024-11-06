@@ -1,14 +1,11 @@
 <mat-card class="user-profile">
     <div class="profile-aot">
-        <span class="profile-txt" >Profil</span>
-        <img (click)="closeDialog()" class="close" [src]="imgSrc"
-        (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-        (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-        alt="">
+        <span class="profile-txt">Profil</span>
+        <img (click)="closeDialog()" class="close" [src]="imgSrc" (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
+            (mouseout)="imgSrc = 'assets/img/close_default.svg'" alt="">
     </div>
     <div class="avatar">
-        <img 
-        src={{image}} alt="">
+        <img src={{image}} alt="">
     </div>
     <div class="user-txt">
         <span>{{username}}</span>
@@ -16,9 +13,9 @@
     <div class="status" [ngClass]="!status ? 'offline' : 'online'">
         <div></div>
         @if (!status) {
-            <span>Abwesend</span>
+        <span>Abwesend</span>
         } @else {
-            <span>Aktiv</span>
+        <span>Aktiv</span>
         }
     </div>
     <div class="email">
@@ -30,7 +27,7 @@
     </div>
     <div class="buttons">
         <button (click)="sendMessageToUser(user.id)">
-             <mat-icon class="icon-default">mode_comment</mat-icon>
+            <mat-icon class="icon-default">mode_comment</mat-icon>
             <span>Nachricht</span>
         </button>
     </div>

@@ -21,7 +21,6 @@ import { Router } from '@angular/router';
   styleUrl: './dialog-profile-user-center.component.scss'
 })
 export class DialogProfileUserCenterComponent {
-
   imgSrc: string = "assets/img/close_default.svg";
   public username: string;
   public email: string;
@@ -33,8 +32,9 @@ export class DialogProfileUserCenterComponent {
     public dialog: MatDialogRef<DialogProfileUserCenterComponent>,
     public userService: UserService,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      username: string; email: string; image: string; user: User; status: boolean }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      username: string; email: string; image: string; user: User; status: boolean
+    }
   ) {
     this.username = data.username;
     this.email = data.email;
@@ -43,12 +43,11 @@ export class DialogProfileUserCenterComponent {
     this.status = data.status;
   }
 
-
-  closeDialog(){
+  closeDialog() {
     this.dialog.close();
   }
 
-  sendMessageToUser(uid: string){
+  sendMessageToUser(uid: string) {
     this.dialog.close();
     this.router.navigate(['/main/chat', uid]);
   }

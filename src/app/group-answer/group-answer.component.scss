@@ -20,11 +20,11 @@
     transition: all 0.3s ease-in-out;
 
     &.collapsed {
-        width: 0; // Setze die Breite auf 0
-        padding-left: 0; // Optional: Entferne den Padding
-        padding-right: 0; // Optional: Entferne den Padding
-        opacity: 0; // Optional: Setze die Opazität auf 0
-        transition: width 0.3s ease-in-out; // Füge eine Übergangszeit für die Breite hinzu
+        width: 0;
+        padding-left: 0;
+        padding-right: 0;
+        opacity: 0;
+        transition: width 0.3s ease-in-out;
     }
 
     .commplet-chat {
@@ -37,14 +37,11 @@
 
         &::-webkit-scrollbar-thumb {
             background-color: #888;
-            /* Farbe des Scrollbalkens */
             border-radius: 2px;
-            /* Ecken abrunden */
         }
 
         &::-webkit-scrollbar-thumb:hover {
             background-color: rgba(0, 0, 255, 0.5);
-            /* Farbe des Scrollbalkens beim Hover */
         }
     }
 }
@@ -67,9 +64,7 @@
 
         &:hover {
             background-color: rgba(236, 238, 254, 1);
-
         }
-
     }
 
     h1 {
@@ -97,8 +92,6 @@
     &:hover {
         background-color: rgba(236, 238, 254, 1);
     }
-
-
 }
 
 .messages {
@@ -106,7 +99,7 @@
 }
 
 .massage {
-    padding: 10px;
+    padding: 16px;
     background-color: rgba(236, 238, 254, 1);
     border-top-left-radius: 0px;
     border-top-right-radius: 50px;
@@ -114,19 +107,17 @@
     border-bottom-right-radius: 50px;
     transition: background-color 0.3s ease;
     font-size: 18px;
-    width: max-content;
+    max-width: 270px;
+    overflow-wrap: break-word;
 
     .message-content:hover & {
         background-color: white;
     }
-
-
 }
 
 .name-and-time {
     display: flex;
     gap: 20px;
-
 
     .name {
         font-weight: bolder;
@@ -167,7 +158,6 @@ img {
     display: flex;
     padding: 20px;
     position: relative;
-    // overflow-x: hidden;
 
     &:hover {
         background-color: rgba(236, 238, 254, 1);
@@ -208,7 +198,7 @@ img {
         align-items: flex-end;
 
         .massage {
-            padding: 10px;
+            padding: 16px;
             background-color: rgb(121, 126, 243);
             border-top-left-radius: 50px;
             border-top-right-radius: 0px;
@@ -217,7 +207,8 @@ img {
             transition: background-color 0.3s ease;
             font-size: 18px;
             color: white;
-
+            max-width: 270px;
+            overflow-wrap: break-word;
         }
     }
 }
@@ -258,7 +249,6 @@ img {
                 border-radius: 50%;
             }
         }
-
     }
 }
 
@@ -280,10 +270,8 @@ img {
 
     .hover-smileys {
         position: relative;
-        /* Macht das Hover-Element relativ zu diesem Container */
         margin: 10px;
         z-index: 999;
-        /* Fügt Abstand zwischen Smileys hinzu */
     }
 
     .smiley {
@@ -309,7 +297,6 @@ img {
 
         &:hover+.hover-smiley {
             display: flex;
-            /* Zeigt das Hover-Element beim Hover an */
         }
     }
 
@@ -331,7 +318,6 @@ img {
         text-align: center;
         z-index: 10;
         width: 125px;
-        /* Stellt sicher, dass das Hover-Element über anderen Elementen liegt */
     }
 }
 
@@ -394,7 +380,7 @@ img {
     border-radius: 5px;
 }
 
-.overlay{
+.overlay {
     position: absolute;
     box-shadow: -10px 3px 15px 12px rgba(0, 0, 0, 0.5);
     top: 0;
@@ -403,7 +389,7 @@ img {
     margin: 0;
 }
 
-.pictures{
+.pictures {
     height: 80px;
     border-radius: 10px;
 }

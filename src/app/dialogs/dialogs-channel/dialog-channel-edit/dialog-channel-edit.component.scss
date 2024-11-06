@@ -1,13 +1,13 @@
 @import './../../../../mixins.scss';
 
-
-mat-card{
+mat-card {
     overflow-y: hidden;
 }
 
-.scroll{
+.scroll {
     overflow-y: auto;
     padding-right: 15px;
+
     &::-webkit-scrollbar {
         width: 4px;
     }
@@ -25,7 +25,6 @@ mat-card{
 .user-profile {
     padding: 30px 30px 30px 30px;
     height: 100vh;
-
 }
 
 .profile-aot {
@@ -42,10 +41,9 @@ mat-card{
         height: 30px;
         cursor: pointer;
     }
-
 }
 
-.txt{
+.txt {
     position: absolute;
     bottom: 3px;
     left: 25px;
@@ -61,23 +59,24 @@ mat-card{
     margin-bottom: 15px;
     transition: all 0.5s ease-in-out;
 
-    input{
+    input {
         bottom: -1px;
         border-radius: 30px;
         padding: 13px 10px 13px 20px;
 
     }
-    textarea{
+
+    textarea {
         top: 65px;
         left: 28px;
         resize: none;
         overflow: hidden;
         border-radius: 20px;
         padding: 15px 20px 15px 20px;
-
-
     }
-    input, textarea{
+
+    input,
+    textarea {
         animation-duration: 250ms;
         animation-fill-mode: forwards;
         position: absolute;
@@ -85,10 +84,12 @@ mat-card{
         padding: 13px 10px 13px 20px;
         border: solid 1px #ADB0D9;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
             border: solid 1px #444DF2;
         }
-        &:focus{
+
+        &:focus {
             outline: none;
         }
     }
@@ -117,11 +118,11 @@ mat-card{
     }
 }
 
-.channel-name{
+.channel-name {
     height: 90px;
 }
 
-.channel-description{
+.channel-description {
     padding: 25px;
     height: 230px;
 }
@@ -132,31 +133,33 @@ mat-card{
     padding: 15px 8px;
     cursor: pointer;
     transition: all 0.5s ease-in-out;
-    .save{
-         color: #444DF2;
-         &:hover{
+
+    .save {
+        color: #444DF2;
+
+        &:hover {
             font-weight: bold;
-         }
+        }
     }
-    .group-name{
+
+    .group-name {
         font-weight: bold;
     }
-
 }
 
-.position-description{
+.position-description {
     position: absolute;
     top: 20px;
     left: 20px;
 }
 
-.position-edit{
+.position-edit {
     position: absolute;
     top: 20px;
     right: 20px;
 }
 
-.description-txt{
+.description-txt {
     position: absolute;
     top: 55px;
     left: 20px;
@@ -169,7 +172,6 @@ mat-card{
     margin-bottom: 15px;
     cursor: pointer;
     transition: all 0.5s ease-in-out;
-    
 }
 
 .creator {
@@ -199,10 +201,6 @@ mat-card{
     left: 25px
 }
 
-
-
-
-
 ::ng-deep .border-radius .mat-mdc-dialog-container {
     box-shadow: none !important;
     --mdc-dialog-container-shape: 30px;
@@ -231,7 +229,6 @@ mat-card{
 
         &:focus {
             outline: none;
-
         }
     }
 }
@@ -239,206 +236,208 @@ mat-card{
 @keyframes hide-color {
     0% {
         border: 1px solid rgba(121, 126, 243, 1);
-        
-	}
-
-	100% {
-		border: 1px solid rgba(121, 126, 243, 0);
-	}
-  }
-
-@keyframes color{
-    0%{
-        border: 1px solid rgba(121, 126, 243, 0);
-
     }
 
-    100%{
+    100% {
+        border: 1px solid rgba(121, 126, 243, 0);
+    }
+}
+
+@keyframes color {
+    0% {
+        border: 1px solid rgba(121, 126, 243, 0);
+    }
+
+    100% {
         border: 1px solid rgba(121, 126, 243, 1);
     }
 }
 
-.hide-color{
+.hide-color {
     animation-name: hide-color;
 }
-.color{
+
+.color {
     animation-name: color;
 }
 
 @keyframes slide-left {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(-20px, -10px);
-	}
-  }
+    100% {
+        transform: translate(-20px, -10px);
+    }
+}
 
-@keyframes slide-left-back{
-    0%{
+@keyframes slide-left-back {
+    0% {
         transform: translate(-20px, -10px);
     }
 
-    100%{
+    100% {
         transform: translate(0, 0);
     }
 }
 
 @keyframes slide-left-d {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(-20px, -20px);
-	}
-  }
+    100% {
+        transform: translate(-20px, -20px);
+    }
+}
 
-@keyframes slide-left-back-d{
-    0%{
+@keyframes slide-left-back-d {
+    0% {
         transform: translate(-20px, -20px);
     }
 
-    100%{
+    100% {
         transform: translate(0, 0);
     }
 }
+
 @keyframes slide-left-textarea {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(-28px, -30px);
-	}
-  }
+    100% {
+        transform: translate(-28px, -30px);
+    }
+}
 
-@keyframes slide-left-back-textarea{
-    0%{
+@keyframes slide-left-back-textarea {
+    0% {
         transform: translate(-28px, -30px);
     }
 
-    100%{
+    100% {
         transform: translate(0, 0);
     }
 }
 
 @keyframes slide-right {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(20px, -10px);
-	}
-  }
+    100% {
+        transform: translate(20px, -10px);
+    }
+}
 
-@keyframes slide-right-back{
-    0%{
+@keyframes slide-right-back {
+    0% {
         transform: translate(20px, -10px);
     }
 
-    100%{
+    100% {
         transform: translate(0, 0);
     }
 }
+
 @keyframes slide-right-d {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(0px, -20px);
-	}
-  }
+    100% {
+        transform: translate(0px, -20px);
+    }
+}
 
-@keyframes slide-right-back-d{
-    0%{
+@keyframes slide-right-back-d {
+    0% {
         transform: translate(0px, -20px);
     }
 
-    100%{
+    100% {
         transform: translate(0, 0);
     }
 }
 
 @keyframes grow-short {
     0% {
-		right: 15px;
-        left: 15px;
-        top: 115px;
-	}
-
-	100% {
-		right: 25px;
-        left: 25px;
-        top: 120px;
-
-	}
-  }
-
-@keyframes grow-long{
-    0%{
-        right: 25px;
-        left: 25px;
-        top: 120px;
-
-    }
-
-    100%{
         right: 15px;
         left: 15px;
         top: 115px;
+    }
 
+    100% {
+        right: 25px;
+        left: 25px;
+        top: 120px;
     }
 }
+
+@keyframes grow-long {
+    0% {
+        right: 25px;
+        left: 25px;
+        top: 120px;
+    }
+
+    100% {
+        right: 15px;
+        left: 15px;
+        top: 115px;
+    }
+}
+
 @keyframes move-paragraph {
     0% {
-		transform: translate(-28px, -30px);
-	}
+        transform: translate(-28px, -30px);
+    }
 
-	100% {
-		transform: translate(0, 0);
-	}
-  }
+    100% {
+        transform: translate(0, 0);
+    }
+}
 
 @keyframes move-down {
     0% {
-		transform: translate(0, 0);
-	}
+        transform: translate(0, 0);
+    }
 
-	100% {
-		transform: translate(-20px, 10px);
-	}
-  }
+    100% {
+        transform: translate(-20px, 10px);
+    }
+}
 
-@keyframes move-down-back{
-    0%{
+@keyframes move-down-back {
+    0% {
         transform: translate(-20px, 10px);
     }
 
-    100%{
-		transform: translate(0, 0);
+    100% {
+        transform: translate(0, 0);
 
     }
 }
 
-.animate-name{
+.animate-name {
     position: absolute;
     animation-duration: 250ms;
     animation-fill-mode: forwards;
 }
 
-.animate-seperator{
+.animate-seperator {
     animation-duration: 150ms;
     animation-fill-mode: forwards;
 }
-.animate-textarea{
+
+.animate-textarea {
     animation-duration: 75ms;
     animation-fill-mode: forwards;
 }
-.animate-creator, .animate-paragraph{
+
+.animate-creator,
+.animate-paragraph {
     animation-duration: 250ms;
     animation-fill-mode: forwards;
 }
@@ -446,127 +445,130 @@ mat-card{
 .slide-left-textarea {
     animation-name: slide-left-textarea;
 }
+
 .slide-left-back-textarea {
     animation-name: slide-left-back-textarea;
 }
 
-.position-left{
+.position-left {
     left: 25px;
     top: 15px;
 }
-.position-right{
+
+.position-right {
     right: 25px;
     top: 15px;
 
 }
 
-.slide-left{
+.slide-left {
     animation-name: slide-left;
 }
 
-.slide-left-back{
+.slide-left-back {
     animation-name: slide-left-back;
 
 }
-.slide-left-d{
+
+.slide-left-d {
     animation-name: slide-left-d;
 }
 
-.slide-left-back-d{
+.slide-left-back-d {
     animation-name: slide-left-back-d;
 
 }
 
-.slide-right{
+.slide-right {
     animation-name: slide-right;
 }
 
-.slide-right-back{
+.slide-right-back {
     animation-name: slide-right-back;
 
 }
 
-.slide-right-d{
+.slide-right-d {
     animation-name: slide-right-d;
 }
 
-.slide-right-back-d{
+.slide-right-back-d {
     animation-name: slide-right-back-d;
 
 }
 
-.grow-short{
+.grow-short {
     animation-name: grow-short;
 }
 
-.grow-long{
+.grow-long {
     animation-name: grow-long;
 
 }
 
-.move-paragraph{
+.move-paragraph {
     animation-name: move-paragraph;
 }
 
-.move-down{
+.move-down {
     animation-name: move-down;
 }
 
-.move-down-back{
+.move-down-back {
     animation-name: move-down-back;
-
 }
-
 
 ::ng-deep .border-30 .mat-mdc-dialog-container {
     --mdc-dialog-container-shape: 30px;
-    @media(width < 992px){
-        --mdc-dialog-container-shape: 0;    
+
+    @media(width < 992px) {
+        --mdc-dialog-container-shape: 0;
     }
 }
-
 
 ::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
     max-width: none;
     width: 700px;
     height: 500px;
-    @media(width < 992px){
+
+    @media(width < 992px) {
         width: 100%;
         height: 100%;
     }
 }
 
-.desktop{
-    @media(width < 992px){
+.desktop {
+    @media(width < 992px) {
         display: none;
     }
 }
 
-.mobileEdit{
-    @media(width >=992px){
+.mobileEdit {
+    @media(width >=992px) {
         display: none;
     }
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    span{
+
+    span {
         font-weight: bold;
     }
 }
 
-.margin{
+.margin {
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 10px;
 }
 
-.member-list-container{
-    border: 1px solid rgba(121, 126, 243, 1 );
+.member-list-container {
+    border: 1px solid rgba(121, 126, 243, 1);
     border-radius: 20px;
 }
 
-.add-member{
+.add-member {
     @include d-flex();
     margin-bottom: 10px;
     border-radius: 30px;
@@ -574,20 +576,21 @@ mat-card{
     transition: background-color ease-in 125ms;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
         background-color: #ECEEFE;
-        span{
+
+        span {
             color: #444DF2;
         }
     }
-    img{
+
+    img {
         @include widthHeight($w: 20px, $h: 20px);
         border-radius: 100%;
-
     }
 }
 
-.add-image{
+.add-image {
     border-radius: 100%;
     background-color: #ECEEFE;
     @include d-flex();
@@ -595,65 +598,62 @@ mat-card{
     margin-right: 10px;
 }
 
-.menu{
+.menu {
     height: 120px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 20px 26px;
     gap: 10px;
-    .line-container{
-      display: flex;
-      justify-content: center;
-      width: 100%;
+
+    .line-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
     }
-    .line{
+
+    .line {
         background-color: #D9D9D9;
         display: flex;
         justify-content: center;
         width: 62px;
         height: 6px;
         border-radius: 23px;
-  
     }
 
-    .options{
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      img{
-        width: 25px;
-        height: 25px;
-      }
-      gap: 10px;
+    .options {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        img {
+            width: 25px;
+            height: 25px;
+        }
+
+        gap: 10px;
     }
 
-    span{
-      font-weight: bold;
-      font-size: 20px;
+    span {
+        font-weight: bold;
+        font-size: 20px;
     }
-  }
+}
 
-  .slide-up{
-    transform: translateY(0); 
-    transition: transform 0.5s ease; 
-  
-  
-  }
-  
-  .slide-down{
-    transform: translateY(500%); 
-    transition: transform 0.5s ease;  
-  }
+.slide-up {
+    transform: translateY(0);
+    transition: transform 0.5s ease;
+}
 
+.slide-down {
+    transform: translateY(500%);
+    transition: transform 0.5s ease;
+}
 
-  .profile-menu{
+.profile-menu {
     width: 100%;
     position: fixed;
     z-index: 1100;
     bottom: 0;
     right: 0;
     left: 0;
-
-  
-  }
-
+}

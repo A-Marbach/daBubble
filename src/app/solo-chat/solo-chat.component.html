@@ -7,9 +7,7 @@
       </div>
     </ng-container>
   </div>
-
   <div class="line"></div>
-
   <div class="center" #scrollingContainer>
     <div class="solo-chat padding20">
       <ng-container *ngIf="user$ | async as user">
@@ -17,10 +15,8 @@
         <div class="solo-name">
           <h2>{{ user.name }}</h2>
         </div>
-
       </ng-container>
     </div>
-
     <ng-container *ngIf="user$ | async as user">
       <div *ngIf="user.name === loggedInUserName; else notLoggedIn">
         <div class="chat padding20">
@@ -28,72 +24,56 @@
             Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</p>
         </div>
       </div>
-
       <ng-template #notLoggedIn>
         <div class="chat">
           <span>Diese Unterhaltung findet nur zwischen <b>&#64;{{ user.name }}</b> statt.</span>
         </div>
       </ng-template>
     </ng-container>
-
     <div *ngFor="let chat of chats; let i = index" [ngClass]="{'blink': isChatBlinking}">
       <div *ngIf="loggedInUserId === chat.userId || loggedInUserId === chat.receivingUserId">
-
-        <!-- Zeige den Timestamp nur an, wenn er sich vom vorherigen unterscheidet -->
         <div *ngIf="i === 0 || chat.timestamp !== chats[i - 1].timestamp" class="line-date">
           <div class="line-two"></div>
           <span class="date">{{ chat.timestamp }}</span>
           <div class="line-two"></div>
         </div>
-
-          <div [ngClass]="{'my-message': chat?.userId === loggedInUserId, 'nachrichten': chat?.userId !== loggedInUserId}">
-            <img [src]="chat.userImage" alt="User Image">
-
-            <div class="solo-chat-completely">
-              <div class="nameAndTime">
-                <p style="font-weight: bold;">{{ chat?.userName }}</p>
-                <p>{{ chat?.time }} Uhr</p>
-              </div>
-              <span>{{ chat?.text }}</span>
-
-              <div class="smileys">
-                <div *ngFor="let smiley of chat?.smileys">
-                  <div class="smiley">
-                    <div (click)="toggleSmiley(smiley, chat)">
-                      {{ smiley.emoji }}
-                      {{ smiley.userNames.length }}
-                    </div>
-
-                    <div class="smiley-hover">
-                      {{ smiley.emoji }}
-                      <p *ngIf="smiley.userNames.length > 0">
-                        {{ isUserReacted(smiley) }}
-                      </p>
-                    </div>
+        <div
+          [ngClass]="{'my-message': chat?.userId === loggedInUserId, 'nachrichten': chat?.userId !== loggedInUserId}">
+          <img [src]="chat.userImage" alt="User Image">
+          <div class="solo-chat-completely">
+            <div class="nameAndTime">
+              <p style="font-weight: bold;">{{ chat?.userName }}</p>
+              <p>{{ chat?.time }} Uhr</p>
+            </div>
+            <span>{{ chat?.text  }}</span>
+            <img *ngIf="chat?.image" [src]="chat.image" alt="Bild" class="pictures">
+            <div class="smileys">
+              <div *ngFor="let smiley of chat?.smileys">
+                <div class="smiley">
+                  <div (click)="toggleSmiley(smiley, chat)">
+                    {{ smiley.emoji }}
+                    {{ smiley.userNames.length }}
+                  </div>
+                  <div class="smiley-hover">
+                    {{ smiley.emoji }}
+                    <p *ngIf="smiley.userNames.length > 0">
+                      {{ isUserReacted(smiley) }}
+                    </p>
                   </div>
                 </div>
               </div>
-
-
             </div>
-
-            <div class="insert-smiley">
-              <img (mouseover)="changeImageSmiley(true)" (mouseout)="changeImageSmiley(false)"
-                [src]="imgSrc[0] || 'fallback-image.png'" alt="Smiley Image" (click)="openSmiley(i)">
-              <!-- Öffne den Emoji-Picker nur für diese Nachricht -->
-            </div>
-
-            <!-- Emoji-Picker nur anzeigen, wenn die Nachricht ausgewählt ist -->
-            <emoji-mart *ngIf="activeChatIndex === i" (emojiSelect)="addSmiley($event)" [style.position]="'absolute'"
-              [style.left.px]="20" [style.zIndex]="1000" [style.top.px]="20">
-            </emoji-mart>
           </div>
-         
+          <div class="insert-smiley">
+            <img (mouseover)="changeImageSmiley(true)" (mouseout)="changeImageSmiley(false)"
+              [src]="imgSrc[0] || 'fallback-image.png'" alt="Smiley Image" (click)="openSmiley(i)">
+          </div>
+          <emoji-mart *ngIf="activeChatIndex === i" (emojiSelect)="addSmiley($event)" [style.position]="'absolute'"
+            [style.left.px]="20" [style.zIndex]="1000" [style.top.px]="20">
+          </emoji-mart>
+        </div>
       </div>
     </div>
-
-
-
   </div>
   <app-chat></app-chat>
 </div>

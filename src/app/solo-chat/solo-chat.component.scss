@@ -12,12 +12,10 @@
     border-radius: 30px;
     margin: 20px 30px;
     box-sizing: border-box;
-    /* Wichtig für das Padding und die Border */
     display: flex;
     flex-direction: column;
     position: relative;
     transition: all 0.3s ease-in-out;
-
 
     .line {
         border-bottom: 4px solid rgba(0, 0, 0, 0.1);
@@ -27,10 +25,8 @@
     .chat-header-group {
         padding: 20px 20px 0px 30px;
 
-
         .name {
             display: inline-flex;
-            /* Verhindert, dass die Klasse die gesamte Breite einnimmt */
             align-items: center;
             gap: 10px;
             padding: 5px 10px;
@@ -39,7 +35,6 @@
             &:hover {
                 background-color: rgba(236, 238, 254, 1);
                 border-radius: 50px;
-
             }
 
             h2 {
@@ -62,7 +57,6 @@
         height: calc(100% - 335px);
         display: flex;
         flex-direction: column;
-        // justify-content: flex-end;
         box-sizing: border-box;
         overflow-y: auto;
 
@@ -72,14 +66,11 @@
 
         &::-webkit-scrollbar-thumb {
             background-color: #888;
-            /* Farbe des Scrollbalkens */
             border-radius: 2px;
-            /* Ecken abrunden */
         }
 
         &::-webkit-scrollbar-thumb:hover {
             background-color: #555;
-            /* Farbe des Scrollbalkens beim Hover */
         }
     }
 
@@ -112,7 +103,6 @@
                 }
             }
         }
-
     }
 
     b {
@@ -148,7 +138,7 @@
     cursor: pointer;
     position: relative;
 
-    .solo-chat-completely{
+    .solo-chat-completely {
         align-items: flex-start;
     }
 
@@ -161,11 +151,9 @@
     span {
         background-color: rgba(236, 238, 254, 1);
         padding: 10px;
-        // width: min-content;
         border-top-right-radius: 50px;
         border-bottom-right-radius: 50px;
         border-bottom-left-radius: 50px;
-
     }
 
     &:hover {
@@ -185,8 +173,6 @@
     display: flex;
     gap: 30px;
 }
-
-
 
 .solo-chat-completely {
     display: flex;
@@ -208,6 +194,7 @@
     position: relative;
     cursor: pointer;
     transition: all 225ms ease-in-out;
+
     span {
         color: white;
         background-color: rgba(121, 126, 243, 1);
@@ -227,8 +214,6 @@
         border-top-left-radius: 50px;
         border-bottom-left-radius: 50px;
         border-bottom-right-radius: 50px;
-        // width: min-content;
-
     }
 
     img {
@@ -274,7 +259,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    
 }
 
 .smiley {
@@ -289,15 +273,14 @@
     border: 1px solid rgb(173, 176, 217);
     position: relative;
 
-    &:hover{
-        .smiley-hover{
+    &:hover {
+        .smiley-hover {
             display: block;
         }
     }
-
 }
 
-.smiley-hover{
+.smiley-hover {
     background-color: rgb(43, 43, 209);
     padding: 10px;
     height: auto;
@@ -310,7 +293,8 @@
     bottom: 25px;
     left: 20px;
     display: none;
-        p{
+
+    p {
         margin-top: 10px;
     }
 }

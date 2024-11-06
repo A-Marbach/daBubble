@@ -16,17 +16,15 @@ export class LoginComponent {
   isVisible: boolean = true;
   showSplash = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
-
     setTimeout(() => {
-      this.showSplash = false;  
-    }, 3100); 
-
+      this.showSplash = false;
+    }, 3100);
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url === '/' || this.router.url === '/login') {  
+        if (this.router.url === '/' || this.router.url === '/login') {
           this.isVisible = true;
         } else {
           this.isVisible = false;
@@ -35,4 +33,3 @@ export class LoginComponent {
     });
   }
 }
-

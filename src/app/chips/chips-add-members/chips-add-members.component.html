@@ -1,35 +1,26 @@
 <form (ngSubmit)="onSubmit()">
-    <div class="example-chip-list">
-        <mat-chip-grid #chipGrid aria-label="User selection">
-          @for (user of users(); track $index) {
-            <mat-chip-row class="move" (removed)="remove(user)">
-              {{user.name}}
-              <button matChipRemove [attr.aria-label]="'remove ' + user">
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-chip-row>
-          }
-        </mat-chip-grid>
-        <input
-          #userInput
-          name="userInput"
-          (input)="onInputChange($event)"
-          [ngModel]="currentUser()"
-          [matChipInputFor]="chipGrid"
-          (ngModelChange)="currentUser.set($event)"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)"
-          [matAutocomplete]="auto"
-          [disabled]="inputDisabled"
-          [placeholder]="shouldShowPlaceholder() ? 'Namen eingeben' : ''"
-        />
-        <mat-autocomplete class="scroll"  #auto="matAutocomplete" (optionSelected)="selected($event)">
-          @for (user of filteredUsers(); track user) {
-            <mat-option class="options" [value]="user.name">
-              <img src="{{user.img}}" alt="">
-              <span>{{user.name}}</span>
-            </mat-option>
-          }
-        </mat-autocomplete>
-    </div>
+  <div class="example-chip-list">
+    <mat-chip-grid #chipGrid aria-label="User selection">
+      @for (user of users(); track $index) {
+      <mat-chip-row class="move" (removed)="remove(user)">
+        {{user.name}}
+        <button matChipRemove [attr.aria-label]="'remove ' + user">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input #userInput name="userInput" (input)="onInputChange($event)" [ngModel]="currentUser()"
+      [matChipInputFor]="chipGrid" (ngModelChange)="currentUser.set($event)"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
+      [disabled]="inputDisabled" [placeholder]="shouldShowPlaceholder() ? 'Namen eingeben' : ''" />
+    <mat-autocomplete class="scroll" #auto="matAutocomplete" (optionSelected)="selected($event)">
+      @for (user of filteredUsers(); track user) {
+      <mat-option class="options" [value]="user.name">
+        <img src="{{user.img}}" alt="">
+        <span>{{user.name}}</span>
+      </mat-option>
+      }
+    </mat-autocomplete>
+  </div>
 </form>

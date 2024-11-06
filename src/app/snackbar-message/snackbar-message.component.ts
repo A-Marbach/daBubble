@@ -11,22 +11,17 @@ import { UserService } from '../services/user.service';
   styleUrl: './snackbar-message.component.scss'
 })
 export class SnackbarMessageComponent {
-
   test = false;
-
   constructor(
     public userService: UserService,
-  ){}
-
+  ) { }
   snackBarRef = inject(MatSnackBarRef);
 
-  close(){
+  close() {
     this.snackBarRef.dismiss();
   }
 
-  onAction(){
+  onAction() {
     this.snackBarRef.dismissWithAction();
   }
-
-
 }

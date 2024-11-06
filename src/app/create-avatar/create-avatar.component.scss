@@ -5,7 +5,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
     gap: 24px;
 
     h1 {
@@ -24,8 +23,6 @@
         font-family: nunito;
     }
 }
-
-
 
 .go-back-container {
     background-color: transparent;
@@ -55,9 +52,8 @@
 
 .centered-avatar-wrapper {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
 }
-
 
 .icon {
     position: absolute;
@@ -67,8 +63,9 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateX(100px); /* Optional: Ein leichter Aufwärtsbewegungseffekt */
+        transform: translateX(100px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -80,18 +77,14 @@
     top: 50%;
     left: 35%;
     font-size: 24px;
-    border-radius: 25px 25px 0 25px; /* Runde obere und linke Ecken */
+    border-radius: 25px 25px 0 25px;
     padding: 8px;
     background-color: #444DF2;
     color: white;
-    z-index: 1; /* Damit die Sprechblase über anderen Elementen liegt */
-    opacity: 1; /* Immer sichtbar */
-    animation: fadeIn 1s ease-in; /* Füge die FadeIn-Animation hinzu */
+    z-index: 1;
+    opacity: 1;
+    animation: fadeIn 1s ease-in;
 }
-
-
-
-
 
 .button {
     position: absolute;
@@ -114,12 +107,10 @@
     justify-content: center;
     display: flex;
     align-items: center;
-    // background-color: #797EF3;
-    // width: 120px; 
-    // height: 120px; 
     border-radius: 100%;
     transition: box-shadow 0.3s ease;
-    overflow: hidden; 
+    overflow: hidden;
+
     &:hover {
         outline: 6px solid lightgray;
         cursor: pointer;
@@ -131,8 +122,8 @@
     align-items: center;
     width: 150px;
     height: 150px;
-    object-fit: cover; 
-   
+    object-fit: cover;
+
 }
 
 .select-avatar {
@@ -150,11 +141,12 @@ span {
 
     &:hover {
         cursor: pointer;
-
     }
-     img:first-child {
+
+    img:first-child {
         margin-left: 0;
     }
+
     img {
         width: 60px;
         height: 60px;
@@ -166,7 +158,6 @@ span {
         }
     }
 }
-
 
 .own-img-container {
     padding-top: 24px;
@@ -202,23 +193,23 @@ span {
 }
 
 input[type="file"] {
-    display: none; 
+    display: none;
 }
 
 button:disabled {
-    background-color: #cccccc; 
-    color: #666666; 
-    cursor: not-allowed!important; 
-    opacity: 0.6; 
-    border-color: #999999; 
-}
-.button:disabled:hover {
-    cursor: not-allowed!important;
-    background-color: #cccccc; 
-    color: #666666; 
-    border-color: #999999; 
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    border-color: #999999;
 }
 
+.button:disabled:hover {
+    cursor: not-allowed !important;
+    background-color: #cccccc;
+    color: #666666;
+    border-color: #999999;
+}
 
 @media screen and (max-width:992px) {
     .select-avatar {
@@ -279,13 +270,13 @@ button:disabled {
         height: 35px;
     }
 
-    .button{
+    .button {
         font-size: 20px;
     }
 }
 
 @media screen and (max-width:410px) {
     h1 {
-        font-size: 25px!important;
+        font-size: 25px !important;
     }
 }

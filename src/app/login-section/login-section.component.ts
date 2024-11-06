@@ -25,8 +25,6 @@ export class LoginSectionComponent {
 
   constructor(private authService: AuthService, private router: Router, private userService: UserService) { }
 
-
-  // Setze den Fokusstatus
   setFocus(field: string): void {
     if (field === 'email') {
       this.isEmailFocused = true;
@@ -35,7 +33,6 @@ export class LoginSectionComponent {
     }
   }
 
-  // Handle das Blur-Ereignis
   onBlur(field: string, value: string): void {
     if (!value) {
       if (field === 'email') {
@@ -46,17 +43,13 @@ export class LoginSectionComponent {
     }
   }
 
-
   async onLogin(): Promise<void> {
     if (this.email && this.password) {
       try {
         const userCredential = await this.authService.signIn(this.email, this.password);
-
         if (userCredential) {
           const uid = userCredential.user.uid;
-
           await this.userService.loadUserById(uid);
-
           this.router.navigate(['/main']);
         } else {
           this.errorMessage = 'Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.';
@@ -70,20 +63,12 @@ export class LoginSectionComponent {
 
   async onGuestLogin(): Promise<void> {
     try {
-      // Gast-Benutzerdaten (kannst du anpassen)
       const guestEmail = 'Max@Mustermann.de';
       const guestPassword = 'mustermuster';
-
-      // Anmeldung des Gast-Users mit E-Mail und Passwort
       const userCredential = await this.authService.signIn(guestEmail, guestPassword);
-
       if (userCredential) {
         const uid = userCredential.user.uid;
-
-        // Benutzerinformationen laden (basierend auf der ID des Gast-Users)
         await this.userService.loadUserById(uid);
-
-        // Navigation zu /main
         this.router.navigate(['/main']);
       } else {
         this.errorMessage = 'Gast-Anmeldung fehlgeschlagen.';
@@ -97,7 +82,6 @@ export class LoginSectionComponent {
   signInWithGoogle() {
     this.authService.googleSignIn()
       .then(() => {
-        // console.log('Successfully signed in with Google and user data stored in Firestore');
         this.router.navigate(['/main']);
       })
       .catch((error) => {
@@ -114,6 +98,4 @@ export class LoginSectionComponent {
         console.error('Sign-Out failed:', error);
       });
   }
-
 }
-

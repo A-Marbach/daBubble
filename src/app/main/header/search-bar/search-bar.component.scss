@@ -1,36 +1,32 @@
 search-container {
     flex: 1;
     margin: 0 1rem;
-  }
-  
+}
 
-
-.search-bar{
+.search-bar {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 
-
-    mat-icon{
+    mat-icon {
         position: absolute;
         right: 75px;
         transform: scale(1.2);
 
-        @media(width < 410px){
+        @media(width < 410px) {
             display: none;
         }
-
     }
 
-    input{
+    input {
         margin-left: 35px;
         margin-right: 35px;
         padding: 15px 0 15px 20px;
         flex: 1;
-        
-        @media (width >= 992px) {
+
+        @media (width >=992px) {
             border: none;
         }
 
@@ -38,23 +34,22 @@ search-container {
             margin-top: 15px;
             margin-bottom: 15px;
         }
+
         outline: none;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
         font-size: 18px;
         height: 60px;
     }
-    ::placeholder{
+
+    ::placeholder {
         font-size: 20px;
     }
-
-    
-    
 }
 
-mat-option{
+mat-option {
 
-    img{
+    img {
         width: 40px;
         height: 40px;
         border-radius: 100%;
@@ -62,7 +57,7 @@ mat-option{
         margin-left: 15px;
     }
 
-    .channel-tag{
+    .channel-tag {
         font-weight: bold;
         font-size: 24px;
         margin-right: 15px;
@@ -70,37 +65,32 @@ mat-option{
     }
 }
 
-::ng-deep .mdc-list-item__primary-text{
+::ng-deep .mdc-list-item__primary-text {
     display: flex;
     align-items: center;
 }
 
-
-.icon{
+.icon {
     width: 30px;
     height: 30px;
     margin-left: 10px;
 }
 
-.mat-mdc-optgroup{
+.mat-mdc-optgroup {
     font-size: 20px;
     font-weight: bold;
-
 }
 
-::ng-deep .mat-mdc-optgroup-label{
+::ng-deep .mat-mdc-optgroup-label {
     margin: 10px 0 10px 20px;
 }
 
-
-  ::ng-deep .profile-menu .mat-mdc-dialog-container {
+::ng-deep .profile-menu .mat-mdc-dialog-container {
     box-shadow: none !important;
     --mdc-dialog-container-shape: 30px 0px 30px 30px;
-  }
-  
+}
 
-
-.mat-mdc-optgroup .mat-mdc-option{
+.mat-mdc-optgroup .mat-mdc-option {
     padding: 0;
 }
 
@@ -108,7 +98,8 @@ mat-option{
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     overflow-y: scroll;
-    &::-webkit-scrollbar{
+
+    &::-webkit-scrollbar {
         display: none;
         width: 0;
     }
@@ -118,24 +109,21 @@ mat-option{
     z-index: 0;
 }
 
-.border-bottom30{
-    border-bottom-left-radius: 30px ;
-    border-bottom-right-radius: 30px ;
+.border-bottom30 {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     border: solid 1px #ADB0D9;
-
-   
 }
 
-.border-bottom0{
-    border-bottom-left-radius: 0px ;
-    border-bottom-right-radius: 0px ;
+.border-bottom0 {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     border: none;
     z-index: 10;
-
 }
 
-@media(width < 992){
-    input{
+@media(width < 992) {
+    input {
         border: solid 1px #ADB0D9;
     }
 }

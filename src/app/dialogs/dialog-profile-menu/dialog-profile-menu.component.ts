@@ -16,9 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './dialog-profile-menu.component.scss'
 })
 export class DialogProfileMenuComponent {
-
   @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
-
   constructor( 
     public dialog: MatDialogRef<DialogProfileMenuComponent>, 
     public dialogUser: MatDialog,

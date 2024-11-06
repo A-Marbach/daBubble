@@ -17,10 +17,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dialog-profile-user.component.html',
   styleUrl: './dialog-profile-user.component.scss'
 })
-export class DialogProfileUserComponent implements OnInit{
-
-  imgSrc:string = "assets/img/close_default.svg";
-
+export class DialogProfileUserComponent implements OnInit {
+  imgSrc: string = "assets/img/close_default.svg";
   user: User = {
     name: '',
     email: '',
@@ -35,45 +33,38 @@ export class DialogProfileUserComponent implements OnInit{
       throw new Error('Function not implemented.');
     }
   };
-
   screenWidth: number = 0;
-
-  constructor( 
-    public dialog: MatDialogRef<DialogProfileUserComponent>, 
+  constructor(
+    public dialog: MatDialogRef<DialogProfileUserComponent>,
     public dialogUserEdit: MatDialog,
     public userService: UserService,
-    public fire: FirebaseService
-  ) {    
+    public fire: FirebaseService) {
     this.screenWidth = window.innerWidth
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.screenWidth = window.innerWidth;
   }
 
-  openDialog(){
+  openDialog() {
     this.dialog.close();
     let dialogRef = this.dialogUserEdit.open(DialogProfileUserEditComponent, {
       backdropClass: 'custom-backdrop',
       autoFocus: false,
-
     });
   }
 
-   closeDialog(){
+  closeDialog() {
     this.dialog.close();
   }
 
   async ngOnInit(): Promise<void> {
     try {
-
       const uid = await this.fire.getCurrentUserUid();
       if (uid) {
-
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
-        if(user){
+        if (user) {
           this.user = user;
         }
       }
@@ -81,6 +72,4 @@ export class DialogProfileUserComponent implements OnInit{
       console.error('Fehler beim Abrufen der Benutzerdaten:', error);
     }
   }
-
-
 }

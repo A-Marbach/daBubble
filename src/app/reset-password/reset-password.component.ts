@@ -18,7 +18,7 @@ export class ResetPasswordComponent {
   user: User | null = null;
   isEmailFocused: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) { 
+  constructor(private router: Router, private authService: AuthService) {
     const auth = getAuth();
     this.user = auth.currentUser;
   }
@@ -27,10 +27,9 @@ export class ResetPasswordComponent {
     this.isEmailFocused = true;
   }
 
-  // Handle das Blur-Ereignis für das E-Mail-Feld
   onBlurEmail(): void {
-    if (!this.email) {  // Prüft, ob das E-Mail-Feld leer ist
-      this.isEmailFocused = false;  // Zeigt den Placeholder wieder an, wenn leer
+    if (!this.email) {
+      this.isEmailFocused = false;
     }
   }
 
@@ -44,9 +43,7 @@ export class ResetPasswordComponent {
       });
   }
 
-
   isFormValid(): boolean {
     return this.email.trim() !== '';
   }
-
 }

@@ -8,6 +8,4 @@ import { RouterLink } from '@angular/router';
   templateUrl: './data-protection.component.html',
   styleUrl: './data-protection.component.scss'
 })
-export class DataProtectionComponent {
-
-}
+export class DataProtectionComponent {}

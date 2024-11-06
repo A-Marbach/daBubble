@@ -1,4 +1,3 @@
-<!-- group-answer.component.html -->
 <div class="main" *ngIf="(userService.threadOpenStatus$ | async)"
   [ngClass]="{'collapsed': !userService.showGroupAnswer, 'overlay':screenWidth > 992 && screenWidth < 1400}">
   <div class="header">
@@ -10,8 +9,7 @@
   <div class="line"></div>
   <div class="commplet-chat" #scrollerContainer>
     <div [ngClass]="{'my-message': userName === loggedInUserName, 'complete-container': userName !== loggedInUserName}">
-      <!-- Bild dynamisch machen -->
-      <img [src]="userProfilePicture" alt="Benutzerbild">
+      <img [src]="userImage" alt="Benutzerbild">
       <div class="messages">
         <div class="name-and-time">
           <div class="name">{{ userName }}</div>
@@ -30,17 +28,13 @@
     <div *ngFor="let chat of answerChats; let chatIndex = index">
       <div
         [ngClass]="{'my-message': chat.userName === loggedInUserName, 'complete-container': chat.userName !== loggedInUserName}">
-        <!-- Spätere Bilder ebenfalls dynamisch -->
         <img [src]="chat.userImage" alt="">
         <div class="messages">
           <div class="name-and-time">
             <div class="name">{{ chat.userName || 'Unbekannter Benutzer' }}</div>
             <div class="time">{{ chat.time }} Uhr</div>
           </div>
-
-          <!-- Weitere Inhalte bleiben gleich -->
           <div *ngIf="editModeIndex === chatIndex; else viewMode">
-            <!-- Bearbeitungsmodus -->
             <div class="input-completely">
               <input [(ngModel)]="editedText" type="text" class="edit-input" placeholder="Text bearbeiten...">
               <div class="buttons">
@@ -49,8 +43,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Normaler Textmodus -->
           <ng-template #viewMode>
             <div class="massage" *ngIf="chat.text">{{ chat.text }}</div>
             <img *ngIf="chat.image" [src]="chat.image" alt="Bild" class="pictures">
@@ -69,7 +61,6 @@
               </div>
             </div>
           </div>
-
         </div>
         <div class="hover-container">
           <div class="img-hover">
@@ -88,6 +79,5 @@
       </div>
     </div>
   </div>
-
   <app-chat [groupId]="groupId" [answerId]="answerId"></app-chat>
 </div>

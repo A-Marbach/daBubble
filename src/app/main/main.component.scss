@@ -3,7 +3,6 @@
     background-color: #ECEEFE;
     width: 100%;
     max-width: 100vw;
-    
 }
 
 app-new-message-chat{
@@ -30,27 +29,21 @@ app-devspace{
   }
 }
 
-
 app-solo-chat{
     width: 100%;
     margin-right: 40px;
     @media(width < 992px){
       width: auto;
   }
-
 }
 
 .main {
     display: flex;
   }
 
-
-
 .slide-up{
   transform: translateY(0); 
   transition: transform 0.5s ease;  
-
-
 }
 
 .slide-down{
@@ -65,7 +58,6 @@ app-solo-chat{
   bottom: 0;
   right: 0;
   left: 0;
-
 }
 
 .bg-drop{

@@ -17,7 +17,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class SignUpComponent {
   private auth = inject(Auth);
-  user: User = new User(); 
+  user: User = new User();
   isPrivacyChecked: boolean = false;
   emailExistsError: boolean = false;
   isVisible: boolean = true;
@@ -26,9 +26,8 @@ export class SignUpComponent {
   isNameFocused: boolean = false;
   constructor(private router: Router, private userService: UserService, private authService: AuthService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  // Setze den Fokusstatus
   setFocus(field: string): void {
     if (field === 'name') {
       this.isNameFocused = true;
@@ -39,7 +38,6 @@ export class SignUpComponent {
     }
   }
 
-  // Handle das Blur-Ereignis
   onBlur(field: string, value: string): void {
     if (!value) {
       if (field === 'name') {
@@ -52,13 +50,12 @@ export class SignUpComponent {
     }
   }
 
-
   async onSubmit(): Promise<void> {
     if (this.isFormValid()) {
       try {
         const emailExists = await this.authService.checkEmailExists(this.user.email);
         if (emailExists) {
-          this.emailExistsError = true; 
+          this.emailExistsError = true;
           return;
         } else {
           this.emailExistsError = false;
@@ -73,12 +70,10 @@ export class SignUpComponent {
     }
   }
 
- 
   isFormValid(): boolean {
     return this.user.name.trim() !== '' &&
       this.user.email.trim() !== '' &&
       this.user.password.trim() !== '' &&
       this.isPrivacyChecked;
   }
-
 }

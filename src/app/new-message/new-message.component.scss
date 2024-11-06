@@ -6,16 +6,17 @@
 .container {
     background-color: white;
     height: calc(100vh - 131px);
-    @media(width < 992px){
+
+    @media(width < 992px) {
         height: calc(100vh - 63px);
         border-radius: 0;
         margin: 0;
     }
+
     width: 100%;
     border-radius: 30px;
     margin: 20px 30px;
     box-sizing: border-box;
-    /* Wichtig für das Padding und die Border */
     display: flex;
     flex-direction: column;
     position: relative;
@@ -28,23 +29,22 @@
         font-weight: 700;
     }
 
-    input{
+    input {
         border-radius: 30px;
         margin-bottom: 10px;
         padding: 10px 20px 10px 20px;
         border: solid 1px #ADB0D9;
         cursor: pointer;
         width: 100%;
-        
-        &:hover{
+
+        &:hover {
             border: solid 1px #444DF2;
         }
-        &:focus{
+
+        &:focus {
             outline: none;
         }
     }
-
-    
 }
 
 .example-form {
@@ -52,13 +52,13 @@
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
-  }
-  
-  .example-full-width {
+}
+
+.example-full-width {
     width: 100%;
-  }
-  
-  .example-input {
+}
+
+.example-input {
     max-width: 100%;
     width: 300px;
-  }
+}

@@ -20,8 +20,6 @@ import { FirebaseService } from '../../services/firebase.service';
     MatAutocompleteModule, 
     FormsModule,
     CommonModule,
-    
-    
   ],
   templateUrl: './chips-add-members.component.html',
   styleUrl: './chips-add-members.component.scss',
@@ -37,9 +35,7 @@ export class ChipsAddMembersComponent{
   @Input() test: string = '';
   filteredUsers = signal<User[]>([]); 
 
-  constructor(
-    private fire: FirebaseService,
-  ){
+  constructor(private fire: FirebaseService){
     this.fire.getUsersData().subscribe((list) => {
       this.selectUsers = list.map(element => {
         const data = element;
@@ -55,13 +51,11 @@ export class ChipsAddMembersComponent{
       });
       this.allUsers = this.selectUsers; 
       this.updateFilteredUsers();
-      
     });
   }
   readonly announcer = inject(LiveAnnouncer);
   @ViewChild('userInput', { static: false }) userInput!: ElementRef<HTMLInputElement>;
   inputDisabled: boolean = false;
-
 
   updateFilteredUsers(): void {
     const currentUserName = this.currentUser().toLowerCase() || '';
@@ -84,7 +78,6 @@ export class ChipsAddMembersComponent{
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     const selectedUser = this.allUsers.find(user => user.name === value);
-
     if (selectedUser && !this.users().some(user => user.id === selectedUser.id)) {
       this.users.update(users => [...users, selectedUser]);
     } else {
@@ -93,12 +86,10 @@ export class ChipsAddMembersComponent{
     if (this.userInput) {
       this.userInput.nativeElement.value = '';
     }
-
     this.currentUser.set('');
     this.updateFilteredUsers(); 
   }
 
-    
   isValidUser(userName: string): boolean {
     return this.filteredUsers().some(user => user.name === userName);
   }
@@ -109,7 +100,6 @@ export class ChipsAddMembersComponent{
       if (index < 0) {
         return users;
       }
-
       users.splice(index, 1);
       this.announcer.announce(`Removed ${user}`);
       return [...users];
@@ -121,7 +111,6 @@ export class ChipsAddMembersComponent{
 
   selected(event: MatAutocompleteSelectedEvent): void {
     const selectedUser = this.allUsers.find(user => user.name.trim().toLowerCase() === event.option.viewValue.trim().toLowerCase());
-
     if (selectedUser && !this.users().some(user => user.id === selectedUser.id)) {
       this.users.update(users => [...users, selectedUser]);
     }
@@ -151,5 +140,4 @@ export class ChipsAddMembersComponent{
       return false
     }
   }
-  
 }

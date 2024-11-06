@@ -1,40 +1,38 @@
 <mat-card class="user-profile">
     <div class="profile-aot">
-        <span class="profile-txt" >Channel erstellen</span>
-        <img (click)="closeDialog()" class="close" [src]="imgSrc"
-        (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-        (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-        alt="">
+        <span class="profile-txt">Channel erstellen</span>
+        <img (click)="closeDialog()" class="close" [src]="imgSrc" (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
+            (mouseout)="imgSrc = 'assets/img/close_default.svg'" alt="">
     </div>
-    <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum Beispiel.</p>
+    <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum Beispiel.
+    </p>
     <form #form="ngForm" (ngSubmit)="onSubmit()">
         <div class="inputs">
             <span>Channel Name</span>
             <div class="channel-name-container">
-                <input (ngModelChange)="checkChannelName()" [(ngModel)]="name" name="name" required placeholder="#  z.B. Kooperationsprojekte" type="text">
+                <input (ngModelChange)="checkChannelName()" [(ngModel)]="name" name="name" required
+                    placeholder="#  z.B. Kooperationsprojekte" type="text">
                 <div *ngIf="isChannelNameTaken && form.controls['name']?.touched" class="invalid-feedback">
                     Channel name is already taken!
-                  </div>
-                
-                  <div *ngIf="form.controls['name']?.invalid && (form.controls['name']?.touched || form.controls['name']?.dirty)" class="invalid-feedback">
+                </div>
+
+                <div *ngIf="form.controls['name']?.invalid && (form.controls['name']?.touched || form.controls['name']?.dirty)"
+                    class="invalid-feedback">
                     Channel name is required!
-                  </div>
+                </div>
             </div>
-              
             <span>Beschreibung <span>(optional)</span></span>
             <input [(ngModel)]="description" name="description" placeholder="Dein Text hier" type="text">
         </div>
         <div class="buttons">
-            <button [ngClass]="!isChannelNameTaken && form.valid ? 'valid' : 'invalid'" type="submit" [disabled]="isChannelNameTaken || !form.valid">
+            <button [ngClass]="!isChannelNameTaken && form.valid ? 'valid' : 'invalid'" type="submit"
+                [disabled]="isChannelNameTaken || !form.valid">
                 <span>Erstellen</span>
             </button>
         </div>
     </form>
-
     <app-dialog-channel-create-add-member-mobile
-        [ngClass] = "{'slide-up': showAddMemberMenu == true, 'slide-down': showAddMemberMenu == false}"
-        class="profile-menu"
-        (closeAddMenu)="closeDialogAddMembersMobile()"
-        (successAdd)="closeDialog()">
+        [ngClass]="{'slide-up': showAddMemberMenu == true, 'slide-down': showAddMemberMenu == false}"
+        class="profile-menu" (closeAddMenu)="closeDialogAddMembersMobile()" (successAdd)="closeDialog()">
     </app-dialog-channel-create-add-member-mobile>
 </mat-card>

@@ -8,6 +8,4 @@ import { RouterLink } from '@angular/router';
   templateUrl: './inprint.component.html',
   styleUrl: './inprint.component.scss'
 })
-export class InprintComponent {
-
-}
+export class InprintComponent {}

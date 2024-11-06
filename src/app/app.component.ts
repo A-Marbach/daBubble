@@ -17,7 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'daBubble';
+  title = 'DaBubble';
   constructor(private router: Router) { }
-
 }

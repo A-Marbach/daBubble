@@ -26,29 +26,24 @@ import { Router } from '@angular/router';
   templateUrl: './dialog-channel-edit.component.html',
   styleUrls: ['./dialog-channel-edit.component.scss'],
 })
-
 export class DialogChannelEditComponent implements OnInit{
   edit!:boolean ;
   editTwo!:boolean ;
   editTwoInput!:boolean ;
   editImg = 'assets/editPencil.svg'
   editImg2 = 'assets/editPencil.svg'
-
   imgSrc: string = "assets/img/close_default.svg";
   channelID: string = "";
   channel: Channel | null = null;
   editTxtValue: string = "Bearbeiten";
   editTxtValueTwo: string = "Bearbeiten";
   imgSrcAdd: string = "assets/person_add_default.svg";
-
   showAddMemberMenu = false;
-
   name: string = "";
   description: string = "";
   channelName: string;
   channelDescription: string;
   screenWidth: number = 0;
-
   user: User = {
     name: '',
     email: 'Test@gmx.de',
@@ -66,7 +61,6 @@ export class DialogChannelEditComponent implements OnInit{
   @ViewChild(DialogChannelMembersComponent) membersList!: DialogChannelMembersComponent;
   @ViewChild(DialogChannelAddMemberMobileComponent) addMembersMobile!: DialogChannelAddMemberMobileComponent;
   
-
   constructor(
     public dialog: MatDialogRef<DialogChannelEditComponent>,
     private fire: FirebaseService,
@@ -83,7 +77,6 @@ export class DialogChannelEditComponent implements OnInit{
     this.channelDescription = data.channelDescription;
     this.name = data.channelName;
     this.description = data.channelDescription;
-    
   }
 
   async ngOnInit(): Promise<void> {
@@ -106,7 +99,6 @@ export class DialogChannelEditComponent implements OnInit{
     try {
       const uid = await this.fire.getCurrentUserUid();
       if (uid) {
-
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
         if(user){

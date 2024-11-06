@@ -9,8 +9,6 @@
     }
 }
 
-
-
 .modal {
     display: flex;
     justify-content: center;
@@ -22,10 +20,7 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.1);
     z-index: 1000;
-
 }
-
-
 
 .modal-content {
     max-width: 60%;
@@ -35,7 +30,6 @@
     justify-content: center;
     align-items: center;
 }
-
 
 .modal-image {
     width: 80vw !important;
@@ -60,7 +54,6 @@
     height: calc(100vh - 131px);
     transition: all 0.3s ease-in-out;
 
-
     @media(width < 992px) {
         height: calc(100vh - 63px);
         border-radius: 0;
@@ -74,6 +67,7 @@
     @media(width < 1350px) {
         margin: 20px 10px 0px 10px;
     }
+
     @media(width < 992px) {
         margin: 0px;
     }
@@ -83,7 +77,6 @@
     flex-direction: column;
     position: relative;
     transition: all 0.3s ease-in-out;
-
 
     &.collapsed {
         width: 300px;
@@ -108,7 +101,6 @@
                 align-items: flex-end
             }
 
-
             span {
                 border-top-right-radius: 0px;
                 border-top-left-radius: 30px;
@@ -117,8 +109,6 @@
                 background-color: rgba(121, 126, 243, 1);
                 color: white;
                 width: fit-content;
-
-
             }
 
             &:hover {
@@ -138,10 +128,7 @@
                     margin-top: -40px;
                     border: 1px solid rgba(51, 38, 235, 0.2);
                     transition: all 0.3s ease-in-out;
-
                 }
-
-
             }
         }
     }
@@ -159,11 +146,11 @@
         .last-answers-time {
             font-size: 14px;
             font-weight: 400;
-            color: rgba(104,104,104,1);
+            color: rgba(104, 104, 104, 1);
         }
 
         .answers {
-            color: rgba(83,90,241,1);
+            color: rgba(83, 90, 241, 1);
             font-weight: 400;
             cursor: pointer;
 
@@ -185,7 +172,6 @@
             gap: 10px;
             margin-right: 30px;
             font-size: 20px;
-
 
             .invite-people {
                 background-color: rgba(236, 238, 254, 1);
@@ -230,7 +216,6 @@
         box-sizing: border-box;
         cursor: pointer;
         margin-left: 20px;
-
         display: flex;
         align-items: center;
 
@@ -244,7 +229,6 @@
             padding: 4px 10px;
             box-sizing: border-box;
             margin: 0;
-
         }
     }
 
@@ -298,10 +282,8 @@
         position: relative;
         transition: all 0.3s ease-in-out;
 
-
         &:hover {
             background-color: rgba(236, 238, 254, 1);
-
 
             span {
                 background-color: white;
@@ -322,7 +304,6 @@
                 right: 20px;
                 margin-top: -40px;
                 border: 1px solid rgba(51, 38, 235, 0.2);
-
             }
         }
 
@@ -344,7 +325,6 @@
             border-bottom-right-radius: 30px;
             border-bottom-left-radius: 30px;
             width: fit-content;
-
         }
 
         .current-time {
@@ -376,7 +356,6 @@
 
     .chat-complete {
         height: calc(100% - 325px);
-
         overflow-x: hidden;
 
         &::-webkit-scrollbar {
@@ -391,15 +370,8 @@
         &::-webkit-scrollbar-thumb:hover {
             background-color: rgba(0, 0, 255, 0.5);
         }
-
-        // button {
-        //     position: absolute;
-        //     bottom: 200px;
-        //     left: 50px;
-        // }
     }
 }
-
 
 .display-flex {
     display: flex;
@@ -481,8 +453,6 @@
     }
 }
 
-
-
 .member-images {
     display: flex;
     overflow-x: auto;
@@ -496,15 +466,11 @@
 
 ::ng-deep .border-30 .mat-mdc-dialog-container {
     --mdc-dialog-container-shape: 30px 30px 30px 30px;
-
 }
-
-
 
 .border-30 .mat-mdc-dialog-container::-webkit-scrollbar {
     display: none;
 }
-
 
 ::ng-deep .border-30-right .mat-mdc-dialog-container {
     --mdc-dialog-container-shape: 30px 0px 30px 30px;
@@ -622,6 +588,7 @@ h2 {
         background-color: rgba(173, 176, 217, 1);
     }
 }
+
 .input-completely {
     background-color: white;
     width: auto;
@@ -639,10 +606,9 @@ h2 {
         display: flex;
         gap: 8px;
     }
-
 }
 
-.save-and-cancel{
-display: flex;
-gap: 8px;
+.save-and-cancel {
+    display: flex;
+    gap: 8px;
 }

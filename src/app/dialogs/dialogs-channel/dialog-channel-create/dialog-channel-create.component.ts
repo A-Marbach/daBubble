@@ -29,9 +29,7 @@ import { map } from 'rxjs';
   styleUrl: './dialog-channel-create.component.scss'
 })
 export class DialogChannelCreateComponent {
-
   @ViewChild(DialogChannelCreateAddMemberMobileComponent) createChannelAddMobile!: DialogChannelCreateAddMemberMobileComponent;
-
   imgSrc: string = "assets/img/close_default.svg";
   name: string = '';
   description: string = '';
@@ -39,49 +37,43 @@ export class DialogChannelCreateComponent {
   isChannelNameTaken = false;
   channels$
   firestore: Firestore = inject(Firestore);
-  
 
-
-  constructor( 
-    public dialogChannel: MatDialogRef<DialogChannelCreateComponent>, 
+  constructor(
+    public dialogChannel: MatDialogRef<DialogChannelCreateComponent>,
     public dialogAddMembers: MatDialog,
     public dialogAddMembersClose: MatDialogRef<DialogChannelCreateAddMembersComponent>,
-    private fire: FirebaseService,
-  ) {    
+    private fire: FirebaseService) {
     const fireChannels = collection(this.firestore, 'channels');
     this.channels$ = collectionData(fireChannels).pipe(
       map(channels => channels.sort((a, b) => a['name'].localeCompare(b['name'])))
     );
-    console.log(this.channels$)
   }
 
-  checkChannelName(){
+  checkChannelName() {
     if (this.name.trim() === '') {
       this.isChannelNameTaken = false;
       return;
     }
-
     this.channels$.subscribe(channels => {
       const lowerCasedName = this.name.trim().toLowerCase();
-      this.isChannelNameTaken = channels.some(channel => 
+      this.isChannelNameTaken = channels.some(channel =>
         channel['name'].toLowerCase() === lowerCasedName
       );
     });
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     const screenWidth = window.innerWidth;
-    if(screenWidth >= 992){
+    if (screenWidth >= 992) {
       this.showAddMemberMenu = false;
     }
-    }
+  }
 
-  closeDialog(){
+  closeDialog() {
     this.dialogChannel.close();
   }
 
-  openDialogAddMembers(){
+  openDialogAddMembers() {
     this.dialogChannel.close();
     let dialogRef = this.dialogAddMembers.open(DialogChannelCreateAddMembersComponent, {
       panelClass: 'border-30',
@@ -93,28 +85,23 @@ export class DialogChannelCreateComponent {
     });
   }
 
-
   onSubmit(): void {
-    if(window.innerWidth <= 992){
+    if (window.innerWidth <= 992) {
       this.addMembersToNewChannelMobile()
-      if(this.createChannelAddMobile){
+      if (this.createChannelAddMobile) {
         this.createChannelAddMobile.newChannel.name = this.name;
         this.createChannelAddMobile.newChannel.description = this.description;
       }
-
-    } else{
+    } else {
       this.openDialogAddMembers();
     }
   }
 
-  addMembersToNewChannelMobile(){
+  addMembersToNewChannelMobile() {
     this.showAddMemberMenu = true;
-
   }
 
-  closeDialogAddMembersMobile(){
+  closeDialogAddMembersMobile() {
     this.showAddMemberMenu = false;
-    
   }
-
 }

@@ -1,18 +1,18 @@
 import { Component, ElementRef, EventEmitter, HostListener, inject, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import {MatIcon} from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatDialogModule, MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogProfileMenuComponent } from '../../dialogs/dialog-profile-menu/dialog-profile-menu.component';
 import { MatCardModule } from '@angular/material/card';
 import { FirebaseService } from '../../services/firebase.service';
 import { User } from "./../../../models/user.class";
 import { Channel } from '../../../models/channel.class';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { UserService } from '../../services/user.service';
 import { Firestore, collection, addDoc, collectionData, onSnapshot, doc, updateDoc, getDoc, setDoc, docData, DocumentData, CollectionReference, arrayUnion, writeBatch, DocumentReference } from '@angular/fire/firestore';
@@ -45,13 +45,12 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     AsyncPipe,
     CommonModule,
     SearchBarComponent
-
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   user: User = {
     name: '',
@@ -74,31 +73,26 @@ export class HeaderComponent implements OnInit{
   filterOpen = false;
   screenWidth: number = window.innerWidth;
   userOnline = false;
- 
-  imgSrc:string ="assets/img/keyboard_arrow_down_v2.png";
+  imgSrc: string = "assets/img/keyboard_arrow_down_v2.png";
   users: User[] = [];
   test!: boolean;
   onlineStaus: boolean = false;
   hasEnteredChannel: boolean = false;
-
-  constructor( 
+  constructor(
     public dialog: MatDialog,
     private firebaseService: FirebaseService,
     public userService: UserService,
     private firestore: Firestore,
     private router: Router,
-    
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.getActiveUser();
     const uid = await this.firebaseService.getCurrentUserUid();
     if (uid) {
       const userDocRef = doc(this.firebaseService.firestore, 'users', uid);
-      
       onSnapshot(userDocRef, async (docSnapshot) => {
         if (docSnapshot.exists()) {
-          // console.log('User data changed, reloading user...');
           await this.getActiveUser();
         }
       });
@@ -111,55 +105,54 @@ export class HeaderComponent implements OnInit{
     this.screenWidth = window.innerWidth;
   }
 
-  async getActiveUser(){
+  async getActiveUser() {
     try {
       const uid = await this.firebaseService.getCurrentUserUid();
       if (uid) {
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
         this.firebaseService.setOnlineStatus(uid);
-        if(user){
+        if (user) {
           this.user = new User(user);
           this.userOnline = true;
-        }  
+        }
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Benutzerdaten:', error);
     }
   }
 
-  openProfileMenu(){
-    if(window.innerWidth < 992){
-      // console.log('mobile')
+  openProfileMenu() {
+    if (window.innerWidth < 992) {
       this.openDialogMobile();
-    } else{
+    } else {
       this.openDialog();
     }
   }
 
-  openDialog(){
+  openDialog() {
     let dialogRef = this.dialog.open(DialogProfileMenuComponent, {
       panelClass: 'profile-menu',
       width: '200px',
       height: '130px',
-      position: {top: '90px', right: '15px'},
+      position: { top: '90px', right: '15px' },
     });
   }
 
-  openDialogMobile(){
+  openDialogMobile() {
     this.openMobMenu.emit();
   }
 
-  isMobile(){
-    if((this.supportsTouch || window.innerWidth < 992) && this.hasEnteredChannel){
+  isMobile() {
+    if ((this.supportsTouch || window.innerWidth < 992) && this.hasEnteredChannel) {
       return 'assets/Workspace.svg'
-    } else{
+    } else {
       return 'assets/img/Logo.png'
     }
   }
 
-  returnToDevSpace(){
+  returnToDevSpace() {
     this.router.navigate(['/main/group-chat/pEylXqZMW1zKPIC0VDXL']);
     this.userLeftChannel.emit()
-  } 
+  }
 }

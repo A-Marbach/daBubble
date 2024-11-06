@@ -1,25 +1,15 @@
 <mat-card class="user-profile">
     <div class="profile-aot">
-        <span class="profile-txt" >Leute hinzufügen</span>
-        <img (click)="closeDialog()" class="close" [src]="imgSrc"
-        (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-        (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-        alt="">
+        <span class="profile-txt">Leute hinzufügen</span>
+        <img (click)="closeDialog()" class="close" [src]="imgSrc" (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
+            (mouseout)="imgSrc = 'assets/img/close_default.svg'" alt="">
     </div>
     <span># Entwicklerteam</span>
-
     <app-chips-add-members [test]="test"></app-chips-add-members>
-    
     <div class="add-btn">
-        <button
-        [ngStyle]="checkUserSelection() ? {'background-color': '#444DF2'} : {'background-color': '#686868'}"
-        type="submit"
-        [disabled]="!checkUserSelection()"
-        (click)="onSubmit()">
+        <button [ngStyle]="checkUserSelection() ? {'background-color': '#444DF2'} : {'background-color': '#686868'}"
+            type="submit" [disabled]="!checkUserSelection()" (click)="onSubmit()">
             Hinzufügen
         </button>
     </div>
-
-    
 </mat-card>
-

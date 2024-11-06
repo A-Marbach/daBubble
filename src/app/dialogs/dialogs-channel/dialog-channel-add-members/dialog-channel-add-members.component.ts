@@ -18,33 +18,27 @@ import { FirebaseService } from '../../../services/firebase.service';
     MatLabel,
     ChipsAddMembersComponent,
     CommonModule,
-    
+
   ],
   templateUrl: './dialog-channel-add-members.component.html',
   styleUrl: './dialog-channel-add-members.component.scss'
 })
-export class DialogChannelAddMembersComponent{
-
+export class DialogChannelAddMembersComponent {
   @ViewChild(ChipsAddMembersComponent) chipsAddMembersComponent!: ChipsAddMembersComponent;
-  
-
   imgSrc: string = "assets/img/close_default.svg";
   allUsers: User[] = []
   test = 'Hello';
   channelID: string = "";
   userId = "";
 
-  
   constructor(
     public dialog: MatDialogRef<DialogChannelAddMembersComponent>,
     private fire: FirebaseService,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      channelID: string; 
-       }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      channelID: string;
+    }
   ) {
-
     this.channelID = data.channelID;
-
     this.fire.getUsersData().subscribe((list) => {
       this.allUsers = list.map(element => {
         const data = element;
@@ -59,13 +53,9 @@ export class DialogChannelAddMembersComponent{
         );
       });
     });
-
   }
 
-
-
-
-  closeDialog(){
+  closeDialog() {
     this.dialog.close();
   }
 
@@ -73,7 +63,7 @@ export class DialogChannelAddMembersComponent{
     if (this.chipsAddMembersComponent) {
       return this.chipsAddMembersComponent.userSelected();
     }
-    else{
+    else {
       return false
     }
   }
@@ -86,19 +76,19 @@ export class DialogChannelAddMembersComponent{
 
   async onSubmit(): Promise<void> {
     const users: User[] = this.chipsAddMembersComponent.users();
-      if (users.length > 0) {
-        const selectedUser = users[0]; 
-        if(selectedUser.id){
-          this.userId = selectedUser.id; 
-        }
+    if (users.length > 0) {
+      const selectedUser = users[0];
+      if (selectedUser.id) {
+        this.userId = selectedUser.id;
       }
-      await this.addChannelToUser();
-      await this.addUserToChannel();
-      this.dialog.close(); 
+    }
+    await this.addChannelToUser();
+    await this.addUserToChannel();
+    this.dialog.close();
   }
-  
-  async addChannelToUser(){
-    if (this.userId.length>0 && this.channelID.length>0) {
+
+  async addChannelToUser() {
+    if (this.userId.length > 0 && this.channelID.length > 0) {
       try {
         await this.fire.updateUserChannels(this.userId, this.channelID);
       } catch (error) {
@@ -109,8 +99,8 @@ export class DialogChannelAddMembersComponent{
     }
   }
 
-  async addUserToChannel(){
-    if (this.userId.length>0 && this.channelID.length>0) {
+  async addUserToChannel() {
+    if (this.userId.length > 0 && this.channelID.length > 0) {
       try {
         await this.fire.updateChannelUserList(this.userId, this.channelID);
       } catch (error) {

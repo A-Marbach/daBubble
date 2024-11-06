@@ -8,29 +8,20 @@
             <img [src]="selectedAvatar" class="my-avatar" src="assets/img/person.png" alt="">
         </div>
     </div>
-
-    <h2 >{{user.name}}</h2>
+    <h2>{{user.name}}</h2>
     <div class="select-avatar">
         <span>Aus der Liste wählen</span>
         <div class="avatar-img">
-            <img *ngFor="let avatar of avatars" [src]="avatar" alt="Avatar"
-            (click)="selectAvatar(avatar)">
+            <img *ngFor="let avatar of avatars" [src]="avatar" alt="Avatar" (click)="selectAvatar(avatar)">
         </div>
-      
         <div class="own-img-container">
             <span>eigenes Bild verwenden</span>
             <label for="file-upload" class="custom-file-upload">
                 Datei hochladen
             </label>
-           
             <input id="file-upload" type="file" (change)="onFileSelected($event)" />
-            
         </div>
-       
     </div>
-
     <button class="info-for-user" *ngIf="userCreated">Konto erfolgreich erstellt!</button>
-
-    <button (click)="saveUser()" [disabled]="!isFormValid()"  class="button">Konto erstellen</button>
-    
+    <button (click)="saveUser()" [disabled]="!isFormValid()" class="button">Konto erstellen</button>
 </div>

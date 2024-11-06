@@ -41,7 +41,7 @@ import { Router } from '@angular/router';
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
 })
-export class SearchBarComponent implements OnInit{
+export class SearchBarComponent implements OnInit {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
 
@@ -63,56 +63,51 @@ export class SearchBarComponent implements OnInit{
   filterOpen = false;
   filterGroups: FilterGroup[] = [];
   filterGroupOptions: Observable<FilterGroup[]> = new Observable();
-  users$: Observable<User[]> = new Observable(); 
+  users$: Observable<User[]> = new Observable();
   channels$: Observable<Channel[]> = new Observable();
   private _formBuilder = inject(FormBuilder);
   stateForm = this._formBuilder.group({
     searchField: '',
   });
-   get searchFieldControl(): FormControl {
+  get searchFieldControl(): FormControl {
     return this.stateForm.get('searchField') as FormControl;
   }
 
-  constructor( 
+  constructor(
     public dialog: MatDialog,
     private firebaseService: FirebaseService,
     public userService: UserService,
     private router: Router,
-    
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
-      this.users$ = this.firebaseService.getUsers();
-      this.channels$ = this.firebaseService.getChannels();
-      this.filterGroupOptions = this.searchFieldControl.valueChanges.pipe(
-        startWith(''), 
-        debounceTime(300), 
-        distinctUntilChanged(), 
-        switchMap(value => this._filterData(value || ''))
-      );
-  
-      this.searchFieldControl.valueChanges.subscribe(selectedId => {
-        if (typeof selectedId === 'string') {
+    this.users$ = this.firebaseService.getUsers();
+    this.channels$ = this.firebaseService.getChannels();
+    this.filterGroupOptions = this.searchFieldControl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => this._filterData(value || ''))
+    );
+
+    this.searchFieldControl.valueChanges.subscribe(selectedId => {
+      if (typeof selectedId === 'string') {
         this.filterOpen = true;
-          // console.log('Selected ID:', selectedId);
-        }
-      });
+      }
+    });
 
   }
 
   private _filterData(value: string): Observable<FilterGroup[]> {
     const filterValue = (value || '').trim().toLowerCase();
-
     return combineLatest([this.users$, this.channels$]).pipe(
       map(([users, channels]) => {
         const filteredUsers = users
-          .filter(user => user.name.toLowerCase().includes(filterValue)) 
-          .filter(user => !!user.id); 
-  
+          .filter(user => user.name.toLowerCase().includes(filterValue))
+          .filter(user => !!user.id);
         const filteredChannels = channels
-          .filter(channel => channel.name.toLowerCase().includes(filterValue)) 
-          .filter(channel => !!channel.id); 
-  
+          .filter(channel => channel.name.toLowerCase().includes(filterValue))
+          .filter(channel => !!channel.id);
         return [
           {
             type: 'Users',
@@ -138,27 +133,24 @@ export class SearchBarComponent implements OnInit{
   }
 
   onOptionSelected(event: any) {
-    const selectedItem = event.option.value; 
-    	
-    const selectedName = selectedItem.name;   
-    const selectedId = selectedItem.id;     
-
+    const selectedItem = event.option.value;
+    const selectedName = selectedItem.name;
+    const selectedId = selectedItem.id;
     this.searchFieldControl.setValue(selectedName, { emitEvent: false });
     this.routeToSelectedItem(selectedItem)
     this.clearInputField();
     this.filterOpen = false;
   }
 
-  routeToSelectedItem(selectedItem: any){
-    if(selectedItem){
+  routeToSelectedItem(selectedItem: any) {
+    if (selectedItem) {
       switch (selectedItem.type) {
         case 'Users':
-        this.userService.setSelectedUserId(selectedItem.id);
-        this.router.navigate(['/main/chat', selectedItem.id]);  
+          this.userService.setSelectedUserId(selectedItem.id);
+          this.router.navigate(['/main/chat', selectedItem.id]);
           break;
-      
         case 'Channels':
-        this.router.navigate(['/main/group-chat', selectedItem.id]);  
+          this.router.navigate(['/main/group-chat', selectedItem.id]);
           break;
       }
     }
@@ -173,26 +165,21 @@ export class SearchBarComponent implements OnInit{
 
   onFocus(): void {
     const currentValue = this.searchFieldControl.value;
-    
     this.searchFieldControl.setValue(currentValue || '', { emitEvent: true });
   }
 
-  changeBottom(){
+  changeBottom() {
     setTimeout(() => {
       this.filterOpen = true;
-      // console.log(this.filterOpen, 'is')
-      
     }, 100);
-    // console.log(this.filterOpen)
   }
 
-  onBlur(){
+  onBlur() {
     setTimeout(() => {
       this.filterOpen = false;
-      if(this.autocomplete){
+      if (this.autocomplete) {
         this.autocomplete.closePanel();
       }
     }, 50);
   }
-
 }

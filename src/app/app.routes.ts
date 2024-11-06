@@ -28,28 +28,20 @@ export const routes: Routes = [
       { path: 'new-password', component: NewPasswordComponent },
       { path: 'inprint', component: InprintComponent },
       { path: 'data-protection', component: DataProtectionComponent }
-
     ]
   },
-
-
-  { 
-    path: 'main', component: MainComponent, 
+  {
+    path: 'main', component: MainComponent,
     children: [
-      { path: '', redirectTo: 'group-chat/1iVN4yaalXYtrhS1QcXB', pathMatch: 'full' }, 
-      
-      { path: 'new-message', component: NewMessageComponent }, 
+      { path: '', redirectTo: 'group-chat/1iVN4yaalXYtrhS1QcXB', pathMatch: 'full' },
+      { path: 'new-message', component: NewMessageComponent },
       {
         path: 'group-chat/:id', component: GroupChatComponent,
         children: [
           { path: 'group-answer/:answerId', component: GroupAnswerComponent }
         ]
       },
-      { path: 'chat/:id', component: SoloChatComponent }, 
+      { path: 'chat/:id', component: SoloChatComponent },
     ],
   },
-
 ];
-
-
-

@@ -1,5 +1,5 @@
 import { Inject, Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, onSnapshot, doc, updateDoc, getDoc, DocumentData, CollectionReference, arrayUnion, query, docData, deleteDoc, arrayRemove,  } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, onSnapshot, doc, updateDoc, getDoc, DocumentData, CollectionReference, arrayUnion, query, docData, deleteDoc, arrayRemove, } from '@angular/fire/firestore';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 import { Channel } from './../../models/channel.class';
 import { User } from './../../models/user.class';
@@ -20,11 +20,11 @@ export class FirebaseService {
   private realtimeDb = inject(Database);
   private db: Database;
 
-  constructor() { 
+  constructor() {
     this.db = inject(Database);
   }
-  
-  async  getImageDownloadURL(imagePath: string): Promise<string> {
+
+  async getImageDownloadURL(imagePath: string): Promise<string> {
     const storage = getStorage();
     const imageRef = ref(storage, imagePath);
     try {
@@ -35,7 +35,6 @@ export class FirebaseService {
       throw error;
     }
   }
-
 
   async getCurrentUserUid(): Promise<string | null> {
     return new Promise((resolve, reject) => {
@@ -53,8 +52,7 @@ export class FirebaseService {
   }
 
   setOnlineStatus(uid: string): void {
-    const statusRef = dbRef(this.db, `/status/${uid}`); 
-
+    const statusRef = dbRef(this.db, `/status/${uid}`);
     const connectedRef = dbRef(this.db, '.info/connected');
     onValue(connectedRef, (snapshot) => {
       if (snapshot.val() === true) {
@@ -66,21 +64,19 @@ export class FirebaseService {
 
   getUserStatus(userId: string): Observable<any> {
     const statusRef = dbRef(this.db, `/status/${userId}`);
-    
     return from(get(statusRef).then((snapshot) => snapshot.val()));
   }
 
-async updateMessage(channelId:string, messageId: string, newText: string): Promise<void> {
-  const messageRef = doc(this.firestore, 'channels',channelId ,'messages', messageId);
-  const messageSnapshot = await getDoc(messageRef);
-
-  if (messageSnapshot.exists()) {
-    await updateDoc(messageRef, { text: newText });
-    console.log('Message updated successfully');
-  } else {
-    console.error('Message does not exist:', messageId);
+  async updateMessage(channelId: string, messageId: string, newText: string): Promise<void> {
+    const messageRef = doc(this.firestore, 'channels', channelId, 'messages', messageId);
+    const messageSnapshot = await getDoc(messageRef);
+    if (messageSnapshot.exists()) {
+      await updateDoc(messageRef, { text: newText });
+      console.log('Message updated successfully');
+    } else {
+      console.error('Message does not exist:', messageId);
+    }
   }
-}
 
   getUsersRef(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'users') as CollectionReference<DocumentData>;
@@ -88,7 +84,7 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
 
   getUsers(): Observable<User[]> {
     const usersRef = collection(this.firestore, 'users');
-    return collectionData(usersRef, { idField: 'id' }) as Observable<User[]>; 
+    return collectionData(usersRef, { idField: 'id' }) as Observable<User[]>;
   }
   getChannels(): Observable<Channel[]> {
     const channelsRef = collection(this.firestore, 'channels');
@@ -134,14 +130,14 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
     const usersRef = collection(this.firestore, 'users');
     return collectionData(usersRef).pipe(
       map(usersArray => {
-        return this.arrayToObject(usersArray);  
+        return this.arrayToObject(usersArray);
       })
     );
   }
 
   arrayToObject(usersArray: any[]): any {
     return usersArray.reduce((obj, user) => {
-      obj[user.id] = user;  
+      obj[user.id] = user;
       return obj;
     }, {});
   }
@@ -149,7 +145,7 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
   getUserDocRef(docID: string) {
     return doc(collection(this.firestore, 'users'), docID)
   }
-  
+
   getChannelDocRef(docID: string) {
     return doc(collection(this.firestore, 'channels'), docID)
   }
@@ -158,7 +154,6 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
     const channelDocRef = this.getChannelDocRef(docID);
     return docData(channelDocRef);
   }
-
 
   async updateUserChannels(userID: string, channelId: string) {
     const userDoc = await getDoc(this.getUserDocRef(userID));
@@ -173,11 +168,11 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
       throw new Error('User document does not exist.');
     }
   }
-  async updateUserData(userID: string, newName?: string, newMail?:string) {
+  async updateUserData(userID: string, newName?: string, newMail?: string) {
     const userDoc = await getDoc(this.getUserDocRef(userID));
     if (userDoc.exists()) {
-      let email:string = "";
-      let name:string = "";
+      let email: string = "";
+      let name: string = "";
       if (newName && newName.length > 0) {
         name = newName;
         await updateDoc(this.getUserDocRef(userID), { name });
@@ -191,20 +186,20 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
     }
   }
 
-  async updateChannelData(channelID: string, editField: string, newName?: string, newDescription?:string) {
+  async updateChannelData(channelID: string, editField: string, newName?: string, newDescription?: string) {
     const channelDoc = await getDoc(this.getChannelDocRef(channelID));
     if (channelDoc.exists()) {
-      let name:string = "";
-      let description:string = "";
-      if ( editField == "name" && newName && newName.length > 0) {
+      let name: string = "";
+      let description: string = "";
+      if (editField == "name" && newName && newName.length > 0) {
         name = newName;
         await updateDoc(this.getChannelDocRef(channelID), { name });
       }
-      if ( editField == "description" && newDescription && newDescription.length > 0) {
+      if (editField == "description" && newDescription && newDescription.length > 0) {
         description = newDescription;
         await updateDoc(this.getChannelDocRef(channelID), { description });
       }
-      
+
     } else {
       throw new Error('Channel document does not exist.');
     }
@@ -241,7 +236,6 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
       console.error('Error adding channel:', error);
       return null;
     }
-
   }
 
   getChannelById(channelId: string): Promise<Channel | null> {
@@ -264,7 +258,6 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
       return null;
     });
   }
-
 
   getUserById(userId: string): Promise<User | null> {
     const userDocRef = doc(this.firestore, 'users', userId);
@@ -290,7 +283,6 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
   getUserChannelsById(userId: string): Observable<User | null> {
     return new Observable((observer) => {
       const userDocRef = doc(this.firestore, 'users', userId);
-      
       const unsubscribe = onSnapshot(userDocRef, docSnapshot => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
@@ -300,48 +292,44 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
             userId,
             userData['img'] || '',
             userData['password'] || '',
-            userData['channels'] || ''  
+            userData['channels'] || ''
           );
-          observer.next(user); 
+          observer.next(user);
         } else {
-          observer.next(null);  
+          observer.next(null);
         }
       }, error => {
         console.error("Error fetching user data: ", error);
-        observer.error(error);  
+        observer.error(error);
       });
-  
       return () => unsubscribe();
     });
   }
 
-  
-
-  async deleteUserFromChannel(channelId:string, userId: string): Promise<void> {
+  async deleteUserFromChannel(channelId: string, userId: string): Promise<void> {
     const channelDocRef = this.getChannelDocRef(channelId)
 
-    try{
+    try {
       await updateDoc(channelDocRef,
         {
           users: arrayRemove(userId)
         }
-      ); 
+      );
       console.log('user removed from channel')
-    } catch(error){
+    } catch (error) {
       console.error('errro removing user from channel', error)
     }
   }
 
-
-  async deleteChannelFromUser(uId:string, channelId: string){
+  async deleteChannelFromUser(uId: string, channelId: string) {
     const userDocRef = this.getUserDocRef(uId);
 
-    try{
+    try {
       await updateDoc(userDocRef, {
         channels: arrayRemove(channelId)
       });
       console.log('channel removed from users')
-    } catch(error){
+    } catch (error) {
       console.error('error removing channel from users', error)
     }
   }
@@ -352,7 +340,7 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
       const channelDoc = await getDoc(channelDocRef);
       if (channelDoc.exists()) {
         const currentMessages = channelDoc.data()['messages'] || [];
-        const updatedMessages = [...currentMessages, message];  
+        const updatedMessages = [...currentMessages, message];
         await updateDoc(channelDocRef, { messages: updatedMessages });
       } else {
         console.error('Channel does not exist:', channelId);
@@ -362,24 +350,22 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
     }
   }
 
-
   addMessageToUserChats(userId: string, message: any): Promise<void> {
     const userMessagesRef = collection(this.firestore, `users/${userId}/messages`);
-  
+
     return addDoc(userMessagesRef, message)
       .then(() => {
         console.log('Message successfully added to user chats!');
       })
       .catch((error) => {
         console.error('Error adding message to user chats:', error);
-        throw error; 
+        throw error;
       });
   }
 
   async getPrivateMessages(userId: string): Promise<any[]> {
     const messagesRef = collection(this.firestore, `users/${userId}/messages`);
     const messagesQuery = query(messagesRef, orderBy('timestamp', 'asc'));
-  
     const querySnapshot = await getDocs(messagesQuery);
     return querySnapshot.docs.map(doc => doc.data());
   }
@@ -390,13 +376,9 @@ async updateMessage(channelId:string, messageId: string, newText: string): Promi
     return collectionData(q, { idField: 'id' });
   }
 
-
   createChatId(userId1: string, userId2: string): string {
     const ids = [userId1, userId2];
-    ids.sort(); // Sortiere die IDs, um eine konsistente Reihenfolge zu garantieren
-    return ids.join('_'); // Kombiniere die sortierten IDs
-}
-
-
-
+    ids.sort();
+    return ids.join('_');
+  }
 }

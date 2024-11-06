@@ -1,88 +1,81 @@
 <mat-card class="user-profile">
     <div class="scroll">
         <div class="profile-aot">
-            <span class="profile-txt" >{{channelName}}</span>
+            <span class="profile-txt">{{channelName}}</span>
             <img (click)="closeDialog()" class="close" [src]="imgSrc"
-            (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-            (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-            alt="">
+                (mouseover)="imgSrc = 'assets/img/close_hover.svg'" (mouseout)="imgSrc = 'assets/img/close_default.svg'"
+                alt="">
         </div>
-        <div class="channel-name" [ngClass] = "{'hide-color': edit == true, 'color': edit == false}">
+        <div class="channel-name" [ngClass]="{'hide-color': edit == true, 'color': edit == false}">
             <div>
-                <span [ngClass] = "{'slide-left': edit == true, 'slide-left-back': edit == false}" class="animate-name position-left desktop">Channel Name</span>
-                <span (click)="editSwitch()" [ngClass] = "{'slide-right': edit == true, 'slide-right-back': edit == false}" class="desktop animate-name position-right">{{editTxtValue}}</span>
-
+                <span [ngClass]="{'slide-left': edit == true, 'slide-left-back': edit == false}"
+                    class="animate-name position-left desktop">Channel Name</span>
+                <span (click)="editSwitch()"
+                    [ngClass]="{'slide-right': edit == true, 'slide-right-back': edit == false}"
+                    class="desktop animate-name position-right">{{editTxtValue}}</span>
             </div>
             <div class="mobileEdit margin">
                 <span>Channel Name</span>
                 <img (click)="editSwitch()" [src]="editImg" class="editImage" alt="">
             </div>
             @if(edit == true){
-                <input [(ngModel)]="name" placeholder="#  z.B. Kooperationsprojekte" type="text">
+            <input [(ngModel)]="name" placeholder="#  z.B. Kooperationsprojekte" type="text">
             } @else {
-                <span class="txt" ><strong>#</strong> {{channelName}}</span>
+            <span class="txt"><strong>#</strong> {{channelName}}</span>
             }
         </div>
-        
-        
-        <div class="channel-description" [ngClass] = "{'hide-color': editTwo == true, 'color': editTwo == false}">
+        <div class="channel-description" [ngClass]="{'hide-color': editTwo == true, 'color': editTwo == false}">
             <div>
-                <span [ngClass] = "{'slide-left-d': editTwo == true, 'slide-left-back-d': editTwo == false}" class=" animate-name position-left" class="animate-name position-description desktop">Beschreibung</span>
-                <span [ngClass] = "{'slide-right-d': editTwo == true, 'slide-right-back-d': editTwo == false}" class="desktop animate-name position-edit" (click)="editTwoSwitch()">{{editTxtValueTwo}}</span>
-                <!-- <img src="" alt=""> -->
+                <span [ngClass]="{'slide-left-d': editTwo == true, 'slide-left-back-d': editTwo == false}"
+                    class=" animate-name position-left"
+                    class="animate-name position-description desktop">Beschreibung</span>
+                <span [ngClass]="{'slide-right-d': editTwo == true, 'slide-right-back-d': editTwo == false}"
+                    class="desktop animate-name position-edit" (click)="editTwoSwitch()">{{editTxtValueTwo}}</span>
             </div>
             <div class="mobileEdit">
                 <span>Beschreibung</span>
                 <img (click)="editTwoSwitch()" [src]="editImg2" class="editImage" alt="">
             </div>
             @if(editTwo==true){
-                <textarea [(ngModel)]="description" [ngClass] = "{'slide-left-textarea': editTwoInput == true, 'slide-left-back-textarea': editTwoInput == false}" class="animate-textarea" placeholder="Dein Text hier" type="text" name="" id=""></textarea>
-    
+            <textarea [(ngModel)]="description"
+                [ngClass]="{'slide-left-textarea': editTwoInput == true, 'slide-left-back-textarea': editTwoInput == false}"
+                class="animate-textarea" placeholder="Dein Text hier" type="text" name="" id=""></textarea>
             } @else {
-                <p [ngClass] = "{'move-paragraph': editTwoInput == false}" class="description-txt animate-paragraph">{{channelDescription}}</p>
+            <p [ngClass]="{'move-paragraph': editTwoInput == false}" class="description-txt animate-paragraph">
+                {{channelDescription}}</p>
             }
-            <div [ngClass] = "{'grow-short': editTwo == true, 'grow-long': editTwo == false}" class=" animate-seperator seperator"></div>
-            <div [ngClass] = "{'move-down': editTwo == true, 'move-down-back': editTwo == false}" class=" animate-creator creator">
+            <div [ngClass]="{'grow-short': editTwo == true, 'grow-long': editTwo == false}"
+                class=" animate-seperator seperator"></div>
+            <div [ngClass]="{'move-down': editTwo == true, 'move-down-back': editTwo == false}"
+                class=" animate-creator creator">
                 <span>Erstellt von</span>
                 @if(channel){
-                    <span>{{channel.creator}}</span>
+                <span>{{channel.creator}}</span>
                 } @else {
-                    <span>Daten fehlen</span>
+                <span>Daten fehlen</span>
                 }
             </div>
         </div>
-    
         <div *ngIf="screenWidth < 992" class="member-list-container">
-            <app-dialog-channel-members ></app-dialog-channel-members>
+            <app-dialog-channel-members></app-dialog-channel-members>
             <div (click)="openDialogAddMember()" class="add-member"
                 (mouseover)="imgSrcAdd = 'assets/person_add_hover.svg'"
                 (mouseout)="imgSrcAdd = 'assets/person_add_default.svg'">
                 <div class="add-image">
-                    <img 
-                    [src]="imgSrcAdd"
-                        alt="">
+                    <img [src]="imgSrcAdd" alt="">
                 </div>
                 <span>Mitglieder hinzufügen</span>
             </div>
         </div>
-    
         <div class="buttons">
             <button (click)="leaveChannel()">
-           
+
                 <span>Channel verlassen</span>
             </button>
         </div>
     </div>
-
     <app-dialog-channel-add-member-mobile
-        [ngClass] = "{'slide-up': showAddMemberMenu == true, 'slide-down': showAddMemberMenu == false}"
-        class="profile-menu"
-        (closeAddMenu)="closeDialogAddMember()"
-        (successAdd)="closeDialog()">
+        [ngClass]="{'slide-up': showAddMemberMenu == true, 'slide-down': showAddMemberMenu == false}"
+        class="profile-menu" (closeAddMenu)="closeDialogAddMember()" (successAdd)="closeDialog()">
     </app-dialog-channel-add-member-mobile>
-
-
-    
 </mat-card>
-
-

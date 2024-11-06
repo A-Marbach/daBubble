@@ -26,7 +26,7 @@ import { GroupAnswerComponent } from '../group-answer/group-answer.component';
   selector: 'app-group-chat',
   standalone: true,
   imports: [CommonModule, ChatComponent, RouterOutlet, FormsModule, PickerModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './group-chat.component.html',
   styleUrls: ['./group-chat.component.scss'],
 })
@@ -46,10 +46,8 @@ export class GroupChatComponent implements OnInit, AfterViewInit {
   channelSubscription!: () => void;
   emojiPickerVisibility: { [key: string]: boolean } = {};
   emojiPickerVisible: boolean = false;
-
   groupAnswerComponent!: GroupAnswerComponent;
   chat: any;
-
   currentDate!: string;
   currentTime!: string;
   displayDate!: string;
@@ -66,7 +64,6 @@ export class GroupChatComponent implements OnInit, AfterViewInit {
   threadOpen: boolean = false;
   supportsTouch: boolean = false;
   screenWidth = window.innerWidth;
-
   messages: {
     id: string;
     text: string;
@@ -76,108 +73,86 @@ export class GroupChatComponent implements OnInit, AfterViewInit {
     chats: string;
     image: string;
     userImage: string;
-    smileys: { smiley: string, clickedBy: string }[] | null;  
-  } [] = []; groupUsers: User[] = [];
-
+    smileys: { smiley: string, clickedBy: string }[] | null;
+  }[] = []; groupUsers: User[] = [];
   imgSrc = ['assets/img/smiley/add_reaction.svg', 'assets/img/smiley/comment.svg', 'assets/person_add.svg', 'assets/more_vert.svg'];
   imgTextarea = ['assets/img/add.png', 'assets/img/smiley/sentiment_satisfied.png', 'assets/img/smiley/alternate_email.png', 'assets/img/smiley/send.png'];
   groupName$: Observable<string | null> = this.userService.selectedChannelName$;
   imgKeyboard: string = 'assets/img/keyboard_arrow_down.svg';
-  
   isImageModalOpen: boolean = false;
   selectedImageForModal: string | null = null;
 
- openImageModal(imageUrl: string): void {
-  this.isImageModalOpen = true;
-  this.selectedImageForModal = imageUrl;
-}
+  openImageModal(imageUrl: string): void {
+    this.isImageModalOpen = true;
+    this.selectedImageForModal = imageUrl;
+  }
 
-
-closeImageModal(): void {
-  this.isImageModalOpen = false;
-  this.selectedImageForModal = null;
-}
+  closeImageModal(): void {
+    this.isImageModalOpen = false;
+    this.selectedImageForModal = null;
+  }
 
   constructor(
     private route: ActivatedRoute,
     public userService: UserService,
-    private dialog: MatDialog, 
+    private dialog: MatDialog,
     private firebaseService: FirebaseService,
     private firestore: Firestore,
     private router: Router,
     private snackBar: MatSnackBar,
-
   ) {
     this.groupName$ = this.userService.selectedChannelName$;
     this.screenWidth = window.innerWidth;
-    
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.screenWidth = window.innerWidth;
-
-    if(this.currentThreadStatus && this.screenWidth < 993){
+    if (this.currentThreadStatus && this.screenWidth < 993) {
       this.threadOpen = true;
-
-    } else if(!this.currentThreadStatus && this.screenWidth >993){
+    } else if (!this.currentThreadStatus && this.screenWidth > 993) {
       this.checkThreadStatus();
-    } else{
+    } else {
       this.threadOpen = false;
-
     }
-    
   }
-
 
   ngAfterViewInit(): void {
-    if(!this.isMobile){
+    if (!this.isMobile) {
       this.checkThreadStatus();
-    }    
-
+    }
   }
 
-  checkThreadStatus(){
+  checkThreadStatus() {
     this.userService.threadOpenStatus$.subscribe((status: boolean) => {
       this.currentThreadStatus = status;
       switch (status) {
         case true:
-        this.disconnectGroupChat()
+          this.disconnectGroupChat()
           break;
-      
         case false:
           this.observeGroupChat()
           break;
       }
-      
     });
   }
 
   observeGroupChat(): void {
-
     const groupChatContainer = this.scrollContainer!.nativeElement;
-
     if (!groupChatContainer) return;
-
-    const config = { childList: true, subtree: false }; 
+    const config = { childList: true, subtree: false };
     const observer = new MutationObserver(() => {
-      this.scrollToBottom();  
-
+      this.scrollToBottom();
     });
-
     observer.observe(groupChatContainer, config);
-
     this.groupChatObserver = observer;
-
   }
 
   disconnectGroupChat() {
     if (this.groupChatObserver) {
-      this.groupChatObserver.disconnect(); 
+      this.groupChatObserver.disconnect();
     }
-
   }
-
 
   ngOnInit(): void {
     this.userImages = [];
@@ -193,58 +168,46 @@ closeImageModal(): void {
       this.loadSmileysForMessage(this.messageId);
     });
     this.supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    if(window.innerWidth < 992){
+    if (window.innerWidth < 992) {
       this.isMobile = true;
     }
 
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe(() => {
-      if(this.checkIfBackToMainGroupChat()){
-        this.threadOpen = false;
-      }
-    })
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        if (this.checkIfBackToMainGroupChat()) {
+          this.threadOpen = false;
+        }
+      })
   }
 
   checkIfBackToMainGroupChat() {
     const currentUrl = this.router.url;
-
-    const isThreadOpen = currentUrl.includes('/group-answer/'); 
-
+    const isThreadOpen = currentUrl.includes('/group-answer/');
     if (!isThreadOpen) {
       return true
-  } else{
-    return false
+    } else {
+      return false
+    }
   }
-}
 
   isFirstMessageOfDay(currentMessage: any, index: number): boolean {
     if (index === 0) {
-      return true; 
+      return true;
     }
-
     const previousMessage = this.messages[index - 1];
-
-
     const currentDate = this.parseGermanDate(currentMessage.timestamp);
     const previousDate = this.parseGermanDate(previousMessage.timestamp);
-
-
     if (isNaN(currentDate.getTime()) || isNaN(previousDate.getTime())) {
       console.error('Invalid date format:', currentMessage.timestamp, previousMessage.timestamp);
       return false;
     }
-
-
     return currentDate.toDateString() !== previousDate.toDateString();
   }
 
-
   parseGermanDate(dateString: string): Date {
-
-    const datePart = dateString.split(', ')[1]; 
+    const datePart = dateString.split(', ')[1];
     const [day, month, year] = datePart.split('.');
-
     return new Date(`${year}-${month}-${day}`);
   }
 
@@ -252,7 +215,7 @@ closeImageModal(): void {
     if (this.groupId) {
       this.firebaseService.getChannelsMessages(this.groupId).subscribe(
         (channelData: any[]) => {
-          this.messages = this.formatMessages(channelData); 
+          this.messages = this.formatMessages(channelData);
         },
         (error: any) => {
           console.error('Fehler beim Abrufen der Nachrichten:', error);
@@ -262,53 +225,44 @@ closeImageModal(): void {
   }
 
   formatMessageTime(timestamp: any): string {
-    const date = timestamp.toDate(); 
+    const date = timestamp.toDate();
     return date.toLocaleTimeString('de-DE', {
-      hour: '2-digit',    
-      minute: '2-digit', 
-
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }
 
   formatMessages(messages: any[]): any[] {
     let previousDate: string = "";
-
     return messages.map((message, index) => {
-      const currentDate = this.formatTimestamp(message.timestamp); 
-      const isFirstMessageOfDay = currentDate !== previousDate; 
-
-      previousDate = currentDate; 
-
+      const currentDate = this.formatTimestamp(message.timestamp);
+      const isFirstMessageOfDay = currentDate !== previousDate;
+      previousDate = currentDate;
       return {
         ...message,
-        timestamp: isFirstMessageOfDay ? currentDate : null, 
-        time: this.formatMessageTime(message.timestamp)      
+        timestamp: isFirstMessageOfDay ? currentDate : null,
+        time: this.formatMessageTime(message.timestamp)
       };
     });
   }
 
   formatTimestamp(timestamp: any): string {
-    const date = timestamp.toDate(); 
+    const date = timestamp.toDate();
     const today = new Date();
-
     const yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
-
-
     if (date.toDateString() === today.toDateString()) {
       return 'Heute';
     }
-
     else if (date.toDateString() === yesterday.toDateString()) {
       return 'Gestern';
     }
-
     else {
-      return date.toLocaleDateString('de-DE', { 
-        weekday: 'long',  
-        day: '2-digit',   
-        month: '2-digit', 
-        year: 'numeric'   
+      return date.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
       });
     }
   }
@@ -333,7 +287,7 @@ closeImageModal(): void {
         await this.userService.loadUserById(uid);
         this.user = this.userService.getUser();
         if (this.user) {
-          this.loggedInUserName = this.user.name; 
+          this.loggedInUserName = this.user.name;
         }
       }
     } catch (error) {
@@ -343,9 +297,7 @@ closeImageModal(): void {
 
   subscribeToGroupName(): void {
     if (this.groupId) {
-
       const channelDocRef = doc(this.firestore, 'channels', this.groupId)
-
       this.channelSubscription = onSnapshot(channelDocRef,
         (docSnapshot) => {
           if (docSnapshot.exists()) {
@@ -365,7 +317,7 @@ closeImageModal(): void {
     try {
       const channelData = await this.firebaseService.getChannelById(this.groupId);
       if (channelData && channelData.users) {
-        const userIds = channelData.users;  
+        const userIds = channelData.users;
         const userPromises = userIds.map((userId: string) => this.firebaseService.getUserById(userId));
         const users = await Promise.all(userPromises);
 
@@ -383,7 +335,6 @@ closeImageModal(): void {
     this.closeEmojiSelection();
   }
 
-
   changeImageSmiley(isHover: boolean) {
     this.imgSrc[0] = isHover ? 'assets/img/smiley/add_reaction-blue.svg' : 'assets/img/smiley/add_reaction.svg';
   }
@@ -399,9 +350,9 @@ closeImageModal(): void {
     this.imgSrc[3] = isHover ? 'assets/more_vert_hover.svg' : 'assets/more_vert.svg';
   }
 
-  openChannelInfo(){
+  openChannelInfo() {
     this.openEditChannel();
-    
+
   }
 
   openEditChannel() {
@@ -422,19 +373,16 @@ closeImageModal(): void {
       data: {
         channelID: this.groupId,
       }
-
     });
-   
   }
 
   openDialogAddMember() {
     this.openDialogMemberList();
   }
 
-  showAddMembersMenu(){
+  showAddMembersMenu() {
     this.dialog.open(DialogChannelAddMembersComponent, {
       panelClass: 'border-30-right',
-
       position: { top: '200px', right: '50px' },
       data: {
         channelID: this.groupId,
@@ -443,15 +391,13 @@ closeImageModal(): void {
     });
   }
 
-
   scrollToBottom(): void {
     if (this.scrollContainer) {
       try {
         this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
       } catch (err) {
       }
-    } else{
-
+    } else {
     }
   }
 
@@ -475,34 +421,30 @@ closeImageModal(): void {
         this.dataLoaded = true;
       }
     }
-
   }
 
   async loadUserImages(userIds: string[]) {
     const currentChannel = this.groupId;
     this.userImages = [];
-
     for (const userId of userIds) {
       const userData = await this.firebaseService.getUserById(userId);
       if (userData && currentChannel == this.groupId) {
         this.userImages.push(userData.img)
-
       }
     }
   }
 
   editText(messageId: string) {
-    this.isEditing[messageId] = true;  
-    const currentText = this.messages.find(msg => msg.id === messageId)?.text;  
+    this.isEditing[messageId] = true;
+    const currentText = this.messages.find(msg => msg.id === messageId)?.text;
     if (currentText) {
-      this.editedMessageText[messageId] = currentText; 
+      this.editedMessageText[messageId] = currentText;
     }
-
   }
 
   saveText(messageId: string) {
-    this.isEditing[messageId] = false;  // Bearbeitungsmodus verlassen
-    const newText = this.messages.find(msg => msg.id === messageId)?.text;  // Finde die Nachricht
+    this.isEditing[messageId] = false;
+    const newText = this.messages.find(msg => msg.id === messageId)?.text;
 
     if (newText) {
       this.firebaseService.updateMessage(this.groupId, messageId, newText)
@@ -513,79 +455,65 @@ closeImageModal(): void {
         });
     } else {
     }
-}
+  }
 
-// Abbrechen der Bearbeitung
-cancelEdit(messageId: string) {
-    const originalText = this.editedMessageText[messageId];  // Den ursprünglichen Text wiederherstellen
-    const message = this.messages.find(msg => msg.id === messageId);  // Nachricht finden
+  cancelEdit(messageId: string) {
+    const originalText = this.editedMessageText[messageId];
+    const message = this.messages.find(msg => msg.id === messageId);
     if (message) {
-        message.text = originalText;  // Setze den ursprünglichen Text zurück
+      message.text = originalText;
     }
-    this.isEditing[messageId] = false;  // Bearbeitungsmodus verlassen
-}
+    this.isEditing[messageId] = false;
+  }
 
   getLastChatTime(message: any): string | null {
     if (message.chats && message.chats.length > 0) {
       const lastChat = message.chats[message.chats.length - 1];
-
-      let timeString = lastChat.time; 
-
+      let timeString = lastChat.time;
       const timePattern = /^\d{2}:\d{2}:\d{2}$/;
       if (timePattern.test(timeString)) {
         const [hours, minutes] = timeString.split(':');
-
-
         return `${hours}:${minutes}`;
       } else {
-        // console.error('Invalid chat time format:', timeString);
-        return null; 
+        return null;
       }
     }
-
     return null;
   }
-  
+
   async saveSmileyToMessage(smiley: string, messageId: string) {
     this.disconnectGroupChat()
     if (!this.loggedInUserName) {
-        console.error('Kein Benutzer eingeloggt.');
-        return;
+      console.error('Kein Benutzer eingeloggt.');
+      return;
     }
-
     const messageDocRef = doc(this.firestore, `channels/${this.groupId}/messages/${messageId}`);
     const messageDocSnapshot = await getDoc(messageDocRef);
-
     if (!messageDocSnapshot.exists()) {
-        console.error('Nachricht nicht gefunden:', messageId);
-        return;
+      console.error('Nachricht nicht gefunden:', messageId);
+      return;
     }
-
     const smileysArray = messageDocSnapshot.data()?.['smileys'] || [];
     const existingSmileyIndex = smileysArray.findIndex((s: { smiley: string }) => s.smiley === smiley);
     const clickedByArray = existingSmileyIndex > -1 ? smileysArray[existingSmileyIndex].clickedBy : null;
-
     if (clickedByArray) {
-        const userIndex = clickedByArray.indexOf(this.loggedInUserName);
-        userIndex > -1 ? clickedByArray.splice(userIndex, 1) : clickedByArray.push(this.loggedInUserName);
-        if (clickedByArray.length === 0) smileysArray.splice(existingSmileyIndex, 1);
+      const userIndex = clickedByArray.indexOf(this.loggedInUserName);
+      userIndex > -1 ? clickedByArray.splice(userIndex, 1) : clickedByArray.push(this.loggedInUserName);
+      if (clickedByArray.length === 0) smileysArray.splice(existingSmileyIndex, 1);
     } else {
-        smileysArray.push({ smiley, clickedBy: [this.loggedInUserName], clickedAt: new Date() });
+      smileysArray.push({ smiley, clickedBy: [this.loggedInUserName], clickedAt: new Date() });
     }
-
     try {
-        await updateDoc(messageDocRef, { smileys: smileysArray });
+      await updateDoc(messageDocRef, { smileys: smileysArray });
     } catch (error) {
-        console.error('Fehler beim Aktualisieren des Smileys:', error);
+      console.error('Fehler beim Aktualisieren des Smileys:', error);
     }
-}
-
+  }
 
   async loadSmileysForMessage(messageId: string) {
     const messageDocRef = doc(this.firestore, `channels/${this.groupId}/messages/${messageId}`);
     try {
       const messageDocSnapshot = await getDoc(messageDocRef);
-
       if (messageDocSnapshot.exists()) {
         const messageData = messageDocSnapshot.data();
         this.smileysData = messageData?.['smileys'] || [];
@@ -598,61 +526,49 @@ cancelEdit(messageId: string) {
 
   groupSmileys(smileys: any[]): any[] {
     const groupedSmileys: any[] = [];
-
     smileys.forEach((smiley) => {
-        const existingSmiley = groupedSmileys.find(
-            (group) => group.smiley === smiley.smiley
-        );
-
-        if (existingSmiley) {
-
-            if (Array.isArray(smiley.clickedBy)) {
-                existingSmiley.clickedBy.push(...smiley.clickedBy);
-            } else {
-                existingSmiley.clickedBy.push(smiley.clickedBy);
-            }
-            existingSmiley.count = existingSmiley.clickedBy.length; 
+      const existingSmiley = groupedSmileys.find(
+        (group) => group.smiley === smiley.smiley
+      );
+      if (existingSmiley) {
+        if (Array.isArray(smiley.clickedBy)) {
+          existingSmiley.clickedBy.push(...smiley.clickedBy);
         } else {
-            groupedSmileys.push({
-                smiley: smiley.smiley,
-                clickedBy: Array.isArray(smiley.clickedBy) ? [...smiley.clickedBy] : [smiley.clickedBy],
-                count: Array.isArray(smiley.clickedBy) ? smiley.clickedBy.length : 1, 
-            });
+          existingSmiley.clickedBy.push(smiley.clickedBy);
         }
+        existingSmiley.count = existingSmiley.clickedBy.length;
+      } else {
+        groupedSmileys.push({
+          smiley: smiley.smiley,
+          clickedBy: Array.isArray(smiley.clickedBy) ? [...smiley.clickedBy] : [smiley.clickedBy],
+          count: Array.isArray(smiley.clickedBy) ? smiley.clickedBy.length : 1,
+        });
+      }
     });
-
     return groupedSmileys;
-}
-
-
+  }
 
   toggleEmojiPicker(messageId: string): void {
     this.emojiPickerVisibility[messageId] = !this.emojiPickerVisibility[messageId];
   }
 
-
   isEmojiPickerVisible(messageId: string): boolean {
-    return !!this.emojiPickerVisibility[messageId]; 
+    return !!this.emojiPickerVisibility[messageId];
   }
 
   selectSmiley() {
-    this.emojiPickerVisible = !this.emojiPickerVisible; 
+    this.emojiPickerVisible = !this.emojiPickerVisible;
   }
-  
+
   addSmileyToGroup(smileyGroup: any, message: any) {
     const userIndex = smileyGroup.clickedBy.indexOf(this.loggedInUserName);
-
     if (userIndex === -1) {
-      
       smileyGroup.clickedBy.push(this.loggedInUserName);
-      smileyGroup.count++; 
+      smileyGroup.count++;
     } else {
-
       smileyGroup.clickedBy.splice(userIndex, 1);
       smileyGroup.count--;
     }
-  
-
   }
 
   addEmoji(event: any, messageId: string) {
@@ -665,10 +581,10 @@ cancelEdit(messageId: string) {
     this.emojiPickerVisible = false;
   }
 
-  
   isUserEqualToChatUser(chatUserName: string): boolean {
     return this.loggedInUserName === chatUserName;
-}
+  }
+
   onActivate(componentRef: any) {
     if (componentRef instanceof GroupAnswerComponent) {
       this.groupAnswerComponent = componentRef;
@@ -677,28 +593,19 @@ cancelEdit(messageId: string) {
   }
 
   getFormattedNames(clickedBy: string[]): string {
-    let clickedByCopy = [...clickedBy]; 
+    let clickedByCopy = [...clickedBy];
     const loggedInUserIndex = clickedByCopy.indexOf(this.loggedInUserName);
-
     if (loggedInUserIndex > -1) {
-        clickedByCopy.splice(loggedInUserIndex, 1);
-        clickedByCopy.push('Du');
+      clickedByCopy.splice(loggedInUserIndex, 1);
+      clickedByCopy.push('Du');
     }
-
     if (clickedByCopy.length === 1) {
-        return clickedByCopy[0] === 'Du' ? 'Du hast reagiert' : `${clickedByCopy[0]} hat reagiert`;
+      return clickedByCopy[0] === 'Du' ? 'Du hast reagiert' : `${clickedByCopy[0]} hat reagiert`;
     }
     if (clickedByCopy.length === 2) {
-        return `${clickedByCopy.join(' und ')} haben reagiert`;
+      return `${clickedByCopy.join(' und ')} haben reagiert`;
     }
-
     const lastUser = clickedByCopy.pop();
     return `${clickedByCopy.join(', ')} und ${lastUser} haben reagiert`;
+  }
 }
-
-
-
-
-}
-
-

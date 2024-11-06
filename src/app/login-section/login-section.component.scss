@@ -10,11 +10,12 @@
     font-size: 12px;
     padding-bottom: 8px;
     padding-top: 8px;
-  }
+}
 
 .login-container {
-  
+
     text-align: center;
+
     h1 {
         color: #444DF2;
         font-size: 36px;
@@ -29,11 +30,11 @@
     }
 }
 
-.d-none{
+.d-none {
     display: none;
 }
 
-.headline{
+.headline {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +46,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-   
 }
 
 .google-container {
@@ -73,7 +73,6 @@
     border: 2px solid transparent;
     border-radius: 25px;
     transition: border-color 0.3s ease;
-
 }
 
 .google-container button:hover {
@@ -92,19 +91,18 @@
 
 .google-icon:hover {
     cursor: pointer;
-
 }
 
 .hidden {
     display: none;
-  }
+}
 
-  .icon,
-  .icon-focus {
+.icon,
+.icon-focus {
     position: absolute;
-    left: 15%;  
-    transition: opacity 0.3s ease;  
-  }
+    left: 15%;
+    transition: opacity 0.3s ease;
+}
 
 .icon {
     position: absolute;
@@ -118,9 +116,7 @@
     left: 15.7%;
     background-color: #ECEEFE;
     transition: filter 0.3s ease;
-  }
-
-
+}
 
 input::placeholder {
     font-size: 16px;
@@ -134,6 +130,7 @@ input {
     transition: border-color 0.3s ease;
     border-radius: 25px;
     background-color: #ECEEFE;
+
     &:hover {
         cursor: pointer;
         border-color: black;
@@ -145,6 +142,7 @@ input {
         padding: 8px;
         font-size: 18px;
         color: #959AF6;
+
         &:hover {
             border-radius: 25px;
             font-weight: bold;
@@ -159,6 +157,7 @@ input {
     display: flex;
     justify-content: center;
     padding-bottom: 36px;
+
     span {
         font-size: 20px;
     }
@@ -191,7 +190,8 @@ input {
     background-color: #444DF2;
     color: white;
     border: none;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
         background-color: #797EF3;
     }
@@ -209,42 +209,44 @@ input {
     background-color: #fff;
     color: #444df2;
     transition: ease-in-out 125ms;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
         background-color: #444DF2;
         color: white;
     }
 }
 
-@media screen and (max-width:992px){
+@media screen and (max-width:992px) {
     input:not([type="checkbox"]) {
         width: 100% !important;
         padding-left: 37% !important;
     }
+
     .checkbox-container {
-        margin: 0!important;
-        width: 100%!important;
+        margin: 0 !important;
+        width: 100% !important;
     }
 
-    .google-container button{
+    .google-container button {
         width: 100%;
     }
 
-    .google-icon{
+    .google-icon {
         left: 27%;
     }
 
-    .right-line{
+    .right-line {
         width: 50%;
     }
 
-    .left-line{
+    .left-line {
         width: 50%;
     }
-    
+
     .error-message {
         margin: 0 !important;
-        width: 100%!important;
+        width: 100% !important;
     }
 
     .icon {
@@ -255,18 +257,20 @@ input {
         left: 27% !important;
 
     }
+
     h2 {
         margin: 0 !important;
         width: 100% !important;
         padding-bottom: 24px;
     }
 }
+
 @media screen and (max-width:650px) {
     input:not([type="checkbox"]) {
         padding-left: 22% !important;
     }
 
-    .google-icon{
+    .google-icon {
         left: 17%;
     }
 
@@ -276,41 +280,41 @@ input {
 
     .icon-focus {
         left: 10% !important;
-
     }
 
     h2 {
         font-size: 16px !important;
     }
 }
+
 @media screen and (max-width:500px) {
     h2 {
         font-size: 14px !important;
     }
 }
 
-@media screen and (max-width:450px){
-    .error-message{
+@media screen and (max-width:450px) {
+    .error-message {
         font-size: 10px;
     }
-    .google-icon{
+
+    .google-icon {
         left: 4%;
     }
 
-    .login{
+    .login {
         font-size: 18px;
     }
 
-    .login-button{
+    .login-button {
         gap: 10px;
     }
 
-    .guest-login{
+    .guest-login {
         padding: 12px 16px;
     }
 
-    .google-container button{
-      padding-left: 20px;
+    .google-container button {
+        padding-left: 20px;
     }
-    
 }

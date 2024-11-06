@@ -1,26 +1,22 @@
 <mat-card class="user-profile">
     <div class="profile-aot">
-        <span class="profile-txt" >Profil</span>
-        <img (click)="closeDialog()" class="close" [src]="imgSrc"
-        (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-        (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-        alt="">
+        <span class="profile-txt">Profil</span>
+        <img (click)="closeDialog()" class="close" [src]="imgSrc" (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
+            (mouseout)="imgSrc = 'assets/img/close_default.svg'" alt="">
     </div>
     <div class="avatar">
-        <img 
-        src="{{user.img}}" alt="">
+        <img src="{{user.img}}" alt="">
     </div>
     <div class="user-txt">
         <span>{{user.name}}</span>
         <span (click)="openDialog()">Bearbeiten</span>
-
     </div>
     <div class="status" [ngClass]="!userService.getUserStatus(user.id) ? 'offline' : 'online'">
         <div></div>
         @if (!userService.getUserStatus(user.id)) {
-            <span>Abwesend</span>
+        <span>Abwesend</span>
         } @else {
-            <span>Aktiv</span>
+        <span>Aktiv</span>
         }
     </div>
     <div class="email">

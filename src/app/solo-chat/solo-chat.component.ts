@@ -17,16 +17,16 @@ import { DialogProfileUserCenterComponent } from '../dialogs/dialog-profile-user
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { HttpClientModule } from '@angular/common/http';
 
-
 interface Chat {
   id: string;
   text: string;
-  timestamp: Timestamp | string; // oder string
+  timestamp: Timestamp | string; 
   formattedTimestamp?: string;
   time: string;
   userName: string;
   userImage: string;
   userId: string;
+  image: string;
   receivingUserId: string;
   isRead: boolean;
   smileys: { emoji: string; userNames: string[] }[];
@@ -67,11 +67,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     private firebaseService: FirebaseService,
     private route: ActivatedRoute,
     private dialogProfile: MatDialog,
-  ) {
-
-  }
-
-
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.initializeUserObservable();
@@ -80,7 +76,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.supportsTouch && window.innerWidth < 992) {
       this.isMobile = true;
     }
-
   }
 
   private initializeUserObservable(): void {
@@ -92,7 +87,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
         return of(undefined);
       })
     );
-
   }
 
   private handleUserSelection(userId: string | null): Observable<User | undefined> {
@@ -112,7 +106,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.loadUserData(userId).pipe(
       tap(user => {
         if (user) {
-          this.listenToChats(user.id); // Echtzeit-Chat-Listener starten
+          this.listenToChats(user.id);
         }
       })
     );
@@ -121,13 +115,12 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   async initializeLoggedInUser(): Promise<void> {
     try {
       const uid = await this.firebaseService.getCurrentUserUid();
-
       if (uid) {
-        this.loggedInUserId = uid;  // Benutzer-ID setzen
+        this.loggedInUserId = uid;
         await this.userService.loadUserById(uid);
         this.user = this.userService.getUser();
         if (this.user) {
-          this.loggedInUserName = this.user.name; // Benutzername setzen (falls verwendet)
+          this.loggedInUserName = this.user.name;
         }
       }
     } catch (error) {
@@ -169,14 +162,9 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const chatId = this.createChatId(this.loggedInUserId, userId);
     const messagesCollectionRef = collection(this.firestore, `chats/${chatId}/messages`);
-   
     this.chatListenerUnsubscribe = onSnapshot(messagesCollectionRef, (snapshot) => {
       if (!snapshot.empty) {
         const retrievedMessages = snapshot.docs.map(doc => doc.data());
-
-        console.log("Retrieved messages:", retrievedMessages);
-
-
         this.chats = this.formatMessages(retrievedMessages);
         const hasUnread = retrievedMessages.some(message => !message['isRead'] && message['receivingUserId'] === this.loggedInUserId);
         this.isChatBlinking = hasUnread;
@@ -187,13 +175,11 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }, (error) => {
     });
-  
   }
 
   createChatId(userId1: string, userId2: string): string {
     return [userId1, userId2].sort().join('_');
   }
-
 
   getUserIdFromUrl(): string | null {
     const userId = this.route.snapshot.params['id'];
@@ -205,44 +191,43 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   formatMessageTime(timestamp: any): string {
-    const date = timestamp.toDate(); // Konvertiere Firestore Timestamp zu JavaScript Date
+    const date = timestamp.toDate();
     return date.toLocaleTimeString('de-DE', {
-      hour: '2-digit',    // Stunde
-      minute: '2-digit',  // Minute
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }
 
   formatMessages(messages: any[]): Chat[] {
     const sortedMessages = messages.sort((a, b) => {
-        return a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime();
+      return a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime();
     });
 
     return sortedMessages.map(message => {
-        return {
-            ...message,
-            timestamp: this.formatTimestamp(message.timestamp), // Datum formatieren
-            time: this.formatMessageTime(message.timestamp),   // Zeit formatieren
-            isRead: message.isRead, // Status der Nachricht (gelesen/ungelesen)
-            userImage: message.userImage || '', // Überprüfen, ob userImage vorhanden ist
-            userId: message.userId, // Stelle sicher, dass userId auch übernommen wird
-            userName: message.userName // Übernehme auch den userName
-        } as Chat;
+      return {
+        ...message,
+        timestamp: this.formatTimestamp(message.timestamp),
+        time: this.formatMessageTime(message.timestamp),
+        isRead: message.isRead,
+        userImage: message.userImage || '',
+        userId: message.userId,
+        userName: message.userName
+      } as Chat;
     });
-}
-
+  }
 
   formatTimestamp(timestamp: any): string {
-    const date = timestamp.toDate(); // Konvertiere Firestore Timestamp zu JavaScript Date
+    const date = timestamp.toDate();
     const today = new Date();
 
     if (date.toDateString() === today.toDateString()) {
-      return 'Heute'; // Wenn Datum von heute ist
+      return 'Heute';
     } else {
-      return date.toLocaleDateString('de-DE', { // Formatierung für deutsches Datum
-        weekday: 'long',  // Wochentag
-        day: '2-digit',   // Tag
-        month: '2-digit', // Monat
-        year: 'numeric'   // Jahr
+      return date.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
       });
     }
   }
@@ -250,19 +235,15 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   async markMessagesAsRead(chatId: string, userId: string) {
     this.scrollToBottom();
     const messagesCollectionRef = collection(this.firestore, `chats/${chatId}/messages`);
-
     const snapshot = await getDocs(messagesCollectionRef);
     this.scrollToBottom();
-
     const batch = writeBatch(this.firestore);
-
     snapshot.docs.forEach((doc) => {
       const data = doc.data();
       if (data['receivingUserId'] === userId && !data['isRead']) {
         batch.update(doc.ref, { isRead: true });
       }
     });
-
     try {
       await batch.commit();
     } catch (error) {
@@ -281,7 +262,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       this.chatsSubscription.unsubscribe();
     }
     if (this.chatListenerUnsubscribe) {
-      this.chatListenerUnsubscribe(); // Listener entfernen
+      this.chatListenerUnsubscribe();
     }
   }
 
@@ -294,7 +275,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     const observer = new MutationObserver(() => {
       this.scrollToBottom();
     });
-
     observer.observe(this.scrollContainer.nativeElement, config);
   }
 
@@ -316,25 +296,24 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   openSmiley(chatIndex: number) {
-    const chat = this.chats[chatIndex]; // Hol das chat-Objekt anhand des Index
-
+    const chat = this.chats[chatIndex];
     if (!chat) {
       console.warn('Kein Chat gefunden für Index:', chatIndex);
-      return; // Beende die Methode, wenn kein Chat gefunden wird
+      return;
     }
 
     if (this.activeChatIndex === chatIndex) {
-      this.activeChatIndex = null; // Schließe den Picker
+      this.activeChatIndex = null;
     } else {
-      this.activeChatIndex = chatIndex; // Setze den aktiven Chat-Index
+      this.activeChatIndex = chatIndex;
     }
-    this.onChatClick(chat); // Rufe onChatClick mit dem Chat auf
+    this.onChatClick(chat);
   }
 
   addSmiley(event: any) {
     const selectedEmoji = event.emoji.native;
     if (this.messageId) {
-      const selectedChat = this.chats[this.activeChatIndex!]; // activeChatIndex muss gesetzt sein
+      const selectedChat = this.chats[this.activeChatIndex!];
       if (selectedChat) {
         this.saveSmiley(selectedEmoji, selectedChat, this.messageId);
       } else {
@@ -348,13 +327,11 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   saveSmiley(emoji: string, chat: Chat, messageId: string) {
     if (!this.validateUserAndMessageId()) return;
-
     const chatId = this.firebaseService.createChatId(chat.userId, chat.receivingUserId);
     if (!chatId) {
       console.warn('Ungültige Chat-ID.');
       return;
     }
-
     const messageDocRef = this.getMessageDocRef(chatId, messageId);
     if (!messageDocRef) {
       console.warn('Dokumentenreferenz konnte nicht gefunden werden.');
@@ -381,10 +358,8 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
   private processSmileyList(currentSmileys: any[], emoji: string): any[] {
     const userName = this.loggedInUserName;
     const smileyIndex = currentSmileys.findIndex(smiley => smiley.emoji === emoji);
-
     if (smileyIndex > -1) {
       const userIndex = currentSmileys[smileyIndex].userNames.indexOf(userName);
-
       if (userIndex > -1) {
         currentSmileys[smileyIndex].userNames.splice(userIndex, 1);
         if (currentSmileys[smileyIndex].userNames.length === 0) {
@@ -408,8 +383,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-
-
   private validateUserAndMessageId(): boolean {
     if (!this.user) {
       console.warn('User not available.');
@@ -425,7 +398,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   updateMessageWithSmiley(messageDocRef: DocumentReference, emoji: string) {
     updateDoc(messageDocRef, {
-      smileys: arrayUnion({ emoji, userNames: [this.user?.name] }) // Beispielstruktur
+      smileys: arrayUnion({ emoji, userNames: [this.user?.name] })
     })
       .then(() => {
       })
@@ -446,7 +419,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       this.checkMessageId(chatId, chat.text)
         .then(() => resolve())
         .catch(() => {
-          // Falls keine Message-ID gefunden, versuche mit umgekehrter Chat-ID
           const reverseChatId = this.firebaseService.createChatId(chat.receivingUserId, chat.userId);
           this.checkMessageId(reverseChatId, chat.text)
             .then(() => resolve())
@@ -454,12 +426,12 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     });
   }
-  // Funktion, um die messageId für einen Chat abzurufen
+
   private checkMessageId(chatId: string, chatText: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.fetchMessageId(chatId, chatText).then(() => {
         if (this.messageId) {
-          resolve(); // Erfolgreich gefunden
+          resolve();
         } else {
           console.warn('Keine messageId für den Text gefunden:', chatText);
           reject('messageId not found');
@@ -471,7 +443,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
   fetchMessageId(chatId: string, messageText: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const chatDocRef = doc(this.firestore, 'chats', chatId);
@@ -479,14 +450,11 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
         let found = false;
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          console.log('Vergleich:', data['text'], 'mit', messageText);
           if (data['text'].trim() === messageText.trim()) {
             this.messageId = doc.id;
             found = true;
-            console.log('Gefundene messageId:', this.messageId);
           }
         });
-
         if (found) {
           resolve();
         } else {
@@ -506,11 +474,10 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getActiveChat(): Chat | null {
     if (this.activeChatIndex === null || this.activeChatIndex < 0 || this.activeChatIndex >= this.chats.length) {
-      return null; // Rückgabe von null, wenn der Index ungültig ist
+      return null;
     }
-    return this.chats[this.activeChatIndex]; // Rückgabe des aktiven Chats
+    return this.chats[this.activeChatIndex];
   }
-
 
   isUserReacted(smiley: { emoji: string; userNames: string[] }): string {
     if (!smiley || !smiley.userNames) return '';
@@ -524,7 +491,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       return `${otherUsers.join(', ')} hat reagiert`;
     }
 
-    return ''; // Wenn niemand reagiert hat
+    return '';
   }
 
   async toggleSmiley(smiley: { emoji: string; userNames: string[] }, chat: Chat) {
@@ -532,7 +499,7 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       await this.onChatClick(chat);
       if (!this.messageId) {
         console.warn('Keine messageId gefunden, kann nicht speichern.');
-        return; // Abbrechen, wenn keine messageId vorhanden ist
+        return;
       }
       this.processSmileyUpdate(smiley, chat, this.messageId);
     } catch (error) {
@@ -540,7 +507,6 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // Funktion zur Verarbeitung der Smileys-Logik
   private processSmileyUpdate(smiley: { emoji: string; userNames: string[] }, chat: Chat, messageId: string) {
     const userName = this.getCurrentUserName();
     const smileyIndex = chat.smileys.findIndex(s => s.emoji === smiley.emoji);
@@ -549,22 +515,17 @@ export class SoloChatComponent implements OnInit, OnDestroy, AfterViewInit {
       const userNames = chat.smileys[smileyIndex].userNames;
       const userIndex = userNames.indexOf(userName);
       if (userIndex !== -1) {
-        userNames.splice(userIndex, 1); // Benutzer entfernt
+        userNames.splice(userIndex, 1);
       } else {
-        userNames.push(userName); // Benutzer hinzugefügt
+        userNames.push(userName);
       }
-      this.saveSmiley(smiley.emoji, chat, messageId); // Aktualisiere Smiley in Firebase
+      this.saveSmiley(smiley.emoji, chat, messageId);
     } else {
       console.warn('Kein passender Smiley gefunden, Smiley kann nicht aktualisiert werden.');
     }
   }
 
-
-
   getCurrentUserName(): string {
-    return this.currentUser ? this.currentUser.name : ''; // Gibt den Benutzernamen zurück oder einen leeren String
+    return this.currentUser ? this.currentUser.name : '';
   }
-
-
-
 }

@@ -18,7 +18,7 @@ import { FormsModule, NgModel } from '@angular/forms';
   templateUrl: './dialog-profile-user-edit.component.html',
   styleUrl: './dialog-profile-user-edit.component.scss'
 })
-export class DialogProfileUserEditComponent implements OnInit{
+export class DialogProfileUserEditComponent implements OnInit {
 
   imgSrc: string = "assets/img/close_default.svg";
   user: User = {
@@ -40,27 +40,24 @@ export class DialogProfileUserEditComponent implements OnInit{
   userID: string = "";
   emailInvalid = false;
 
-  constructor( 
+  constructor(
     public dialog: MatDialogRef<DialogProfileUserEditComponent>,
     private fire: FirebaseService,
     public userService: UserService,
-  ) {    
+  ) {
   }
 
-
-  closeDialog(){
+  closeDialog() {
     this.dialog.close();
   }
 
   async ngOnInit(): Promise<void> {
     try {
-      
       const uid = await this.fire.getCurrentUserUid();
       if (uid) {
-        
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
-        if(user){
+        if (user) {
           this.user = user;
           this.userID = uid
         }
@@ -72,34 +69,33 @@ export class DialogProfileUserEditComponent implements OnInit{
 
   async saveData() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     const isEmailValid = this.email.length > 0 ? emailPattern.test(this.email) : true;
 
     if ((this.email.length > 0 && isEmailValid) || this.name.length > 0) {
-        if (this.userID) {
-            await this.fire.updateUserData(this.userID, this.name, this.email);
-        }
-      } else {
-        console.error('Invalid email format');
+      if (this.userID) {
+        await this.fire.updateUserData(this.userID, this.name, this.email);
       }
+    } else {
+      console.error('Invalid email format');
+    }
     this.dialog.close();
-}
-
-checkEmailName(){
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const isEmailValid = this.email.length > 0 ? emailPattern.test(this.email) : true;
-
-  if (this.email.length > 0 && isEmailValid) {
-    this.emailInvalid = false;
   }
-  else{
-    this.emailInvalid = true;
-  }
-}
 
-markAsTouched(control: NgModel) {
-  control.control.markAsTouched(); // Mark the control as touched
-  control.control.updateValueAndValidity(); // Update the validity state
-}
+  checkEmailName() {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = this.email.length > 0 ? emailPattern.test(this.email) : true;
+
+    if (this.email.length > 0 && isEmailValid) {
+      this.emailInvalid = false;
+    }
+    else {
+      this.emailInvalid = true;
+    }
+  }
+
+  markAsTouched(control: NgModel) {
+    control.control.markAsTouched();
+    control.control.updateValueAndValidity();
+  }
 
 }

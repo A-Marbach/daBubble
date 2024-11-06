@@ -22,16 +22,16 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [MatSidenavModule, CommonModule, HeaderComponent, GroupChatComponent, RouterModule, RouterLink, HttpClientModule, SearchBarComponent],
   templateUrl: './devspace.component.html',
-  styleUrls: ['./devspace.component.scss'] 
+  styleUrls: ['./devspace.component.scss']
 })
-export class DevspaceComponent implements OnInit{
+export class DevspaceComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
   users$: Observable<any[]> | null = null;
   channels$: Observable<any[]>;
   channelsIqbal: Channel[] = [];
   messages: any[] = [];
   selectedChatId: string | null = null;
-  currentUser: User= {
+  currentUser: User = {
     name: '',
     email: 'Test@gmx.de',
     id: '',
@@ -58,8 +58,8 @@ export class DevspaceComponent implements OnInit{
   showGroupChat = true;
   imgSrc = ['assets/GroupClose.svg', 'assets/Hide-navigation.svg'];
   imgEdit = 'assets/edit_square.svg'
-  imgAdd='assets/img/add_circle.svg'
-  imgAdd2='assets/img/add.svg'
+  imgAdd = 'assets/img/add_circle.svg'
+  imgAdd2 = 'assets/img/add.svg'
   imgDropDown = "assets/arrow_drop_down.svg";
   imgDropDownRight = "assets/arrow_drop_down-right.svg";
   imgDropDown2 = "assets/arrow_drop_down.svg";
@@ -67,11 +67,9 @@ export class DevspaceComponent implements OnInit{
   imgAccountCircle = "assets/account_circle.svg";
   imgAccountCircle2 = "assets/account_circle.svg";
   imgSendMsgBttn = "assets/sendMessage_default.svg";
-
-  selectedUserId: string | null = null; 
+  selectedUserId: string | null = null;
   userStatus: { [key: string]: boolean } = {};
   userStatusFetched: { [userId: string]: boolean } = {};
-
   screenWidth: number;
   supportsTouch: boolean = false;
   @Output() isMobile: EventEmitter<void> = new EventEmitter<void>();
@@ -84,8 +82,7 @@ export class DevspaceComponent implements OnInit{
     public userServes: UserService,
     private firebaseService: FirebaseService,
     private userService: UserService,
-    private dialog: MatDialog,
-  ) {
+    private dialog: MatDialog,) {
     this.screenWidth = window.innerWidth;
     const fireChannels = collection(this.firestore, 'channels');
     this.channels$ = collectionData(fireChannels).pipe(
@@ -97,10 +94,10 @@ export class DevspaceComponent implements OnInit{
 
   async getUsers$(): Promise<void> {
     const fireUsers = collection(this.firestore, 'users');
-    this.users$ =  collectionData(fireUsers).pipe(
+    this.users$ = collectionData(fireUsers).pipe(
       map(users => {
         return users.sort((a, b) => {
-          if (a['name'] === this.loggedInUserName) return -1; 
+          if (a['name'] === this.loggedInUserName) return -1;
           if (b['name'] === this.loggedInUserName) return 1;
           return a['name'].toLowerCase().localeCompare(b['name'].toLowerCase());
         });
@@ -108,13 +105,13 @@ export class DevspaceComponent implements OnInit{
     );
   }
 
-  async ngOnInit(): Promise<void>{
+  async ngOnInit(): Promise<void> {
     await this.getUsers$();
     await this.getActiveUser();
     this.getCurrentUserChannels();
     this.screenWidth = window.innerWidth;
     this.supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if(window.innerWidth <= 992){
+    if (window.innerWidth <= 992) {
       this.isMobile.emit();
     }
   }
@@ -123,12 +120,12 @@ export class DevspaceComponent implements OnInit{
   onResize(event: Event): void {
     this.screenWidth = window.innerWidth;
     this.supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if(window.innerWidth <= 992){
+    if (window.innerWidth <= 992) {
       this.isMobile.emit();
       this.isDavspaceVisible = true;
     }
   }
-  
+
   async loggedInUser() {
     try {
       const uid = await this.firebaseService.getCurrentUserUid();
@@ -136,7 +133,7 @@ export class DevspaceComponent implements OnInit{
         await this.userService.loadUserById(uid);
         this.user = this.userService.getUser();
         if (this.user) {
-          this.loggedInUserName = this.user.name; 
+          this.loggedInUserName = this.user.name;
         }
       }
     } catch (error) {
@@ -149,12 +146,12 @@ export class DevspaceComponent implements OnInit{
   }
 
   closeDirectMessages() {
-    if(!this.openChats){
+    if (!this.openChats) {
       this.openChats = !this.openChats;
       setTimeout(() => {
         this.openEmployees = !this.openEmployees;
       }, 225);
-    } else{
+    } else {
       setTimeout(() => {
         this.openEmployees = !this.openEmployees;
       }, 125);
@@ -163,12 +160,12 @@ export class DevspaceComponent implements OnInit{
   }
 
   closeChannels() {
-    if(!this.closedChannel){
+    if (!this.closedChannel) {
       this.closedChannel = !this.closedChannel;
       setTimeout(() => {
         this.openChannels = !this.openChannels;
       }, 225);
-    } else{
+    } else {
       setTimeout(() => {
         this.openChannels = !this.openChannels;
       }, 125);
@@ -195,9 +192,9 @@ export class DevspaceComponent implements OnInit{
 
   selectUser(userId: string): void {
     this.selectedUserId = userId;
-    this.userService.setSelectedUserId(userId); 
+    this.userService.setSelectedUserId(userId);
     this.router.navigate(['/main/chat', userId]);
-    if(window.innerWidth <= 992){
+    if (window.innerWidth <= 992) {
       this.navigateToDirectChat.emit();
     }
     this.selectedChannelId = null;
@@ -207,8 +204,8 @@ export class DevspaceComponent implements OnInit{
 
   selectChannel(channel: any) {
     this.selectedChannelId = channel.id;
-    this.userServes.setSelectedChannelName(channel.name); 
-    this.openGroupChat(channel); 
+    this.userServes.setSelectedChannelName(channel.name);
+    this.openGroupChat(channel);
     this.selectedUserId = null;
     this.userService.showGroupAnswer = false;
   }
@@ -225,14 +222,14 @@ export class DevspaceComponent implements OnInit{
     });
   }
 
-  createChannel(){
+  createChannel() {
     this.openDialog();
   }
 
   navigateRouteChannel(id: string) {
-    if(id){
+    if (id) {
       this.router.navigate(['/main/group-chat', id]);
-      if(window.innerWidth <= 992){
+      if (window.innerWidth <= 992) {
         this.navigateToChannel.emit();
       }
     }
@@ -240,44 +237,44 @@ export class DevspaceComponent implements OnInit{
 
   navigateRouteToNewMessage() {
     this.router.navigate(['/main/new-message']);
-    if(window.innerWidth <= 992){
+    if (window.innerWidth <= 992) {
       this.navigateToNewMessage.emit();
     }
   }
 
   loadUsers() {
-    const usersRef = this.firebaseService.getUsersRef();  
+    const usersRef = this.firebaseService.getUsersRef();
     collectionData(usersRef).subscribe((users: DocumentData[]) => {
       users.forEach(user => {
-   
+
       });
     });
   }
 
-  async getActiveUser(){
+  async getActiveUser() {
     try {
       const uid = await this.firebaseService.getCurrentUserUid();
       if (uid) {
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
-        if(user){
+        if (user) {
           this.currentUser = new User(user);
-        }    
+        }
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Benutzerdaten:', error);
     }
   }
 
-  getCurrentUserChannels(){
-    try{
+  getCurrentUserChannels() {
+    try {
       if (this.currentUser) {
         this.firebaseService.getUserChannelsById(this.currentUser.id).subscribe((userDoc) => {
-          if(userDoc){
+          if (userDoc) {
             const userData = userDoc;
             if (userData && userData.channels) {
               this.currentUser.channels = userData.channels;
-    
+
               this.firebaseService.getChannels().subscribe((channels) => {
                 this.currentUserChannels = channels.filter(channel => {
                   const channelId = channel['id'];
@@ -286,11 +283,10 @@ export class DevspaceComponent implements OnInit{
               });
             }
           }
-          })
-        }
-       } catch(error){
-          console.error('Fehler beim Laden der Channels vom CurrentUser', error)
-        }
+        })
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden der Channels vom CurrentUser', error)
+    }
   }
-  
 }

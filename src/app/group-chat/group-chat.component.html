@@ -1,5 +1,4 @@
 <div *ngIf="!isMobile" class="all">
-
     <div class="chat-group" [ngStyle]="threadOpen ? {'display': 'none'} : {}">
         <div class="chat-header-group">
             <div (click)="openChannelInfo()" class="name"
@@ -10,7 +9,6 @@
                     <h2>Lädt...</h2>
                 </ng-template>
                 <img [src]="imgKeyboard" alt="">
-
             </div>
             <div class="persons-group" *ngIf="filteredChannels$ | async as channels; else loading">
                 <div [ngStyle]="
@@ -26,16 +24,13 @@
                         <img src="{{userImage}}" alt="">
                         }
                     </div>
-
                     <div>{{ channel.users?.length }}</div>
                 </div>
-
                 <div (click)="openDialogAddMember()" class="invite-people">
                     <img (mouseover)="changeImageAddContat(true)" (mouseout)="changeImageAddContat(false)"
                         [src]="imgSrc[2]" alt="">
                 </div>
             </div>
-
             <ng-template #loading>
                 <p>Lade Kanäle...</p>
             </ng-template>
@@ -59,10 +54,8 @@
                                         <h2>{{ message.userName }}</h2>
                                         <p>{{ message.time }} Uhr</p>
                                     </div>
-
                                     <img *ngIf="message.image" [src]="message.image" alt="Nachricht Bild"
                                         class="message-image" (click)="openImageModal(message.image)">
-
                                     <div class="modal" *ngIf="isImageModalOpen" (click)="closeImageModal()">
                                         <div class="modal-content">
                                             <img [src]="selectedImageForModal" alt="Vergrößertes Bild"
@@ -70,23 +63,16 @@
                                         </div>
                                     </div>
                                     @if (message.text) {
-                                        <span *ngIf="!isEditing[message.id]">{{ message.text }}</span>
+                                    <span *ngIf="!isEditing[message.id]">{{ message.text }}</span>
                                     }
-
                                     <div *ngIf="isEditing[message.id]" class="input-completely">
-                                        <!-- Input-Feld für die Bearbeitung -->
                                         <input [(ngModel)]="message.text" />
-                                    
-                                        <!-- Container für die Buttons -->
                                         <div class="save-and-cancel">
-                                            <!-- Abbrechen-Button -->
-                                            <button (click)="cancelEdit(message.id)" class="cancelEdit">Abbrechen</button>
-                                    
-                                            <!-- Speichern-Button -->
+                                            <button (click)="cancelEdit(message.id)"
+                                                class="cancelEdit">Abbrechen</button>
                                             <button (click)="saveText(message.id)" class="saveEdit">Speichern</button>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="smiley-div">
                                     <div *ngFor="let smileyGroup of groupSmileys(message.smileys || [])" class="smiles">
@@ -96,7 +82,6 @@
                                         <div class="hover-smiles">
                                             <p>{{ smileyGroup.smiley }}</p>
                                             <p>{{ getFormattedNames(smileyGroup.clickedBy) }}</p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -133,26 +118,20 @@
                                 <div class="smiley-div edit"><img *ngIf="message.userName === loggedInUserName"
                                         (mouseover)="changeImageMoreVert(true)" (mouseout)="changeImageMoreVert(false)"
                                         [src]="imgSrc[3]" (click)="editText(message.id)" alt="">
-                                    <div class="edit-text" (click)="editText(message.id)" *ngIf="message.userName === loggedInUserName">
+                                    <div class="edit-text" (click)="editText(message.id)"
+                                        *ngIf="message.userName === loggedInUserName">
                                         <p>Nachricht bearbeiten</p>
-
                                     </div>
                                 </div>
-
                             </div>
-
-
                         </div>
-
                     </div>
                 </div>
             </div>
             <div #scrollAnchor></div>
             <app-chat (sendChatMessage)="observeGroupChat()"></app-chat>
         </div>
-
     </div>
-
     <div [ngClass]="threadOpen ? 'group-answer': ''">
         <router-outlet (activate)="onActivate($event)"></router-outlet>
     </div>

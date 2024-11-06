@@ -19,8 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './dialog-profile-mobile-menu.component.html',
   styleUrl: './dialog-profile-mobile-menu.component.scss'
 })
-export class DialogProfileMobileMenuComponent implements OnInit{
-
+export class DialogProfileMobileMenuComponent implements OnInit {
   currentUser: User = {
     name: '',
     email: 'Test@gmx.de',
@@ -36,28 +35,19 @@ export class DialogProfileMobileMenuComponent implements OnInit{
     }
   };
   @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
-
-
   openMenu: boolean = false;
-
-  constructor( 
+  constructor(
     public dialogUser: MatDialog,
     private firebaseservice: FirebaseService,
     private userService: UserService,
-    private router: Router,
-
-  ) {  
-
+    private router: Router) {
   }
 
-  async ngOnInit(){
+  async ngOnInit() {
     await this.getActiveUser();
-
-  
   }
 
-  openDialog(){
-
+  openDialog() {
     this.closeMenu.emit()
     let dialogRef = this.dialogUser.open(DialogProfileUserComponent, {
       panelClass: 'mobile-profile',
@@ -70,34 +60,29 @@ export class DialogProfileMobileMenuComponent implements OnInit{
         user: this.currentUser,
         status: this.userService.getUserStatus(this.currentUser.id)
       }
-
     });
   }
 
-  async getActiveUser(){
+  async getActiveUser() {
     try {
-
       const uid = await this.firebaseservice.getCurrentUserUid();
       if (uid) {
-       
         await this.userService.loadUserById(uid);
         const user = this.userService.getUser();
-        if(user){
+        if (user) {
           this.currentUser = new User(user);
         }
-      
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Benutzerdaten:', error);
     }
   }
 
-  close(){
+  close() {
     this.closeMenu.emit()
   }
 
-
-  logOut(){
+  logOut() {
     this.router.navigate(['/login']);
     this.close();
   }

@@ -1,108 +1,116 @@
 @import './../../../mixins.scss';
 
-.user-profile{
+.user-profile {
     padding: 30px 25px 30px 25px;
     height: 100%;
-
-   
 }
-.profile-aot{
+
+.profile-aot {
     @include d-flex($jc: space-between);
     margin-bottom: 15px;
-    
-    span{
+
+    span {
         font-weight: bold;
         font-size: 16px;
     }
-    img{
+
+    img {
         width: 30px;
         height: 30px;
         cursor: pointer;
     }
 }
 
-.avatar{
+.avatar {
     display: flex;
     justify-content: center;
     margin-bottom: 40px;
-    img{
+
+    img {
         width: 125px;
         height: 125px;
         border-radius: 100%;
     }
 }
 
-.user-txt{
+.user-txt {
     @include d-flex($jc: space-between);
     margin-bottom: 20px;
 
-    span{
-        &:first-child{
+    span {
+        &:first-child {
             font-size: 24px;
             font-weight: bold;
         }
-        &:last-child{
+
+        &:last-child {
             font-size: 12px;
             color: #535AF1;
             cursor: pointer;
 
-            &:hover{
+            &:hover {
                 font-weight: bold;
             }
         }
     }
 }
 
-.status{
+.status {
     @include d-flex($jc: flex-start);
     margin-bottom: 25px;
-    div{
+
+    div {
         background-color: #92C83E;
         border-radius: 100%;
         width: 10px;
         height: 10px;
         margin-right: 10px;
     }
-    span{
+
+    span {
         color: #92C83E;
     }
 }
 
-
-.online{
-    div{
+.online {
+    div {
         background-color: #92C83E;
     }
-    span{
+
+    span {
         color: #92C83E;
     }
 }
 
-.offline{
-    div{
+.offline {
+    div {
         background-color: #686868;
     }
-    span{
+
+    span {
         color: #686868;
     }
 }
 
-.email{
+.email {
     @include d-flex($jc: flex-start, $dir: row, $ai: flex-start);
-    img{
+
+    img {
         @include widthHeight($w: 18px, $h: 15px);
         margin-right: 14px;
         margin-top: 4px;
     }
 
-    div{
+    div {
         @include d-flex($dir: column, $ai: flex-start);
-        span{
-            &:first-child{
+
+        span {
+            &:first-child {
                 margin-bottom: 10px;
                 font-weight: bold;
             }
-            &:last-child{
+
+            &:last-child {
                 color: #1381FF;
             }
         }
@@ -113,69 +121,74 @@
     box-shadow: none !important;
     --mdc-dialog-container-shape: 30px 0px 30px 30px;
 
-    @media(width < 992px){
-    --mdc-dialog-container-shape: 30px;
+    @media(width < 992px) {
+        --mdc-dialog-container-shape: 30px;
     }
-  }
+}
 
-  ::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
     max-width: none;
     width: 350px;
     height: 400px;
-    @media(width >= 992px){
+
+    @media(width >=992px) {
         position: absolute !important;
         top: 90px;
         right: 15px;
     }
-    @media(width < 992px){
+
+    @media(width < 992px) {
         width: calc(100% - 20px);
         height: calc(100% - 40px);
     }
 }
 
-
-
-  @media(width < 992px){
-    .user-txt{
+@media(width < 992px) {
+    .user-txt {
         margin-bottom: 30px;
-        span{
-            &:first-child{
+
+        span {
+            &:first-child {
                 font-size: 36px;
             }
         }
     }
 
-    .status{
+    .status {
         margin-bottom: 40px;
-        div{
+
+        div {
             width: 20px;
             height: 20px;
             margin-right: 15px;
         }
-        span{
+
+        span {
             font-size: 20px;
         }
     }
 
-    .email{
+    .email {
         gap: 10px;
-        img{
+
+        img {
             @include widthHeight($w: 30px, $h: 30px);
             margin-top: -2px;
         }
-    
-        div{
+
+        div {
             font-size: 20px;
             gap: 10px;
         }
     }
 
-    .profile-aot{
-        
-        span{
+    .profile-aot {
+
+        span {
             font-size: 24px;
         }
-        img{
+
+        img {
             width: 40px;
             height: 40px;
         }
@@ -183,9 +196,10 @@
         margin-bottom: 50px;
     }
 
-    .avatar{
+    .avatar {
         margin-bottom: 60px;
-        img{
+
+        img {
             width: 180px;
             height: 180px;
         }

@@ -10,7 +10,6 @@ import { DialogProfileUserCenterComponent } from '../../dialog-profile-user-cent
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../services/user.service';
 
-
 @Component({
   selector: 'app-dialog-channel-members',
   standalone: true,
@@ -22,7 +21,6 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './dialog-channel-members.component.scss'
 })
 export class DialogChannelMembersComponent{
-
   imgSrc: string = "assets/img/close_default.svg";
   imgSrcAdd: string = "assets/person_add_default.svg";
   allUsers: User[] = [];
@@ -43,25 +41,21 @@ export class DialogChannelMembersComponent{
     this.channelID = data.channelID;
     this.fire.getChannels().subscribe((channels) => {
       const channel = channels.find(c => c['id'] === this.channelID);
-      
       if (channel && channel['users']) {
         const userIDs = channel['users'];
         const userPromises = userIDs.map((userID: string) =>{
           return this.fire.getUserById(userID);
         })
-
         Promise.all(userPromises).then(users => {
           this.allUsers = users.filter(user => user !== null) as User[];
         }).catch(error => {
           console.error('error fetching users', error)
         })
-        
       } else {
         console.error('No users found in this channel or channel not found.');
       }
     });
   }
-
 
   closeDialog(){
     this.dialog.close();
@@ -78,8 +72,6 @@ export class DialogChannelMembersComponent{
         channelID: this.channelID,
       },
       autoFocus: false,
-
-
     });
   }
   openDialogMemberProfile(user: User){
@@ -93,9 +85,6 @@ export class DialogChannelMembersComponent{
         user: user,
         status: this.userService.getUserStatus(user.id)
       }
-
     });
   }
-
-
 }

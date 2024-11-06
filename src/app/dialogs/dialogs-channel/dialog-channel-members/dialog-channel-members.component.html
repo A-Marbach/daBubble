@@ -1,35 +1,30 @@
 <mat-card class="user-profile">
     <div class="profile-aot">
-        <span class="profile-txt" >Mitglieder</span>
-        <img (click)="closeDialog()" class="close" [src]="imgSrc"
-        (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
-        (mouseout)="imgSrc = 'assets/img/close_default.svg'" 
-        alt="">
+        <span class="profile-txt">Mitglieder</span>
+        <img (click)="closeDialog()" class="close" [src]="imgSrc" (mouseover)="imgSrc = 'assets/img/close_hover.svg'"
+            (mouseout)="imgSrc = 'assets/img/close_default.svg'" alt="">
     </div>
     <div class="member-list-container">
         <div class="member-list">
             @for (user of allUsers; track user.id) {
-                <div (click)="openDialogMemberProfile(user)" class="member">
-                    <div class="image">
-                        <img src="{{user.img}}" alt="">
-                        <div class="online-status"></div>
-                        <div class="online-status" [ngClass]="!userService.getUserStatus(user.id) ? 'offline' : 'online'"></div>
+            <div (click)="openDialogMemberProfile(user)" class="member">
+                <div class="image">
+                    <img src="{{user.img}}" alt="">
+                    <div class="online-status"></div>
+                    <div class="online-status" [ngClass]="!userService.getUserStatus(user.id) ? 'offline' : 'online'">
                     </div>
-                    <span>{{user.name}}</span>
                 </div>
+                <span>{{user.name}}</span>
+            </div>
             }
-    
         </div>
     </div>
     <div *ngIf="!hideButton" (click)="openDialogAddMember()" class="add-member"
-    (mouseover)="imgSrcAdd = 'assets/person_add_hover.svg'"
-    (mouseout)="imgSrcAdd = 'assets/person_add_default.svg'">
+        (mouseover)="imgSrcAdd = 'assets/person_add_hover.svg'"
+        (mouseout)="imgSrcAdd = 'assets/person_add_default.svg'">
         <div class="add-image">
-            <img 
-            [src]="imgSrcAdd"
-             alt="">
+            <img [src]="imgSrcAdd" alt="">
         </div>
         <span>Mitglieder hinzufügen</span>
     </div>
-    
 </mat-card>

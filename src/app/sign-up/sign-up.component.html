@@ -19,9 +19,8 @@
       <img class="icon" src="assets/img/mail.svg" alt="" [class.hidden]="isEmailFocused">
       <img class="icon-focus" src="assets/img/mail-dark.png" alt="" [class.hidden]="!isEmailFocused">
       <input [(ngModel)]="user.email" name="email" type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-        [placeholder]="isEmailFocused ? '' : 'beispielname@email.com'" required  (focus)="setFocus('email')"
-        (blur)="onBlur('email', user.email)"
-        #emailInput="ngModel" />
+        [placeholder]="isEmailFocused ? '' : 'beispielname@email.com'" required (focus)="setFocus('email')"
+        (blur)="onBlur('email', user.email)" #emailInput="ngModel" />
     </div>
     <div [ngStyle]="{'opacity': emailInput.invalid && emailInput.touched ? '1' : '0'}" class="error-message">
       *Diese E-Mail-Adresse ist leider ungültig.
@@ -34,9 +33,7 @@
       <img class="icon-focus" src="assets/img/lock-dark.png" alt="" [class.hidden]="!isPasswordFocused">
       <input [(ngModel)]="user.password" name="password" type="password" minlength="8"
         [placeholder]=" isPasswordFocused ? '' : 'Passwort'" required (focus)="setFocus('password')"
-        (blur)="onBlur('password', user.password)"
-        #passwordInput="ngModel" />
-
+        (blur)="onBlur('password', user.password)" #passwordInput="ngModel" />
     </div>
     <div [ngStyle]="{'opacity': passwordInput.invalid &&  passwordInput.touched ? '1' : '0'}" class="error-message">
       Bitte geben Sie ein Passwort ein. (8 Zeichen)
@@ -46,7 +43,6 @@
         #privacyInput="ngModel" />
       <label for="checkbox">Ich stimme der <span [routerLink]="['/data-protection']"
           class="apolicy">Datenschutzerklärung</span> zu.</label>
-
     </div>
     <div [ngStyle]="{'opacity': privacyInput.invalid && (privacyInput.dirty || privacyInput.touched) ? '1' : '0'}"
       class="error-message">
@@ -56,5 +52,4 @@
       Weiter
     </button>
   </form>
-
 </div>
