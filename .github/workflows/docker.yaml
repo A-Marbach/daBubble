@@ -37,4 +37,4 @@ jobs:
            docker build -t da-bubble:latest . && \
            docker stop da-bubble || true && \
            docker rm da-bubble || true && \
-           docker run -d -p 3002:3002 --name da-bubble da-bubble:latest"
+           docker run -d -p 3002:3002 --name da-bubble da-bubble:latest
