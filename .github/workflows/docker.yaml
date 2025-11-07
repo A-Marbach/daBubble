@@ -48,7 +48,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
             docker pull ghcr.io/a-marbach/da-bubble:latest
