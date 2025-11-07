@@ -48,10 +48,11 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
             docker pull ghcr.io/a-marbach/da-bubble:latest
             docker stop da-bubble || true
             docker rm da-bubble || true
-            docker run -d -p 3002:80 --restart unless-stopped --name da-bubble ghcr.io/a-marbach/da-bubble:latest
+            docker run -d -p 3001:80 --restart unless-stopped --name da-bubble ghcr.io/a-marbach/da-bubble:latest
             docker image prune -f
