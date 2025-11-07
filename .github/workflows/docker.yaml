@@ -1,4 +1,4 @@
-name: CI/CD daBubble
+name: Deploy daBubble with GHCR
 
 on:
   push:
@@ -7,36 +7,52 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # 2️⃣ Login to GHCR
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
-          node-version: '20'
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
 
-      - name: Install dependencies
-        run: npm install
+      # 3️⃣ Build and push image
+      - name: Build and push daBubble image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/a-marbach/da-bubble:latest
+            ghcr.io/a-marbach/da-bubble:${{ github.sha }}
 
-
+      # 4️⃣ SSH key setup
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-      - name: Deploy to VM via SSH
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+      # 5️⃣ Deploy on VM
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
             set -e
-            mkdir -p /home/amarbach/da-bubble
-            cd /home/amarbach/da-bubble
+            docker pull ghcr.io/a-marbach/da-bubble:latest
             docker stop da-bubble || true
             docker rm da-bubble || true
-            docker build -t da-bubble:latest .
-            docker run -d -p 3002:3002 --name da-bubble da-bubble:latest
-          EOF
+            docker run -d -p 3002:80 --restart unless-stopped --name da-bubble ghcr.io/a-marbach/da-bubble:latest
+            docker image prune -f
