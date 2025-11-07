@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy to VM via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/server/id_ed25519 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
            mkdir -p /home/amarbach/da-bubble && \
            cd /home/amarbach/da-bubble && \
            docker build -t da-bubble:latest . && \
