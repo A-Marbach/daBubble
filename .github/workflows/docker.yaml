@@ -11,36 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Repository auschecken
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Node.js Setup
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # 3️⃣ Abhängigkeiten installieren
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Docker Image bauen
-      - name: Build Docker image
-        run: docker build -t da-bubble:latest .
 
-      # 5️⃣ SSH Schlüssel einrichten
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # 6️⃣ Container auf der VM deployen
-      - name: Deploy to VM
+      - name: Deploy to VM via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            docker stop da-bubble || true
-            docker rm da-bubble || true
-            docker run -d -p 3001:80 --name da-bubble da-bubble:latest
-          EOF
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          "cd /home/amarbach/da-bubble && \
+           docker build -t da-bubble:latest . && \
+           docker stop elpollo || true && \
+           docker rm elpollo || true && \
+           docker run -d -p 3002:3002 --name da-bubble da-bubble:latest"
