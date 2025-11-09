@@ -1,3 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: da-bubble
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: da-bubble
+  template:
+    metadata:
+      labels:
+        app: da-bubble
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+      - name: da-bubble
+        image: ghcr.io/a-marbach/da-bubble:latest
+        ports:
+        - containerPort: 80
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,4 +32,4 @@ spec:
     - protocol: TCP
       port: 80        # Port im Cluster
       targetPort: 80  # Port im Container
-      nodePort: 30080 # Port, auf dem Minikube zugänglich ist
+      nodePort: 30080 # Externer Port für Minikube
