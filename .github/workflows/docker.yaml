@@ -27,7 +27,7 @@ jobs:
 
       # 4️⃣ Run Angular tests
       - name: Run Angular tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless --no-sandbox
+        run: npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox
 
 
       # 2️⃣ Login to GHCR
