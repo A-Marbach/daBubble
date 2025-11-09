@@ -1,3 +1,79 @@
+# name: Deploy daBubble with GHCR
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+
+#       # 2️⃣ Node.js setup
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 20
+
+#       # 3️⃣ Install dependencies
+#       - name: Install dependencies
+#         run: npm ci
+
+#       # 4️⃣ Run Angular tests
+#       - name: Run Angular tests
+#         run: npm run test -- --watch=false --browsers=ChromeHeadlessNoSandmannbox
+
+        
+#       # 2️⃣ Login to GHCR
+#       - name: Login to GHCR
+#         uses: docker/login-action@v3
+#         with:
+#           registry: ghcr.io
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.GHCR_PAT }}
+
+#       # 3️⃣ Build and push image
+#       - name: Build and push daBubble image
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: .
+#           file: ./Dockerfile
+#           push: true
+#           tags: |
+#             ghcr.io/a-marbach/da-bubble:latest
+#             ghcr.io/a-marbach/da-bubble:${{ github.sha }}
+
+#       # 4️⃣ SSH key setup
+#       - name: Setup SSH key
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+#           chmod 600 ~/.ssh/id_ed25519
+
+#       # 5️⃣ Deploy on VM
+#       - name: Deploy via SSH
+#         uses: appleboy/ssh-action@v1.2.2
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           key: ${{ secrets.SSH_KEY }}
+#           port: ${{ secrets.SSH_PORT }}
+#           script: |
+#             set -e
+#             docker pull ghcr.io/a-marbach/da-bubble:latest
+#             docker stop da-bubble || true
+#             docker rm da-bubble || true
+#             docker run -d -p 3001:80 --restart unless-stopped --name da-bubble ghcr.io/a-marbach/da-bubble:latest
+#             docker image prune -f
+
+
+
 name: Deploy daBubble with GHCR
 
 on:
@@ -7,30 +83,52 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
+    outputs:
+      image_tag: ${{ steps.meta.outputs.image_tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
-      # 2️⃣ Node.js setup
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: 'npm' # ✅ NPM Cache aktivieren
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run Angular tests
+      - name: Build Angular project
+        run: npm run build --if-present
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm' # ✅ Cache auch hier aktivieren
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run Angular tests
         run: npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox
 
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # 2️⃣ Login to GHCR
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -38,8 +136,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
-      # 3️⃣ Build and push image
-      - name: Build and push daBubble image
+      # ✅ Docker Build Cache aktivieren
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push daBubble image (with cache)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -48,15 +149,19 @@ jobs:
           tags: |
             ghcr.io/a-marbach/da-bubble:latest
             ghcr.io/a-marbach/da-bubble:${{ github.sha }}
+          cache-from: type=gha   # ✅ nutzt vorherige Layer
+          cache-to: type=gha,mode=max  # ✅ speichert Cache wieder
 
-      # 4️⃣ SSH key setup
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-      # 5️⃣ Deploy on VM
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.2
         with:
