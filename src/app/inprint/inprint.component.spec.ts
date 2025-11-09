@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { InprintComponent } from './inprint.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('InprintComponent', () => {
   let component: InprintComponent;
@@ -8,10 +9,18 @@ describe('InprintComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InprintComponent]
-    })
-    .compileComponents();
-    
+      imports: [InprintComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}), // Mock für params Observable
+            snapshot: { paramMap: { get: () => null } } // falls snapshot genutzt wird
+          }
+        }
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(InprintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

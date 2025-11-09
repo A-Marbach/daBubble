@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, SplashScreenComponent, RouterOutlet, MatCardModule, RouterLink, MainComponent, GroupChatComponent, HttpClientModule, AppComponent, RouterModule],
+  imports: [CommonModule, SplashScreenComponent, RouterOutlet, MatCardModule, RouterLink, MainComponent, GroupChatComponent, HttpClientModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

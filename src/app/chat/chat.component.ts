@@ -109,13 +109,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
   @Output() clickOutside: EventEmitter<null> = new EventEmitter<null>();
   @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement: HTMLElement): void {
-    const clickedInside = this.elementRef.nativeElement.contains(targetElement);
-    // console.log(targetElement)
-    // console.log(clickedInside)
-    if (!clickedInside) {
-      if (this.showEmojiPicker) {
-        this.showEmojiPicker = false;
+  public onClick(targetElement: EventTarget | null): void {
+    if (targetElement instanceof HTMLElement) {
+      const clickedInside = this.elementRef.nativeElement.contains(targetElement);
+      if (!clickedInside) {
+        if (this.showEmojiPicker) {
+          this.showEmojiPicker = false;
+        }
       }
     }
   }
