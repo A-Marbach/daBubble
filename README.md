@@ -11,13 +11,13 @@ The project is designed as a production-style SaaS chat application with authent
 ## Screenshots
 
 ### Authentication (Login)
-![Login](login.png)
+![Login](src/assets/login.png)
 
 ### Chat Interface (Main View)
-![Chat](assets/chat-main.png)
+![Chat](src/assets/chat-main.png)
 
 ### Channel Management
-![Channel](assets/new-channel.png)
+![Channel](src/assets/new-channel.png)
 
 
 ---
