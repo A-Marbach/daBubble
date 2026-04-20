@@ -11,7 +11,7 @@ The project is designed as a production-style SaaS chat application with authent
 ## Screenshots
 
 ### Authentication (Login)
-![Login](assets/login.png)
+![Login](login.png)
 
 ### Chat Interface (Main View)
 ![Chat](assets/chat-main.png)
