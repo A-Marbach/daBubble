@@ -19,7 +19,6 @@ The project is designed as a production-style SaaS chat application with authent
 ### Channel Management
 ![Channel](src/assets/new-channel.png)
 
-
 ---
 
 ## Table of Contents
