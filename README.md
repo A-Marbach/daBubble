@@ -153,7 +153,7 @@ This project was built to demonstrate:
 - Role-based permissions and channel management possible  
 - Notification system for real-time updates  
 - WebSocket optimization for large-scale usage  
-- Potential migration to microfrontend architecture  
+- Potential migration to microfrontend architecture 
 
 ---
 
