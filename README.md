@@ -26,6 +26,7 @@ The project is designed as a production-style SaaS chat application with authent
 - [Tech Stack](#tech-stack)
 - [Architecture Overview](#architecture-overview)
 - [CI/CD Deployment](#cicd-deployment)
+- [Kubernetes](#kubernetes)
 - [Running Locally](#running-locally)
 - [Project Purpose](#project-purpose)
 - [Extras](#extras)
@@ -60,7 +61,9 @@ The project is designed as a production-style SaaS chat application with authent
 
 **Infrastructure:**
 - Docker
+- GitHub Container Registry (GHCR)
 - GitHub Actions (CI/CD)
+- Kubernetes (minikube)
 - Linux VM deployment
 
 ---
@@ -90,25 +93,44 @@ Da-Bubble is built with a strong focus on scalable frontend architecture:
 
 The project is fully containerized and automatically deployed using GitHub Actions, ensuring a fast and reliable production workflow.
 
-### Deployment Pipeline
+### Pipeline Steps
 
-1. Code is pushed to the repository
-2. GitHub Actions workflow is triggered
-3. Docker images are built for frontend (and backend if applicable)
-4. Images are pushed and deployed to a remote VM
-5. Containers are restarted automatically
-6. Application is instantly available in production
+1. **Build** – Angular app is built and dependencies are cached
+2. **Test** – Angular unit tests run in headless Chrome
+3. **Scan** – SAST security analysis via CodeQL
+4. **Docker** – Image is built and pushed to GHCR
+5. **Deploy** – Container is deployed to remote VM via SSH
 
 ### Highlights
 
 - Fully automated deployment pipeline
-- Docker-based environment consistency
+- Docker build cache for faster builds
+- SAST security scanning with CodeQL on every push
 - Zero manual deployment effort
 - Production-style workflow similar to real SaaS applications
 
 ---
 
-## Running Locally
+## Kubernetes
+
+The application is orchestrated with Kubernetes using the following manifests located in the `k8s/` folder:
+
+- **deployment.yaml** – defines the Pod and container configuration
+- **service.yaml** – exposes the application within the cluster
+- **ingress.yaml** – routes external traffic to the service via hostname
+- 
+### Run locally with minikube
+
+```bash
+minikube start
+minikube addons enable ingress
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+minikube service da-bubble --url
+```
+
+---
 
 ### Prerequisites
 
@@ -141,7 +163,8 @@ This project was built to demonstrate:
 - Real-time application architecture  
 - Scalable state and component management  
 - Integration of frontend with backend APIs  
-- Production-level CI/CD pipeline setup  
+- Container orchestration with Kubernetes
+- Production-level CI/CD pipeline with security scanning (CodeQL)
 - Dockerized deployment workflow  
 - Ability to build SaaS-style applications with modern frontend architecture  
 
