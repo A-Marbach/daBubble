@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: da-bubble
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: da-bubble
+  template:
+    metadata:
+      labels:
+        app: da-bubble
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: da-bubble
+        image: ghcr.io/a-marbach/da-bubble:latest
+        ports:
+        - containerPort: 80
