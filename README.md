@@ -1,80 +1,74 @@
-# Da-Bubble – Real-Time Chat Application with Kubernetes Orchestration
+# Da-Bubble – Real-Time Chat Application with Kubernetes
 
-Da-Bubble is a production-ready real-time chat application (Slack Clone) with enterprise-grade Kubernetes orchestration and automated CI/CD deployment.
-
-Built with Angular frontend and Firebase backend, the project demonstrates production-style DevOps practices including Docker containerization, Kubernetes orchestration, and automated security scanning in CI/CD pipelines.
+Da-Bubble is a production-ready real-time chat application built with Angular and Firebase.
+The project is designed as a production-style SaaS chat application with Kubernetes orchestration, automated CI/CD deployment, and enterprise-grade security scanning.
 
 ---
 
 ## Table of Contents
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [CI/CD Deployment](#cicd-deployment)
+- [Quickstart](#quickstart)
+- [Usage](#usage)
 - [Kubernetes](#kubernetes)
 - [Running Locally](#running-locally)
 - [Security](#security)
 - [GitHub Actions Deployment](#github-actions-deployment)
-- [Architecture Overview](#architecture-overview)
-- [Project Purpose](#project-purpose)
 - [Extras](#extras)
 
 ---
 
-## Features
+## Quickstart
 
-- **Docker containerization for production deployment**
-- **Kubernetes orchestration (minikube)**
-- **Automated CI/CD pipeline with GitHub Actions**
-- **Security scanning via CodeQL (SAST)**
-- Real-time data synchronization with Firebase
-- Responsive and scalable application architecture
-- Production-ready deployment workflow
-- Zero-downtime deployment capability
+### Prerequisites
 
----
-
-## Tech Stack
-
-**Infrastructure & DevOps:**
+- Node.js
+- Angular CLI
 - Docker
-- GitHub Container Registry (GHCR)
-- GitHub Actions (CI/CD)
-- Kubernetes (minikube)
-- Linux VM deployment
+- Kubernetes / minikube (for orchestration)
+- GitHub Actions enabled (for automated build & deployment)
 
-**Frontend:**
-- Angular
-- TypeScript
-- RxJS
-- SCSS
+### Steps
 
-**Backend / Data Layer:**
-- Firebase (Authentication, Firestore Database)
-- Real-time data synchronization
-- Reactive data handling with Angular services
+Clone this repository:
+```bash
+git clone git@github.com:A-Marbach/da-bubble.git
+cd da-bubble
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Build the Angular application:
+```bash
+ng build
+```
+
+Build the Docker image:
+```bash
+docker build -t da-bubble:latest .
+```
+
+Run locally (development):
+```bash
+ng serve
+```
+
+Open the application in your browser:
+```
+http://localhost:4200
+```
 
 ---
 
-## CI/CD Deployment
+## Usage
 
-The project is fully containerized and automatically deployed using GitHub Actions, ensuring a fast and reliable production workflow.
+Navigate to the application URL to use Da-Bubble.
 
-### Pipeline Steps
+The application provides real-time messaging with Firebase backend integration.
 
-1. **Build** – Angular app is built and dependencies are cached
-2. **Test** – Angular unit tests run in headless Chrome
-3. **Scan** – SAST security analysis via CodeQL
-4. **Docker** – Image is built and pushed to GHCR
-5. **Deploy** – Container is deployed to remote VM via SSH
-
-### Highlights
-
-- Fully automated deployment pipeline
-- Docker build cache for faster builds
-- SAST security scanning with CodeQL on every push
-- Zero manual deployment effort
-- Production-style workflow similar to real SaaS applications
+Make sure all environment variables are correctly set before starting.
 
 ---
 
@@ -83,18 +77,38 @@ The project is fully containerized and automatically deployed using GitHub Actio
 The application is orchestrated with Kubernetes using the following manifests located in the `k8s/` folder:
 
 - **deployment.yaml** – defines the Pod and container configuration
-- **service.yaml** – exposes the application within the cluster
+- **service.yaml** – exposes the application within the cluster  
 - **ingress.yaml** – routes external traffic to the service via hostname
 
 ### Run locally with minikube
 
 ```bash
+# Start minikube
 minikube start
+
+# Enable ingress addon
 minikube addons enable ingress
+
+# Apply Kubernetes manifests
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 kubectl apply -f k8s/ingress.yaml
+
+# Get service URL
 minikube service da-bubble --url
+```
+
+### Restart and Stop Minikube
+
+```bash
+# Restart minikube
+minikube restart
+
+# Stop minikube
+minikube stop
+
+# Delete minikube cluster
+minikube delete
 ```
 
 ---
@@ -116,9 +130,9 @@ npm install
 ng serve
 ```
 
-## Application URL
+### Application URL
 
-```bash
+```
 http://localhost:4200
 ```
 
@@ -146,7 +160,7 @@ Build Angular Application
        ↓
 Run Unit Tests
        ↓
-SAST Security Scan (CodeQL) 🔴 CRITICAL
+Stage 1: Code Scanning (CodeQL) 🔴 CRITICAL
        ↓
 Build Docker Image
        ↓
@@ -155,23 +169,23 @@ Push to GHCR
 Deploy to VM
 ```
 
-**Stage: Static Application Security Testing (CodeQL)**
+### Stage 1: Code Scanning
 
 Tool: CodeQL
 
-- Performs static code analysis (SAST) on the Angular application
-- Detects potential security vulnerabilities
-- Identifies common web application vulnerabilities (XSS, Injection, etc.)
-- Blocks the pipeline if critical issues are found
+- Performs static application security testing (SAST) on the Angular codebase
+- Detects potential security vulnerabilities in the source code
+- Identifies common web application vulnerabilities (XSS, SQL Injection, etc.)
+- Blocks the pipeline if critical security issues are found
 - Configuration: GitHub Actions workflow
 
-Status: 🔴 CRITICAL – Pipeline fails if critical vulnerabilities detected
+Status: 🔴 **CRITICAL** – Pipeline fails if critical vulnerabilities detected
 
 ---
 
 ## GitHub Actions Deployment
 
-The deployment workflow uses GitHub Actions to automate the entire build, test, security scan, and deployment process.
+The deployment workflow uses GitHub Actions to automate the entire build, security scan, and deployment process.
 
 ### Workflow Overview
 
@@ -215,50 +229,14 @@ Store these in GitHub repository settings under Settings → Secrets and variabl
 
 ---
 
-## Architecture Overview
-
-Da-Bubble is built with focus on production-ready DevOps and scalable architecture:
-
-### DevOps & Infrastructure
-- Container orchestration with Kubernetes (minikube)
-- Automated CI/CD with GitHub Actions
-- Security scanning with CodeQL (SAST)
-- Production-style deployment to Linux VM via SSH
-- Scalable architecture ready for SaaS environments
-
-### Frontend Architecture
-- Modular Angular component structure
-- Service-based data management
-- Separation of UI, business logic, and data layers
-- Reactive programming using RxJS for real-time updates
-- Clean and maintainable folder structure
-- Reusable UI components for scalability
-
----
-
-## Project Purpose
-
-This project was built to demonstrate:
-
-- Container orchestration with Kubernetes
-- Production-level CI/CD pipeline with security scanning (CodeQL)
-- Dockerized deployment workflow
-- Automated security gates and scanning
-- Real-time application architecture
-- Scalable state and component management
-- Integration of frontend with backend APIs
-- Ability to build production-ready SaaS applications
-
----
-
 ## Extras
 
 - Can be extended with voice/video communication features
 - Role-based permissions and channel management possible
 - Notification system for real-time updates
 - WebSocket optimization for large-scale usage
-- Potential migration to microfrontend architecture
+- Extend the security pipeline by adding more scanning tools (e.g., npm audit, OWASP Dependency-Check, etc.)
 
 ---
 
-> Note: This project represents a production-style application with emphasis on DevOps orchestration, scalable architecture, real-time communication, and modern deployment workflows suitable for enterprise environments.
+> Note: This project represents a production-style application with emphasis on Kubernetes orchestration, scalable architecture, real-time communication, and modern deployment workflows.
