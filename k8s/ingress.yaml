@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: da-bubble
 spec:
+  ingressClassName: nginx
   rules:
   - host: da-bubble.local
     http:

@@ -1,7 +1,8 @@
-# Da-Bubble – Real-Time Chat Application with Kubernetes
+# Da-Bubble – Real-Time Chat Application with Kubernetes (minikube)
 
-Da-Bubble is a production-ready real-time chat application built with Angular and Firebase.
-The project is designed as a production-style SaaS chat application with Kubernetes orchestration, automated CI/CD deployment, and enterprise-grade security scanning.
+Da-Bubble is a production-ready real-time chat application built with Angular and Firebase. 
+The project is designed as a production-style SaaS chat application with local Kubernetes 
+orchestration (minikube), automated CI/CD deployment, and enterprise-grade security scanning.
 
 ---
 
@@ -72,7 +73,7 @@ Make sure all environment variables are correctly set before starting.
 
 ---
 
-## Kubernetes
+## Kubernetes (minikube)
 
 The application is orchestrated with Kubernetes using the following manifests located in the `k8s/` folder:
 
