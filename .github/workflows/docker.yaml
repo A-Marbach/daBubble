@@ -106,6 +106,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u a-marbach --password-stdin
             docker pull ghcr.io/a-marbach/da-bubble:latest
             docker stop da-bubble || true
             docker rm da-bubble || true
